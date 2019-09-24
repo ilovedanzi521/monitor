@@ -1,4 +1,4 @@
-package com.win.dfas.dfasmonitor;
+package com.win.dfas.monitor.web;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
