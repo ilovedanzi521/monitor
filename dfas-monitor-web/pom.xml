@@ -21,7 +21,7 @@
 
 		<dependency>
 			<groupId>com.win.dfas</groupId>
-			<artifactId>dfas-monitor-engine</artifactId>
+			<artifactId>dfas-monitor-warn</artifactId>
 		</dependency>
 
 		<dependency>

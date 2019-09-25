@@ -35,13 +35,13 @@
 
 
     <modules>
-        <!-- 基础公共包-->
+        <!-- 监控公共包-->
         <module>dfas-monitor-common</module>
-        <!-- 配置处理包-->
+        <!-- 监控配置-->
         <module>dfas-monitor-config</module>
-        <!--风控引擎-->
-        <module>dfas-monitor-engine</module>
-        <!--风控前端-->
+        <!--监控告警-->
+        <module>dfas-monitor-warn</module>
+        <!--监控前端-->
         <module>dfas-monitor-web</module>
     </modules>
 
@@ -60,7 +60,7 @@
             </dependency>
             <dependency>
                 <groupId>com.win.dfas</groupId>
-                <artifactId>dfas-monitor-engine</artifactId>
+                <artifactId>dfas-monitor-warn</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
