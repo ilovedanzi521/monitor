@@ -40,14 +40,14 @@
         <!-- 监控配置-->
         <module>dfas-monitor-config</module>
         <!--监控告警-->
-        <module>dfas-monitor-warn</module>
+        <module>dfas-monitor-engine</module>
         <!--监控前端-->
         <module>dfas-monitor-web</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <!-- risk -->
+            <!-- monitor -->
             <dependency>
                 <groupId>com.win.dfas</groupId>
                 <artifactId>dfas-monitor-common</artifactId>
@@ -60,7 +60,7 @@
             </dependency>
             <dependency>
                 <groupId>com.win.dfas</groupId>
-                <artifactId>dfas-monitor-warn</artifactId>
+                <artifactId>dfas-monitor-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

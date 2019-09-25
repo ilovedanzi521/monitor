@@ -9,8 +9,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>dfas-monitor-warn</artifactId>
-	<name>dfas-monitor-warn</name>
+	<artifactId>dfas-monitor-exporter-microservice</artifactId>
+	<name>dfas-monitor-exporter-microservice</name>
 	<description>monitor project for Spring Boot</description>
 
 	<properties>
