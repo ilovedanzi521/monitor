@@ -9,9 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.win.dfas</groupId>
 	<artifactId>dfas-monitor-config</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>dfas-monitor-config</name>
 	<description>monitor project for Spring Boot</description>
 
