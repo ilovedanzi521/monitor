@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.win.parent</groupId>
+        <artifactId>win-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.win.dfas</groupId>
+    <artifactId>dfas-monitor-exporters</artifactId>
+    <name>dfas-monitor-exporters</name>
+    <packaging>pom</packaging>
+    <description>采集</description>
+
+    <modules>
+        <!-- 微服务采集-->
+        <module>dfas-monitor-exporter-microservice</module>
+    </modules>
+
+
+</project>

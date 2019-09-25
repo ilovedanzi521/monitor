@@ -39,6 +39,8 @@
         <module>dfas-monitor-common</module>
         <!-- 监控配置-->
         <module>dfas-monitor-config</module>
+        <!--监控采集-->
+        <module>dfas-monitor-exporters</module>
         <!--监控告警-->
         <module>dfas-monitor-engine</module>
         <!--监控前端-->
