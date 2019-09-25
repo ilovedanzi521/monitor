@@ -70,7 +70,11 @@
                 <artifactId>dfas-monitor-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.win.dfas</groupId>
+                <artifactId>dfas-common-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.commons</groupId>

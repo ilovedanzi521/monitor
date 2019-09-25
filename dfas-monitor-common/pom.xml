@@ -20,6 +20,10 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.win.dfas</groupId>
+			<artifactId>dfas-common-util</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
