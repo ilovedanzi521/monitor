@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.win.dfas.monitor.web.enable.EnableSwaggerConfig;
 
-//@EnableAdminServer
+/*@EnableAdminServer*/
 //@EnableDiscoveryClient
 @SpringBootApplication
 @EnableSwaggerConfig

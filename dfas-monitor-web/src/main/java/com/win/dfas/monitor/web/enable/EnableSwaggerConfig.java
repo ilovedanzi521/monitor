@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 import com.win.dfas.monitor.config.SwaggerConfig;
+import com.win.dfas.monitor.config.WebMvcConfig;
 
 /**
  * 配置启用注解
@@ -20,7 +21,7 @@ import com.win.dfas.monitor.config.SwaggerConfig;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ SwaggerConfig.class })
+@Import({ SwaggerConfig.class,WebMvcConfig.class })
 public @interface EnableSwaggerConfig {
 
 }

@@ -4,15 +4,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-<!-- 	<parent>
+	<parent>
 		<groupId>com.win.parent</groupId>
 		<artifactId>win-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath />
-	</parent> -->
+	</parent>
 
-	<parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
-		<version>2.1.6.RELEASE</version> <relativePath /> </parent>
+<!-- 	<parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
+		<version>2.1.6.RELEASE</version> <relativePath /> </parent> -->
 
 	<groupId>com.win.dfas</groupId>
 	<artifactId>dfas-monitor-parent</artifactId>
@@ -28,7 +28,7 @@
 		<protostuff.version>1.6.0</protostuff.version>
 		<pagehelper.version>1.2.3</pagehelper.version>
 		<swagger.version>2.7.0</swagger.version>
-		<jackson.version>2.9.0</jackson.version>
+<!-- 		<jackson.version>2.9.0</jackson.version> -->
 		<simpleclient.version>0.4.0</simpleclient.version>
 	</properties>
 
@@ -99,11 +99,11 @@
 				<version>${swagger.version}</version>
 			</dependency>
 
-			<dependency>
+<!-- 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
 				<version>2.9.9</version>
-			</dependency>
+			</dependency> -->
 
 			<!--普罗米修斯依赖 -->
 			<dependency>
