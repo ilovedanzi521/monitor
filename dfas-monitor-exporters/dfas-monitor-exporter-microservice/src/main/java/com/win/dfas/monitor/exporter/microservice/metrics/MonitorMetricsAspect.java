@@ -47,7 +47,8 @@ public class MonitorMetricsAspect {
 			//String methodName = request.getMethod();
 
 			//requestTotal.labels(name).inc();
-			AbstractMonitorCenter.instance().open(metricsName);
+			AbstractMonitorCenter.instance().open();
+			//AbstractMonitorCenter.instance().open(metricsName);
 			//Histogram.Timer requestTimer = histogram.labels(name).startTimer();
 			Object object;
 			try {

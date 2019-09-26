@@ -24,6 +24,18 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = { "监控平台主控面板交互接口" })
 public class IndexController extends BaseController {
 
+	
+	/** 监控平台主控面板操作对外服务*/
+	@MonitorMetrics
+	@ApiOperation(value = "监控平台主控面板操作对外服务", notes = "监控平台主控面板操作对外服务")
+	@GetMapping("/httpRequestQps")
+	public String httpRequestQps() {
+		String url = "http://192.168.0.55:9090/api/v1/query_range?query=rate(http_requests_total_" + DateUtils.getCurrentDateByStringFormat()+"[1m])&start=8888493214.927&end=8888496814.927&step=14";
+		String result = RestfulTools.get(url, String.class);
+		//return successData(result);
+		return result;
+	}
+	
 	/** 监控平台主控面板操作对外服务*/
 	@MonitorMetrics
 	@ApiOperation(value = "监控平台主控面板操作对外服务", notes = "监控平台主控面板操作对外服务")

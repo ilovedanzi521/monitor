@@ -14,6 +14,8 @@ public class MonitorCenterImpl extends AbstractMonitorCenter {
     private static PushGateway pushGateway = new PushGateway("192.168.0.56:9091");
 
     private static final Map<String, Counter> countMap = new ConcurrentHashMap<>();
+    
+    private static final Map<String, Counter> urlCountMap = new ConcurrentHashMap<>();
 
     private Counter getCounter() {
         String currDate = DateUtils.getCurrentDateByStringFormat();
@@ -22,19 +24,45 @@ public class MonitorCenterImpl extends AbstractMonitorCenter {
             counter = Counter.build()
                     .name("http_requests_total_" + currDate)
                     //标签名
-                    .labelNames("method_name", "instance")
+                    .labelNames("scope","instance")
                     .help(currDate+"请求数")
                     .register();
             countMap.put(currDate, counter);
         }
         return counter;
     }
+    
+    private Counter getUrlCounter() {
+        String currDate = DateUtils.getCurrentDateByStringFormat();
+        Counter counter = urlCountMap.get(currDate);
+        if (counter == null) {
+            counter = Counter.build()
+                    .name("http_requests_url_total_" + currDate)
+                    //标签名
+                    .labelNames("request_url", "instance")
+                    .help(currDate+"请求数")
+                    .register();
+            urlCountMap.put(currDate, counter);
+        }
+        return counter;
+    }
 
     @Override
-    public void open(String methodName) {
+    public void open() {
         try {
             Counter counter = getCounter();
-            counter.labels(methodName, "pushgateway-microservice").inc();
+            counter.labels("all","pushgateway-microservice").inc();
+            pushGateway.push(counter, "pushgateway-microservice");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void open(String name) {
+        try {
+            Counter counter = getUrlCounter();
+            counter.labels(name, "pushgateway-microservice").inc();
             pushGateway.push(counter, "pushgateway-microservice");
         } catch (IOException e) {
             e.printStackTrace();
