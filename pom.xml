@@ -1,86 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.win.parent</groupId>
-        <artifactId>win-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath/>
-    </parent>
+<!-- 	<parent>
+		<groupId>com.win.parent</groupId>
+		<artifactId>win-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath />
+	</parent> -->
 
-    <groupId>com.win.dfas</groupId>
-    <artifactId>dfas-monitor-parent</artifactId>
-    <name>dfas-monitor-parent</name>
-    <packaging>pom</packaging>
-    <description>自动化运维监控平台</description>
+	<parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
+		<version>2.1.6.RELEASE</version> <relativePath /> </parent>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <commons-lang.version>2.5</commons-lang.version>
-        <commons-lang3.version>3.8.1</commons-lang3.version>
-        <protostuff.version>1.6.0</protostuff.version>
-        <pagehelper.version>1.2.3</pagehelper.version>
-    </properties>
+	<groupId>com.win.dfas</groupId>
+	<artifactId>dfas-monitor-parent</artifactId>
+	<name>dfas-monitor-parent</name>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<description>自动化运维监控平台</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<commons-lang.version>2.5</commons-lang.version>
+		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<protostuff.version>1.6.0</protostuff.version>
+		<pagehelper.version>1.2.3</pagehelper.version>
+		<swagger.version>2.7.0</swagger.version>
+		<jackson.version>2.9.0</jackson.version>
+		<simpleclient.version>0.4.0</simpleclient.version>
+	</properties>
 
 
-    <modules>
-        <!-- 监控公共包-->
-        <module>dfas-monitor-common</module>
-        <!-- 监控配置-->
-        <module>dfas-monitor-config</module>
-        <!--监控采集-->
-        <module>dfas-monitor-exporters</module>
-        <!--监控告警-->
-        <module>dfas-monitor-engine</module>
-        <!--监控前端-->
-        <module>dfas-monitor-web</module>
-    </modules>
+	<modules>
+		<!-- 监控公共包 -->
+		<module>dfas-monitor-common</module>
+		<!-- 监控配置 -->
+		<module>dfas-monitor-config</module>
+		<!--监控采集 -->
+		<module>dfas-monitor-exporters</module>
+		<!--监控告警 -->
+		<module>dfas-monitor-engine</module>
+		<!--监控前端 -->
+		<module>dfas-monitor-web</module>
+	</modules>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- monitor -->
-            <dependency>
-                <groupId>com.win.dfas</groupId>
-                <artifactId>dfas-monitor-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.win.dfas</groupId>
-                <artifactId>dfas-monitor-config</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.win.dfas</groupId>
-                <artifactId>dfas-monitor-engine</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.win.dfas</groupId>
-                <artifactId>dfas-monitor-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.win.dfas</groupId>
-                <artifactId>dfas-common-util</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<!-- monitor -->
+			<dependency>
+				<groupId>com.win.dfas</groupId>
+				<artifactId>dfas-monitor-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.win.dfas</groupId>
+				<artifactId>dfas-monitor-config</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.win.dfas</groupId>
+				<artifactId>dfas-monitor-engine</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.win.dfas</groupId>
+				<artifactId>dfas-monitor-web</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.win.dfas</groupId>
+				<artifactId>dfas-common-util</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
 
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${pagehelper.version}</version>
+			</dependency>
 
-        </dependencies>
-    </dependencyManagement>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.9.9</version>
+			</dependency>
+
+			<!--普罗米修斯依赖 -->
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient_spring_boot</artifactId>
+				<version>${simpleclient.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient_hotspot</artifactId>
+				<version>${simpleclient.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient_servlet</artifactId>
+				<version>${simpleclient.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.prometheus</groupId>
+				<artifactId>simpleclient_pushgateway</artifactId>
+				<version>${simpleclient.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
 
 </project>

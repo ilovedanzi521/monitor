@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SummaryDemo {
+public class SummaryController {
 
     /**
      * 注册

@@ -11,9 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
-public class ExporterDemoApplication {
+public class ExporterMicroserviceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ExporterDemoApplication.class, args);
+        SpringApplication.run(ExporterMicroserviceApplication.class, args);
     }
 }

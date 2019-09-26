@@ -1,0 +1,40 @@
+#开发环境配置
+server:
+ #服务端口
+  port: 8080
+  servlet:
+    # 项目contextPath
+    context-path: /monitor-web
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+
+kafka:
+  #
+  #bootstrap_servers: localhost:9092
+  bootstrap_servers: 192.168.0.81:9092
+  #
+  group_id: dec-esc-group-vib-calc
+  #
+  enable_auto_commit: true
+  #
+  auto_commit_interval_ms: 1000
+  #
+  auto_offset_reset: earliest
+  #
+  session_timeout_ms: 30000
+  #
+  key_deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  #
+  value_deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+spring:
+  messages:
+        basename: i18n/messages
+rmb:
+  old:
+    host: http://localhost:8081

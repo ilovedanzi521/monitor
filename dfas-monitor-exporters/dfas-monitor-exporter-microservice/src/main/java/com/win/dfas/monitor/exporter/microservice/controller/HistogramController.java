@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HistogramDemo {
+public class HistogramController {
     
     /**
      * 注册
