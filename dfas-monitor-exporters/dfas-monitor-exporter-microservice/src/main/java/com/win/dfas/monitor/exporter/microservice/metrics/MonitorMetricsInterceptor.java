@@ -1,4 +1,4 @@
-package com.win.dfas.monitor.exporter.microservice.prometheus;
+package com.win.dfas.monitor.exporter.microservice.metrics;
 
 import io.prometheus.client.Counter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -6,7 +6,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PrometheusMetricsInterceptor extends HandlerInterceptorAdapter {
+public class MonitorMetricsInterceptor extends HandlerInterceptorAdapter {
 
     static final Counter requestCounter = Counter.build()
             .name("io_namespace_http_requests_total").labelNames("path", "method", "code") //metric name建议使用_total结尾

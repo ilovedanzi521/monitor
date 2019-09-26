@@ -1,5 +1,6 @@
 package com.win.dfas.monitor.web;
 
+import com.win.dfas.monitor.web.enable.EnableMonitorConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,6 +8,7 @@ import com.win.dfas.monitor.web.enable.EnableSwaggerConfig;
 
 /*@EnableAdminServer*/
 //@EnableDiscoveryClient
+@EnableMonitorConfig
 @SpringBootApplication
 @EnableSwaggerConfig
 public class DfasMonitorApplication {

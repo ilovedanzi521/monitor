@@ -22,7 +22,7 @@ public class MonitorCenterImpl extends AbstractMonitorCenter {
             counter = Counter.build()
                     .name("http_requests_total_" + currDate)
                     //标签名
-                    .labelNames("scope", "instance")
+                    .labelNames("method_name", "instance")
                     .help(currDate+"请求数")
                     .register();
             countMap.put(currDate, counter);
@@ -31,10 +31,10 @@ public class MonitorCenterImpl extends AbstractMonitorCenter {
     }
 
     @Override
-    public void execute() {
+    public void open(String methodName) {
         try {
             Counter counter = getCounter();
-            counter.labels("global", "pushgateway-microservice").inc();
+            counter.labels(methodName, "pushgateway-microservice").inc();
             pushGateway.push(counter, "pushgateway-microservice");
         } catch (IOException e) {
             e.printStackTrace();

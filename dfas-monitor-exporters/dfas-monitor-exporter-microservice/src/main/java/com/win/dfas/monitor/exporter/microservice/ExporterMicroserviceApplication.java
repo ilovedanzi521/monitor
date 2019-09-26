@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 
-@SpringBootApplication
+/*@SpringBootApplication
 @EnableScheduling
 @EnablePrometheusEndpoint
 @EnableSpringBootMetricsCollector
@@ -16,4 +16,4 @@ public class ExporterMicroserviceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ExporterMicroserviceApplication.class, args);
     }
-}
+}*/

@@ -17,6 +17,6 @@ public abstract class AbstractMonitorCenter {
         return MonitorCenterImpl.getInstance();
     }
 
-    public abstract void execute();
+    public abstract void open(String methodName);
 
 }

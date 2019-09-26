@@ -1,11 +1,11 @@
-package com.win.dfas.monitor.exporter.microservice.prometheus;
+package com.win.dfas.monitor.exporter.microservice.metrics;
 
 import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface PrometheusMetrics {
+public @interface MonitorMetrics {
 
     /**
      *  默认为空,程序使用method signature作为Metric name

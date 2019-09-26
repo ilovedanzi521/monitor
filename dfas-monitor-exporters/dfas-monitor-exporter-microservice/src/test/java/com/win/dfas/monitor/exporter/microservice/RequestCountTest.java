@@ -10,7 +10,7 @@ public class RequestCountTest {
     @Test
     public void test() {
         for (int i = 0; i < 50; i++) {
-            AbstractMonitorCenter.instance().execute();
+            AbstractMonitorCenter.instance().open("test");
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException e) {
