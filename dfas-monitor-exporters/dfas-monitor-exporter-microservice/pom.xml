@@ -6,12 +6,14 @@
 
 	<parent>
 		<groupId>com.win.dfas</groupId>
-		<artifactId>dfas-monitor-parent</artifactId>
+		<artifactId>dfas-monitor-exporters</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dfas-monitor-exporter-microservice</artifactId>
 	<name>dfas-monitor-exporter-microservice</name>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<description>monitor project for Spring Boot</description>
 
 	<properties>
@@ -56,11 +58,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.16.RELEASE</version>
-			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>

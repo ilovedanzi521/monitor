@@ -11,6 +11,8 @@
 
 	<artifactId>dfas-monitor-engine</artifactId>
 	<name>dfas-monitor-engine</name>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<description>monitor project for Spring Boot</description>
 
 	<properties>

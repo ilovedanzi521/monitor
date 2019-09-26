@@ -1,5 +1,6 @@
 package com.win.dfas.monitor.web.controller;
 
+import com.win.dfas.monitor.common.util.RestfulTools;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,9 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "监控平台主控面板操作对外服务", notes = "监控平台主控面板操作对外服务")
     @GetMapping("/httpRequestTotal")
     public String httpRequestTotal() {
-        String url="http://192.168.0.55:9090/api/v1/query?query=http_requests_total_20190925";
-        return successData("");
+        String url = "http://192.168.0.55:9090/api/v1/query?query=http_requests_total_20190925";
+        String result=RestfulTools.get(url,String.class);
+        return successData(result);
     }
 
 }
