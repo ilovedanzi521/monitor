@@ -1,6 +1,6 @@
-package com.win.dfas.monitor.common.constant;
+package com.win.dfas.monitor.common;
 
-public enum ReturnMsg {
+public enum ReturnMsgEnum {
 	
 	Default("操作成功!"), 
 	Add("新增成功!"), 
@@ -13,7 +13,7 @@ public enum ReturnMsg {
 	Upload("上传成功!"),
 	ServerError("服务器异常!");
 	
-	ReturnMsg(String msg) {
+	ReturnMsgEnum(String msg) {
 		this.msg = msg;
 	}
 	

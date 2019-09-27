@@ -1,6 +1,6 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.win.dfas.monitor.common.constant.ReturnMsg;
+import com.win.dfas.monitor.common.ReturnMsgEnum;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.MessageUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -64,7 +64,7 @@ public class BaseController {
 		* @return
 		*/
 
-	public String successData(Object data, ReturnMsg returnMsg) {
+	public String successData(Object data, ReturnMsgEnum returnMsg) {
 		Map<String, Object> returnMessage = new HashMap<String, Object>();
 		returnMessage.put("data", data);
 		returnMessage.put("code", 0);
@@ -117,7 +117,7 @@ public class BaseController {
 		* @param returnMsg
 		* @return
 		*/
-	public String failData(ReturnMsg returnMsg) {
+	public String failData(ReturnMsgEnum returnMsg) {
 		Map<String, Object> returnMessage = new HashMap<String, Object>();
 		returnMessage.put("code", 1);
 		returnMessage.put("msg", returnMsg.getMsg());

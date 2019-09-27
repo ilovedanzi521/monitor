@@ -1,15 +1,15 @@
 package com.win.dfas.monitor.web;
 
-import com.win.dfas.monitor.web.enable.EnableMonitorConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.win.dfas.monitor.web.enable.EnableSwaggerConfig;
+import com.win.dfas.monitor.config.EnableSwaggerConfig;
+import com.win.dfas.monitor.exporter.microservice.EnableMonitorConfig;
 
 /*@EnableAdminServer*/
 //@EnableDiscoveryClient
 @EnableMonitorConfig
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={"com.win.dfas.monitor.engine", "com.win.dfas.monitor.web"})
 @EnableSwaggerConfig
 public class DfasMonitorApplication {
 

@@ -1,6 +1,8 @@
 package com.win.dfas.monitor.web.controller;
 
+import com.win.dfas.monitor.engine.service.QpsService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,16 +26,15 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = { "监控平台主控面板交互接口" })
 public class IndexController extends BaseController {
 
-	
+	@Autowired
+	private QpsService qpsService;
+
 	/** 监控平台主控面板操作对外服务*/
 	@MonitorMetrics
 	@ApiOperation(value = "监控平台主控面板操作对外服务", notes = "监控平台主控面板操作对外服务")
 	@GetMapping("/httpRequestQps")
 	public String httpRequestQps() {
-		String url = "http://192.168.0.55:9090/api/v1/query_range?query=rate(http_requests_total_" + DateUtils.getCurrentDateByStringFormat()+"[1m])&start=8888493214.927&end=8888496814.927&step=14";
-		String result = RestfulTools.get(url, String.class);
-		//return successData(result);
-		return result;
+		return qpsService.getQps();
 	}
 	
 	/** 监控平台主控面板操作对外服务*/

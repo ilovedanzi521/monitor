@@ -78,6 +78,30 @@ public final class DateUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         return formatter.format(currentTime);
     }
+    
+    public static String getEndTime() {
+    	Date date=new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println(sdf.format(date));
+		long timeStamp = date.getTime();
+		System.out.println(timeStamp);
+		String str=String.valueOf(timeStamp);
+		str = str.substring(0,str.length()-3)+"."+str.substring(str.length()-3);
+		return str;
+    }
+    
+    public static String getStartTime() {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date date=new Date();
+    	date.setTime(date.getTime() - 5 * 60 * 1000);// 减去4分钟以后的时间
+		System.out.println(sdf.format(date));// 再将该时间转换成字符串格式
+		long timeStamp = date.getTime();
+		System.out.println(timeStamp);
+		String str=String.valueOf(timeStamp);
+		str = str.substring(0,str.length()-3)+"."+str.substring(str.length()-3);
+		return str;
+    }
+    
 
     /**
      * 获取当前字符串日期
