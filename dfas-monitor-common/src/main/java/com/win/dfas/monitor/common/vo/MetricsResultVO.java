@@ -16,4 +16,5 @@ public class MetricsResultVO {
 
     private List<Object> values;
 
+    private List<Object> value;
 }

@@ -1,8 +1,6 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.win.dfas.monitor.common.util.DateUtils;
-import com.win.dfas.monitor.common.util.RestfulTools;
-import com.win.dfas.monitor.engine.service.QpsService;
+import com.win.dfas.monitor.engine.service.MonitorService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-//import com.win.dfas.monitor.common.util.RestfulTools;
 
 /**
  * 包名称：com.win.dfas.monitor.web.controller
@@ -26,34 +22,37 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController extends BaseController {
 
     @Autowired
-    private QpsService qpsService;
+    private MonitorService monitorService;
 
-    /** 监控平台主控面板操作对外服务*/
+    /**
+     * 获取qps
+     */
     @MonitorMetrics
-    @ApiOperation(value = "监控平台主控面板操作对外服务", notes = "监控平台主控面板操作对外服务")
+    @ApiOperation(value = "查询平台Qps", notes = "查询平台Qps")
     @GetMapping("/httpRequestQps")
     public String httpRequestQps() {
-        return qpsService.getQps();
+        return monitorService.getQps();
     }
 
-    /** 监控平台主控面板操作对外服务*/
+    /**
+     * 查询平台当日请求数
+     */
     @MonitorMetrics
-    @ApiOperation(value = "监控平台主控面板操作对外服务", notes = "监控平台主控面板操作对外服务")
+    @ApiOperation(value = "查询平台当日请求数", notes = "查询平台当日请求数")
     @GetMapping("/httpRequestTotal")
     public String httpRequestTotal() {
-        String url = "http://192.168.0.55:9090/api/v1/query?query=sum(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + ")";
-        String result = RestfulTools.get(url, String.class);
-        return successData(result);
+        return monitorService.getHttpRequestTotal();
     }
 
-    /** 监控平台主控面板操作对外服务2*/
+    /**
+     * 查询平台微服务列表
+     * @return
+     */
     @MonitorMetrics
-    @ApiOperation(value = "监控平台主控面板操作对外服务2", notes = "监控平台主控面板操作对外服务2")
-    @GetMapping("/httpRequestTotal2")
-    public String httpRequestTotal2() {
-        String url = "http://192.168.0.55:9090/api/v1/query?query=sum(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + ")";
-        String result = RestfulTools.get(url, String.class);
-        return successData(result);
+    @ApiOperation(value = "查询平台微服务列表", notes = "查询平台微服务列表")
+    @GetMapping("/getMicroServiceList")
+    public String getMicroServiceList() {
+        return monitorService.getMicroServiceList();
     }
 
 }

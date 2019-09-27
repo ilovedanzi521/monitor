@@ -1,5 +1,6 @@
 package com.win.dfas.monitor.common.vo;
 
+import com.win.dfas.monitor.common.ResultTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +12,7 @@ import java.util.List;
 @ToString
 public class MetricsDataVO {
 
-    private String resultType;
+    private ResultTypeEnum resultType;
 
     private List<MetricsResultVO> result;
 
