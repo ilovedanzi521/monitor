@@ -8,12 +8,16 @@ import java.util.concurrent.*;
  */
 public class ScheduledThreadPool {
 
-	//构造一个线程池
-	public static ScheduledExecutorService service = null; 
+	/**
+	 * 	构造一个线程池
+	 */
+	private static ScheduledExecutorService service = null;
 
+	/**
+	 * 禁止实例化
+	 */
 	private ScheduledThreadPool(){
-		//ThreadTools.init();
-	};//禁止实例化
+	};
 
 	/**
 	 * 功能说明：初始化线程池
