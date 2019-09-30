@@ -2,10 +2,12 @@ import Layout from "@/layout/Layout.vue";
 import Login from "@/page/login/view/index.vue";
 import Home from "@/page/home/view/index.vue";
 import Directional from "@/page/fram/view/Directional.vue";
-// import DeployIndex from "@/page/deploy/view/index.vue";
-// import DeployDevice from "@/page/deploy/view/device.vue";
-// import DeployUser from "@/page/deploy/view/userList.vue";
-
+import MicroServiceList from "@/page/microService/view/microServiceList.vue";
+import MicroServicePanel from "@/page/microService/view/microServicePanel.vue";
+import MachineList from "@/page/machine/view/machineList.vue";
+import MachinePanel from "@/page/machine/view/machinePanel.vue";
+import WarnList from "@/page/warn/view/warnList.vue";
+import ThresholdList from "@/page/warn/view/thresholdList.vue";
 
 const routers = [
   {
@@ -33,21 +35,36 @@ const routerChildren = [
     name: "home",
     component: Home
   },
-  /*{
-      path: "/deployIndex",
-      name: "deployIndex",
-      component: DeployIndex,
+  {
+      path: "/microServiceList",
+      name: "microServiceList",
+      component: MicroServiceList
   },
   {
-      path: "/deployDevice",
-      name: "deployDevice",
-      component: DeployDevice,
+      path: "/microServicePanel",
+      name: "microServicePanel",
+      component: MicroServicePanel
   },
   {
-      path: "/deployUser",
-      name: "deployUser",
-      component: DeployUser,
-  },*/
+      path: "/machineList",
+      name: "machineList",
+      component: MachineList
+  },
+  {
+    path: "/machinePanel",
+    name: "machinePanel",
+    component: MachinePanel
+  },
+  {
+    path: "/warnList",
+    name: "warnList",
+    component: WarnList
+  },
+  {
+    path: "/thresholdList",
+    name: "thresholdList",
+    component: ThresholdList
+  }
 ];
 
 if ("development" === process.env.NODE_ENV) {

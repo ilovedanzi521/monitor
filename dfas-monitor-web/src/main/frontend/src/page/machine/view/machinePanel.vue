@@ -6,7 +6,7 @@
           href="https://vuejs.org"
           target="_blank"
         >
-          Home Core Docs
+          MachinePanel Core Docs
         </a>
       </li>
       <li>
@@ -14,7 +14,7 @@
           href="https://forum.vuejs.org"
           target="_blank"
         >
-          Forum
+          MachinePanel Forum
         </a>
       </li>
       <li>
@@ -22,7 +22,7 @@
           href="https://chat.vuejs.org"
           target="_blank"
         >
-          Community Chat
+          MachinePanel Community Chat
         </a>
       </li>
       <li>
@@ -30,7 +30,7 @@
           href="https://twitter.com/vuejs"
           target="_blank"
         >
-          Twitter
+          MachinePanel Twitter
         </a>
       </li>
       <br>
@@ -82,10 +82,10 @@
 </template>
 
 <script lang="ts">
-  import HomeController from '../controller/HomeController';
+  import MachinePanelController from '../controller/MachinePanelController';
   import Component from "vue-class-component";
   @Component({})
-  export default class Home extends HomeController {};
+  export default class Home extends MachinePanelController {};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

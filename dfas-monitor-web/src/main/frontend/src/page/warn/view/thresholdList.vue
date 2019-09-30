@@ -6,7 +6,7 @@
           href="https://vuejs.org"
           target="_blank"
         >
-          Home Core Docs
+          ThresholdList Core Docs
         </a>
       </li>
       <li>
@@ -22,7 +22,7 @@
           href="https://chat.vuejs.org"
           target="_blank"
         >
-          Community Chat
+          ThresholdList Community Chat
         </a>
       </li>
       <li>
@@ -30,7 +30,7 @@
           href="https://twitter.com/vuejs"
           target="_blank"
         >
-          Twitter
+          ThresholdList  Twitter
         </a>
       </li>
       <br>
@@ -39,7 +39,7 @@
           href="http://vuejs-templates.github.io/webpack/"
           target="_blank"
         >
-          Docs for This Template
+          ThresholdList Docs for This Template
         </a>
       </li>
     </ul>
@@ -82,10 +82,10 @@
 </template>
 
 <script lang="ts">
-  import HomeController from '../controller/HomeController';
+  import ThresholdListController from '../controller/ThresholdListController';
   import Component from "vue-class-component";
   @Component({})
-  export default class Home extends HomeController {};
+  export default class Home extends ThresholdListController {};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
