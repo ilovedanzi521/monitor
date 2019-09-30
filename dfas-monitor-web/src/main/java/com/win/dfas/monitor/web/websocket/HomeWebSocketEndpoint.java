@@ -13,16 +13,16 @@ import java.io.IOException;
 
 /**
  * 包名称：com.win.dfas.monitor.web.websocket
- * 类名称：IndexWebSocketServer
+ * 类名称：HomeWebSocketEndpoint
  * 类描述：监控平台主控面板
  * 创建人：@author wangyaoheng
  * 创建时间：2019-09-27/13:31
  */
 @ServerEndpoint("/home/{moduleName}")
 @Component
-public class IndexWebSocketEndpoint extends AbstractWebSocket {
+public class HomeWebSocketEndpoint extends AbstractWebSocket {
 
-    static Logger log = LoggerFactory.getLogger(IndexWebSocketEndpoint.class);
+    static Logger log = LoggerFactory.getLogger(HomeWebSocketEndpoint.class);
 
 
     /** 与某个客户端的连接会话，需要通过它来给客户端发送数据*/
