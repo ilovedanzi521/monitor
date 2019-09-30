@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h2>Essential Links</h2>
+    <h2>Home Essential Links</h2>
     <ul>
       <li>
         <a
@@ -86,8 +86,7 @@
   import HomeController from '../controller/HomeController';
   import Component from "vue-class-component";
   @Component({})
-  export default class IndexPanel extends HomeController {
-  };
+  export default class Home extends HomeController {};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

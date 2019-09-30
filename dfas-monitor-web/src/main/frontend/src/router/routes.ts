@@ -1,7 +1,7 @@
-import layout from "@/layout/Layout.vue";
+import Layout from "@/layout/Layout.vue";
 import Login from "@/page/login/view/index.vue";
 import Home from "@/page/home/view/index.vue";
-// import Directional from "@/page/fram/view/Directional.vue";
+import Directional from "@/page/fram/view/Directional.vue";
 // import DeployIndex from "@/page/deploy/view/index.vue";
 // import DeployDevice from "@/page/deploy/view/device.vue";
 // import DeployUser from "@/page/deploy/view/userList.vue";
@@ -11,12 +11,12 @@ const routers = [
   {
     path: "/",
     name: "layout",
-    component: layout,
+    component: Layout,
     children: [
       {
-        /*                path: "/directional",
-                        name: "directional",
-                        component: Directional*/
+        path: "/directional",
+        name: "directional",
+        component: Directional
       },
     ]
   },
@@ -31,9 +31,7 @@ const routerChildren = [
   {
     path: "/home",
     name: "home",
-    component: Home,
-    children: [{}
-    ]
+    component: Home
   },
   /*{
       path: "/deployIndex",
