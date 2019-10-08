@@ -1,17 +1,88 @@
 <template>
   <div class="exceptionBlock">
     <div class="exceptionTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;异常</div>
+    <div class="exceptionContainer">
+      <div class="machineException">
+        <ul class="contentTitle">
+          <li>机器CPU告警数</li>
+          <li>机器内存告警数</li>
+          <li>机器磁盘告警数</li>
+        </ul>
+        <ul class="contentNumber">
+          <li>10</li>
+          <li>8</li>
+          <li>6</li>
+        </ul>
+      </div>
+      <div class="microServiceException">
+        <ul class="contentTitle">
+          <li>微服务内存告警数</li>
+          <li>微服务日志告警数</li>
+          <li>微服务日志错误数</li>
+        </ul>
+        <ul class="contentNumber">
+          <li>120</li>
+          <li>86</li>
+          <li>69</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from "vue";
-  import { Component } from "vue-property-decorator";
+  import {Component} from "vue-property-decorator";
 
   @Component({})
-  export default class HomeRightException extends Vue {}
+  export default class HomeRightException extends Vue {
+  }
 </script>
 
 <style lang="scss" scoped>
   @import "../style/home.scss";
+
+  .machineException {
+    padding-top: 4%;
+  }
+
+  .microServiceException {
+    margin-top: 9%;
+  }
+
+  .contentTitle {
+    list-style: none;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .contentTitle li {
+    display: block;
+    float: left;
+    width: 33%;
+    height: 19px;
+    font-size: 14px;
+    font-family: Microsoft YaHei;
+    font-weight: 400;
+    line-height: 19px;
+    color: rgba(139, 162, 191, 1);
+    opacity: 1;
+    text-align: center;
+  }
+
+  .contentNumber li {
+    display: block;
+    float: left;
+    width: 33%;
+    height: 37px;
+    font-size: 28px;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    line-height: 37px;
+    color: rgba(227, 227, 28, 1);
+    opacity: 1;
+    text-align: center;
+  }
 </style>
