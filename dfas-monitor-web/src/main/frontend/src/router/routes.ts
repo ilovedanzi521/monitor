@@ -2,12 +2,12 @@ import Layout from "@/layout/Layout.vue";
 import Login from "@/page/login/view/index.vue";
 import Home from "@/page/home/view/index.vue";
 import Directional from "@/page/fram/view/Directional.vue";
-import MicroServiceList from "@/page/microService/view/microServiceList.vue";
-import MicroServicePanel from "@/page/microService/view/microServicePanel.vue";
-import MachineList from "@/page/machine/view/machineList.vue";
-import MachinePanel from "@/page/machine/view/machinePanel.vue";
-import WarnList from "@/page/warn/view/warnList.vue";
-import ThresholdList from "@/page/warn/view/thresholdList.vue";
+import MicroServiceList from "@/page/microService/view/MicroServiceList.vue";
+import MicroServicePanel from "@/page/microService/view/MicroServicePanel.vue";
+import MachineList from "@/page/machine/view/MachineList.vue";
+import MachinePanel from "@/page/machine/view/MachinePanel.vue";
+import WarnList from "@/page/warn/view/WarnList.vue";
+import ThresholdList from "@/page/warn/view/ThresholdList.vue";
 
 const routers = [
   {

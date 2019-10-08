@@ -21,7 +21,6 @@ export default class LMain extends Vue {
     }
 }
 </script>
-</script>
 
 <style lang="scss" scoped>
 @import "../assets/style/element.scss";
