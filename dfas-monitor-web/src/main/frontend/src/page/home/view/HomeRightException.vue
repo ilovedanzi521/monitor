@@ -8,7 +8,7 @@
           <li>机器内存告警数</li>
           <li>机器磁盘告警数</li>
         </ul>
-        <ul class="contentNumber">
+        <ul class="machineNumber">
           <li>10</li>
           <li>8</li>
           <li>6</li>
@@ -20,7 +20,7 @@
           <li>微服务日志告警数</li>
           <li>微服务日志错误数</li>
         </ul>
-        <ul class="contentNumber">
+        <ul class="microServiceNumber">
           <li>120</li>
           <li>86</li>
           <li>69</li>
@@ -42,18 +42,20 @@
 <style lang="scss" scoped>
   @import "../style/home.scss";
 
+  .exceptionContainer{
+    height: 100%;
+  }
+
   .machineException {
-    padding-top: 4%;
+    margin: 5% auto;
   }
 
   .microServiceException {
-    margin-top: 9%;
   }
 
   .contentTitle {
     list-style: none;
     height: 20px;
-    line-height: 20px;
     font-size: 12px;
     text-align: center;
   }
@@ -66,23 +68,30 @@
     font-size: 14px;
     font-family: Microsoft YaHei;
     font-weight: 400;
-    line-height: 19px;
     color: rgba(139, 162, 191, 1);
     opacity: 1;
     text-align: center;
   }
 
-  .contentNumber li {
+  .contentNumber {
     display: block;
     float: left;
     width: 33%;
-    height: 37px;
     font-size: 28px;
     font-family: Microsoft YaHei;
     font-weight: bold;
-    line-height: 37px;
     color: rgba(227, 227, 28, 1);
     opacity: 1;
     text-align: center;
+  }
+
+  .machineNumber li {
+    @extend .contentNumber;
+    height: 37px;
+    padding-bottom: 2.5%;
+  }
+
+  .microServiceNumber li {
+    @extend .contentNumber;
   }
 </style>
