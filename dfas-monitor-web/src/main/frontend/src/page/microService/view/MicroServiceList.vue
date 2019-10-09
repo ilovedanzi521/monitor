@@ -1,110 +1,71 @@
 <template>
-  <div class="hello">
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          MicsoServiceList Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          MicsoServiceList Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          MicsoServiceList Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader home
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="container">
+    <!--产品详情查询表单:Begin -->
+    <div class="formInline" style="width:100%;height:50px;margin-top:5px;">
+      <win-form v-model="reqVO" :inline="true" v-testName="{'TEST_NAME':'rivalInfo'}">
+        <win-row>
+          <win-col :span="3">
+            <div style="margin-top: 5px;">
+              <el-button-group>
+                <win-button type="info" icon="el-icon-plus" @click="operation('','ADD')" round>新增</win-button>
+                <win-button type="info" icon="el-icon-delete" :disabled="multipleSelection.length == 0" @click="delBatch" round>删除</win-button>
+              </el-button-group>
+            </div>
+          </win-col>
+          <win-col :span="5">
+            <win-form-item label="微服务名称">
+              <el-autocomplete v-model="reqVO.rivalName" :fetch-suggestions="rivalNameSelect" clearable placeholder="请输入内容">
+              </el-autocomplete>
+            </win-form-item>
+          </win-col>
+
+          <win-col :span="3">
+            <div style="margin-top: 5px;">
+              <win-button type="primary" icon="el-icon-search" @click="query">查询</win-button>
+              <win-button icon="el-icon-refresh" @click="reset">重置</win-button>
+            </div>
+          </win-col>
+        </win-row>
+      </win-form>
+    </div>
+    <!--产品查询表单:End -->
+    <!--产品表格数据:Begin -->
+    <div class="rivalDataTable">
+      <win-table :height="tableHeight" :data="pageVO.list" ref="rivalInfoTable" @cell-dblclick="dblclick" @select-change="tableSelectionChange" @select-all="tableSelectionChange" @cell-click="handleCurrentChange">
+        <win-table-column prop="rivalName" label="微服务名称" ></win-table-column>
+        <win-table-column prop="rivalShortName" label="状态" ></win-table-column>
+        <win-table-column prop="appraise" label="告警数"  :formatter="formatDic"></win-table-column>
+        <win-table-column prop="golden" label="错误数"  :formatter="formatDic"></win-table-column>
+        <win-table-column label="操作" width="200">
+          <template slot-scope="scope">
+            <win-button type="text" size="small" icon="el-icon-edit-outline" @click="operation(scope.row,'UPDATE')">修改</win-button>
+            <win-button type="text" size="small" style="color:#FF4D4D" icon="el-icon-delete" @click="operation(scope.row,'DELETE')">删除</win-button>
+          </template>
+        </win-table-column>
+      </win-table>
+      <!-- 分页组件 -->
+      <win-pagination v-bind:child-msg="pageVO" @callFather="pageQuery"></win-pagination>
+      <!-- 创建/修改/删除 dialog -->
+      <MicroServiceInfoDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="dialogVisible">
+      </MicroServiceInfoDialog>
+    </div>
   </div>
 </template>
-
 <script lang="ts">
-  import MicsoServiceListController from '../controller/MicsoServiceListController';
+  import MicsoServiceListController from "../controller/MicsoServiceListController";
   import Component from "vue-class-component";
-  @Component({})
-  export default class Home extends MicsoServiceListController {};
+  export default class MicsoServiceList extends MicsoServiceListController {}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  h1, h2 {
-    font-weight: normal;
+<style lang="scss" scoped>
+  .formInline {
+    .el-form-item {
+      margin-bottom: 10px;
+    }
   }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
+  .left {
+    margin-left: 160px;
   }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #42b983;
+  .rivalDataTable {
+    margin-right: 10px;
   }
 </style>
