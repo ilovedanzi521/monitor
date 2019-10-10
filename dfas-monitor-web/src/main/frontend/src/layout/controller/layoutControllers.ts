@@ -325,7 +325,7 @@ export default class LayoutController extends BaseController {
             this.layoutReqVO.changeTheme = localStorage.getItem("theme");
         }
         // 开发环境
-        console.log(process.env.NODE_ENV);
+        //console.log(process.env.NODE_ENV);
         if ("development" === process.env.NODE_ENV) {
             return;
         }

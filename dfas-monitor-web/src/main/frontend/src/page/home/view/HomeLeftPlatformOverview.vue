@@ -8,21 +8,21 @@
         <div id="leftDiv">
           <div id="totalNodeDiv">
             <div id="totalNodeTextDiv">总节点数&nbsp;&nbsp;</div>
-            <div id="totalNodeNumberDiv">10</div>
+            <div id="totalNodeNumberDiv">{{totalNode}}</div>
           </div>
           <div id="currentRequestDiv">
             <div id="currentRequestTextDiv">今日请求数&nbsp;&nbsp;</div>
-            <div id="currentRequestNumberDiv">1,203,608</div>
+            <div id="currentRequestNumberDiv">{{totalHttpRequest}}</div>
           </div>
         </div>
         <div id="rightDiv">
           <div id="totalServiceDiv">
             <div id="totalServiceTextDiv">总服务数&nbsp;&nbsp;</div>
-            <div id="totalServiceNumberDiv">1,403,201</div>
+            <div id="totalServiceNumberDiv">{{totalMicroService}}</div>
           </div>
           <div id="qpsDiv">
             <div id="qpsTextDiv">Qps&nbsp;&nbsp;</div>
-            <div id="qpsNumberDiv">68</div>
+            <div id="qpsNumberDiv">{{qps}}</div>
           </div>
         </div>
       </div>
@@ -31,12 +31,11 @@
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
-  import {Component} from "vue-property-decorator";
+  import PlatformOverviewController from '../controller/PlatformOverviewController';
+  import {Component,Prop,Emit,Watch} from "vue-property-decorator";
 
   @Component({})
-  export default class HomePlatformOverview extends Vue {
-  }
+  export default class HomePlatformOverview extends PlatformOverviewController {}
 </script>
 
 <style lang="scss" scoped>

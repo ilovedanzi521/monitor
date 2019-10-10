@@ -1,8 +1,16 @@
 <template>
   <div class="microServiceStatusBlock">
     <div class="rect">
-      <div class="microServiceStatusTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;微服务状态</div>
-      <div class="microServiceStatus-container"><img style="width:100%;height: 100%" src="../image/microServiceStatus.png"></div>
+      <div class="microServiceStatusTitle">
+        <div style="float: left">
+          <img src="../image/groupMin.png">&nbsp;&nbsp;微服务状态
+        </div>
+        <div class="tipArea">
+          <img src="../image/tip.png">
+        </div>
+      </div>
+      <div class="microServiceStatus-container"><img style="width:100%;height: 100%"
+                                                     src="../image/microServiceStatus.png"></div>
     </div>
   </div>
 </template>
@@ -24,6 +32,13 @@
     width: 98.5%;
     height: 90.5%;
   }
+
+  .tipArea{
+
+    margin-right: 10%;
+    float: right;
+  }
+
 
   .rect {
     width: 100%;
