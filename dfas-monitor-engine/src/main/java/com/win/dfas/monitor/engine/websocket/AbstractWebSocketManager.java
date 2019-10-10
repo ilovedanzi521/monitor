@@ -18,4 +18,6 @@ public abstract class AbstractWebSocketManager {
     public abstract void add(AbstractWebSocket socket);
 
     public abstract void remove(AbstractWebSocket socket);
+
+    public abstract  CopyOnWriteArraySet<AbstractWebSocket> get();
 }

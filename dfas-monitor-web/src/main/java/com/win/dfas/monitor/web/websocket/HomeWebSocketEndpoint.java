@@ -1,5 +1,6 @@
 package com.win.dfas.monitor.web.websocket;
 
+import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
 import org.slf4j.Logger;
@@ -24,18 +25,18 @@ public class HomeWebSocketEndpoint extends AbstractWebSocket {
 
     static Logger log = LoggerFactory.getLogger(HomeWebSocketEndpoint.class);
 
-
     /** 与某个客户端的连接会话，需要通过它来给客户端发送数据*/
     private Session session;
     /** 模块名 */
-    private String moduleName;
+    private HomeModuleEnum moduleName;
 
     /**
      * 连接建立成功调用的方法*/
     @OnOpen
     public void onOpen(Session session, @PathParam("moduleName") String moduleName) {
+        System.out.println("session open");
         this.session = session;
-        this.moduleName = moduleName;
+        this.moduleName = HomeModuleEnum.valueOf(moduleName);
         AbstractWebSocketManager.instance().add(this);
     }
 
@@ -67,6 +68,11 @@ public class HomeWebSocketEndpoint extends AbstractWebSocket {
     @OnError
     public void onError(Session session, Throwable e) {
         log.error(e.getMessage());
+    }
+
+    @Override
+    public HomeModuleEnum getModuleName() {
+        return moduleName;
     }
 
     /**

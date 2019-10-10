@@ -1,6 +1,6 @@
 package com.win.dfas.monitor.common.vo;
 
-import com.win.dfas.monitor.common.ResultTypeEnum;
+import com.win.dfas.monitor.common.constant.ResultTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

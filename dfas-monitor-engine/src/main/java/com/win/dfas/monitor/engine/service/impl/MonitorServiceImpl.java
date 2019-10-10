@@ -1,6 +1,6 @@
 package com.win.dfas.monitor.engine.service.impl;
 
-import com.win.dfas.monitor.common.ResultTypeEnum;
+import com.win.dfas.monitor.common.constant.ResultTypeEnum;
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;

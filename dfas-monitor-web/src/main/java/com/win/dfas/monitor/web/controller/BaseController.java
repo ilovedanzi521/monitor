@@ -1,6 +1,6 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.win.dfas.monitor.common.ReturnMsgEnum;
+import com.win.dfas.monitor.common.constant.ReturnMsgEnum;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.MessageUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;

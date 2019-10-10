@@ -9,28 +9,25 @@ export default class PlatformOverviewController extends Vue {
 
   ws: WebSocket;
 
-  private totalNode: string = "400";
+  private totalNode: string = "0";
 
-  private totalHttpRequest:string="1,234,239";
+  private totalHttpRequest:string="0";
 
-  private totalMicroService:string="1,689";
+  private totalMicroService:string="0";
 
-  private qps:string="68";
+  private qps:string="0";
 
   mounted() {
-    console.log("mounted");
-    let requestUrl = "ws://localhost:8080/monitor/home/qps";
+    let requestUrl = "ws://localhost:8080/monitor/home/platformOverview";
     this.establishConnection(requestUrl);
   }
 
 
   establishConnection(requestUrl) {
-    console.log("establishConnection begin");
     this.handleClose();
     this.ws = new WebSocket(requestUrl);
     let _ = this;
     this.ws.onopen = function (e) {
-      console.log("establishConnection success");
       _.ws.send(JSON.stringify({flag: requestUrl, data: "i am a PlatformOverview WebSocket!"}));
     };
     this.ws.onmessage = e => this.handleWebSocketData(e);
@@ -39,7 +36,10 @@ export default class PlatformOverviewController extends Vue {
 
   handleWebSocketData(e) {
     let object = JSON.parse(e.data);
-    console.log(JSON.stringify(object));
+    this.totalNode = object.totalNode;
+    this.qps = object.qps;
+    this.totalMicroService = object.totalMicroService;
+    this.totalHttpRequest = object.totalHttpRequest;
   }
 
   handleClose() {

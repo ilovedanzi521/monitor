@@ -67,7 +67,7 @@
     color: rgba(145, 255, 6, 1);
     opacity: 1;
     float: left;
-    text-align: left;
+    text-align: center;
     width: 50%;
     vertical-align: middle;
   }

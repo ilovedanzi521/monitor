@@ -1,5 +1,7 @@
 package com.win.dfas.monitor.engine.websocket;
 
+import java.util.concurrent.CopyOnWriteArraySet;
+
 class WebSocketManager extends AbstractWebSocketManager {
 
     @Override
@@ -10,6 +12,11 @@ class WebSocketManager extends AbstractWebSocketManager {
     @Override
     public void remove(AbstractWebSocket socket) {
         webSocketSet.remove(socket);
+    }
+
+    @Override
+    public CopyOnWriteArraySet<AbstractWebSocket> get() {
+        return webSocketSet;
     }
 
     /**
