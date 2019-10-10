@@ -24,67 +24,65 @@
 
       // 指定图表的配置项和数据
       var option = {
-        tooltip: {              //设置tip提示
-          trigger: 'axis'
-        },
-
-        legend: {               //设置区分（哪条线属于什么）
-          data:['QPS']
-        },
-        color: ['#8AE09F', '#FA6F53'],       //设置区分（每条线是什么颜色，和 legend 一一对应）
-        xAxis: {                //设置x轴
-          type: 'category',
-          boundaryGap: false,     //坐标轴两边不留白
-          data: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',],
-          name: '',           //X轴 name
+        xAxis: {
+          name: '时间',           //X轴 name
           nameTextStyle: {        //坐标轴名称的文字样式
-            color: '#FA6F53',
+            color: '#818DA3',
             fontSize: 16,
-            padding: [0, 0, 0, 20]
+            padding: [0, 0, 0, 0]
           },
+          type: 'category',
+          boundaryGap: false,
+          data: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
           axisLine: {             //坐标轴轴线相关设置。
             lineStyle: {
-              color: '#FA6F53',
+              color: '#818DA3',
             }
           }
         },
         yAxis: {
-          name: '',
+          name: '请求量',
           nameTextStyle: {
-            color: '#FA6F53',
+            color: '#818DA3',
             fontSize: 16,
-            padding: [0, 0, 10, 0]
+            padding: [0, 0, 5, 0]
           },
+          type: 'value',
+          splitLine: {show: false},
+          scale: true,
           axisLine: {
             lineStyle: {
-              color: '#FA6F53',
+              color: '#818DA3',
             }
           },
-          type: 'value'
         },
-        series: [
-          {
-            name: 'Qps',
-            data:  [220, 232, 201, 234, 290, 230, 220],
-            type: 'line',               // 类型为折线图
-            lineStyle: {                // 线条样式 => 必须使用normal属性
-              normal: {
-                color: '#8AE09F',
+        series: [{
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line',
+          smooth: true,
+          lineStyle: {                // 线条样式 => 必须使用normal属性
+            normal: {
+              color: '#00BAF3'
+            }
+          },
+          areaStyle: {
+            normal: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [{
+                  offset: 0, color: '#FFFFFF' // 0% 处的颜色
+                }, {
+                  offset: 1, color: '#00BAF3' // 100% 处的颜色
+                }],
+                global: false // 缺省为 false
               }
-            },
+            }
           }
-          /*,
-          {
-            name: '学生成绩',
-            data: [120, 200, 150, 80, 70, 110, 130],
-            type: 'line',
-            lineStyle: {
-              normal: {
-                color: '#FA6F53',
-              }
-            },
-          }*/
-        ]
+        }]
       };
 
       // 使用刚指定的配置项和数据显示图表。
