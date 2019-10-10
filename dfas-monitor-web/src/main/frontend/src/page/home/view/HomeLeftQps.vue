@@ -26,12 +26,15 @@
 
       // 指定图表的配置项和数据
       var option = {
+        tooltip: {              //设置tip提示
+          trigger: 'axis'
+        },
         xAxis: {
           name: '时间',           //X轴 name
           nameTextStyle: {        //坐标轴名称的文字样式
             color: '#818DA3',
-            fontSize: 16,
-            padding: [0, 0, 0, 0]
+            fontSize: 12,
+            padding: [0, 0, 0, 5]
           },
           type: 'category',
           boundaryGap: false,
@@ -46,7 +49,7 @@
           name: '请求量',
           nameTextStyle: {
             color: '#818DA3',
-            fontSize: 16,
+            fontSize: 12,
             padding: [0, 0, 5, 0]
           },
           type: 'value',
