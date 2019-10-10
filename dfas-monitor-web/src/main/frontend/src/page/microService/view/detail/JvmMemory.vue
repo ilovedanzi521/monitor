@@ -12,7 +12,7 @@
   export default class JvmMemoryChart extends Vue {
 
 
-    name:'chartLineBox';
+    name: 'chartLineBox';
 
     chartLine;
 
@@ -25,9 +25,9 @@
           trigger: 'axis'
         },
         legend: {               //设置区分（哪条线属于什么）
-          data:['192.168.0.55','192.168.0.56','192.168.0.57']
+          data: ['192.168.0.55', '192.168.0.56', '192.168.0.57']
         },
-        color: ['#33CC33', '#FF4D4D','#00BAF3'],       //设置区分（每条线是什么颜色，和 legend 一一对应）
+        color: ['#33CC33', '#FF4D4D', '#00BAF3'],       //设置区分（每条线是什么颜色，和 legend 一一对应）
         xAxis: {                //设置x轴
           type: 'category',
           boundaryGap: false,     //坐标轴两边不留白
@@ -46,7 +46,13 @@
         },
         yAxis: {
           name: '使用率',
-          //splitLine: {show: false},
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: 'rgba(29, 50, 81, 1)',
+              width: 1
+            }
+          },
           nameTextStyle: {
             color: '#818DA3',
             fontSize: 16,
@@ -62,7 +68,7 @@
         series: [
           {
             name: '192.168.0.55',
-            data:  [220, 232, 201, 234, 290, 230, 220],
+            data: [220, 232, 201, 234, 290, 230, 220],
             type: 'line',               // 类型为折线图
             smooth: true,
             lineStyle: {                // 线条样式 => 必须使用normal属性
