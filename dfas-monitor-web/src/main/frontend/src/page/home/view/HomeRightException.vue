@@ -1,30 +1,32 @@
 <template>
   <div class="exceptionBlock">
-    <div class="exceptionTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;异常</div>
-    <div class="exceptionContainer">
-      <div class="machineException">
-        <ul class="contentTitle">
-          <li>机器CPU告警数</li>
-          <li>机器内存告警数</li>
-          <li>机器磁盘告警数</li>
-        </ul>
-        <ul class="machineNumber">
-          <li>10</li>
-          <li>8</li>
-          <li>6</li>
-        </ul>
-      </div>
-      <div class="microServiceException">
-        <ul class="contentTitle">
-          <li>微服务内存告警数</li>
-          <li>微服务日志告警数</li>
-          <li>微服务日志错误数</li>
-        </ul>
-        <ul class="microServiceNumber">
-          <li>120</li>
-          <li>86</li>
-          <li>69</li>
-        </ul>
+    <div class="rect">
+      <div class="exceptionTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;异常</div>
+      <div class="exceptionContainer">
+        <div class="machineException">
+          <ul class="contentTitle">
+            <li>机器CPU告警数</li>
+            <li>机器内存告警数</li>
+            <li>机器磁盘告警数</li>
+          </ul>
+          <ul class="machineNumber">
+            <li>10</li>
+            <li>8</li>
+            <li>6</li>
+          </ul>
+        </div>
+        <div class="microServiceException">
+          <ul class="contentTitle">
+            <li>微服务内存告警数</li>
+            <li>微服务日志告警数</li>
+            <li>微服务日志错误数</li>
+          </ul>
+          <ul class="microServiceNumber">
+            <li>120</li>
+            <li>86</li>
+            <li>69</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -42,7 +44,7 @@
 <style lang="scss" scoped>
   @import "../style/home.scss";
 
-  .exceptionContainer{
+  .exceptionContainer {
     height: 100%;
   }
 
@@ -88,10 +90,25 @@
   .machineNumber li {
     @extend .contentNumber;
     height: 37px;
-    padding-bottom: 2.5%;
+    padding-bottom: 2%;
   }
 
   .microServiceNumber li {
     @extend .contentNumber;
   }
+
+  .rect {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to left, #195091, #195091) left top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left top no-repeat,
+    linear-gradient(to left, #195091, #195091) right top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) right top no-repeat,
+    linear-gradient(to left, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat;
+    background-size: 1px 10px, 10px 1px, 2px 10px, 10px 1px;
+  }
+
 </style>

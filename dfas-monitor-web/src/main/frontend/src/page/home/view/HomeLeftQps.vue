@@ -1,8 +1,10 @@
 <template>
   <div class="qpsBlock">
-    <div class="qpsTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;Qps趋势图
+    <div class="rect">
+      <div class="qpsTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;Qps趋势图
+      </div>
+      <div id="chartLineBox"></div>
     </div>
-    <div id="chartLineBox"> </div>
   </div>
 </template>
 
@@ -15,7 +17,7 @@
   export default class HomeLeftQps extends Vue {
 
 
-    name:'chartLineBox';
+    name: 'chartLineBox';
 
     chartLine;
 
@@ -99,12 +101,25 @@
 
   #chartLineBox {
     width: 100%;
-    height: 100%;
+    height: 98%;
     font-size: 18px;
     font-family: Microsoft YaHei;
     color: rgba(255, 255, 255, 1);
     opacity: 1;
     box-sizing: border-box;
     display: inline-block;
+  }
+  .rect {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to left, #195091, #195091) left top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left top no-repeat,
+    linear-gradient(to left, #195091, #195091) right top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) right top no-repeat,
+    linear-gradient(to left, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat;
+    background-size: 1px 10px, 10px 1px, 2px 10px, 10px 1px;
   }
 </style>

@@ -1,27 +1,29 @@
 <template>
   <div class="platformOverviewBlock">
-    <div class="platformOverviewTitle">
-      <img src="../image/groupMin.png">&nbsp;&nbsp;平台概况
-    </div>
-    <div class="platformOverview-container">
-      <div id="leftDiv">
-        <div id="totalNodeDiv">
-          <div id="totalNodeTextDiv">总节点数&nbsp;&nbsp;</div>
-          <div id="totalNodeNumberDiv">10</div>
-        </div>
-        <div id="currentRequestDiv">
-          <div id="currentRequestTextDiv">今日请求数&nbsp;&nbsp;</div>
-          <div id="currentRequestNumberDiv">1,203,608</div>
-        </div>
+    <div class="rect">
+      <div class="platformOverviewTitle">
+        <img src="../image/groupMin.png">&nbsp;&nbsp;平台概况
       </div>
-      <div id="rightDiv">
-        <div id="totalServiceDiv">
-          <div id="totalServiceTextDiv">总服务数&nbsp;&nbsp;</div>
-          <div id="totalServiceNumberDiv">1,403,201</div>
+      <div class="platformOverview-container">
+        <div id="leftDiv">
+          <div id="totalNodeDiv">
+            <div id="totalNodeTextDiv">总节点数&nbsp;&nbsp;</div>
+            <div id="totalNodeNumberDiv">10</div>
+          </div>
+          <div id="currentRequestDiv">
+            <div id="currentRequestTextDiv">今日请求数&nbsp;&nbsp;</div>
+            <div id="currentRequestNumberDiv">1,203,608</div>
+          </div>
         </div>
-        <div id="qpsDiv">
-          <div id="qpsTextDiv">Qps&nbsp;&nbsp;</div>
-          <div id="qpsNumberDiv">68</div>
+        <div id="rightDiv">
+          <div id="totalServiceDiv">
+            <div id="totalServiceTextDiv">总服务数&nbsp;&nbsp;</div>
+            <div id="totalServiceNumberDiv">1,403,201</div>
+          </div>
+          <div id="qpsDiv">
+            <div id="qpsTextDiv">Qps&nbsp;&nbsp;</div>
+            <div id="qpsNumberDiv">68</div>
+          </div>
         </div>
       </div>
     </div>
@@ -92,7 +94,7 @@
         @extend .divTextStyle;
       }
 
-      #currentRequestTextDiv{
+      #currentRequestTextDiv {
         @extend .divTextStyle;
       }
 
@@ -134,7 +136,21 @@
         @extend .divNumberStyle;
       }
     }
-
-
   }
+
+  .rect {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to left, #195091, #195091) left top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left top no-repeat,
+    linear-gradient(to left, #195091, #195091) right top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) right top no-repeat,
+    linear-gradient(to left, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat;
+    background-size: 1px 10px, 10px 1px, 2px 10px, 10px 1px;
+  }
+
+
 </style>

@@ -1,54 +1,56 @@
 <template>
   <div class="machineListBlock">
-    <div class="machineListTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;机器列表</div>
-    <div class="table">
-      <div class="table-tr-title">
-        <div class="table-th">节点</div>
-        <div class="table-th">状态</div>
-        <div class="table-th">负载</div>
-        <div class="table-th">CPU</div>
-        <div class="table-th">内存</div>
-        <div class="table-th">磁盘</div>
-      </div>
-      <div class="table-tr-data-one">
-        <div class="table-td">192.168.0.55</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.0%</div>
-        <div class="table-td">8.0%</div>
-        <div class="table-td">8.0%</div>
-        <div class="table-td">8.0%</div>
-      </div>
-      <div class="table-tr-data-two">
-        <div class="table-td">192.168.0.56</div>
-        <div class="table-td-offline">离线</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-      </div>
-      <div class="table-tr-data-one">
-        <div class="table-td">192.168.0.57</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.5%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-      </div>
-      <div class="table-tr-data-two">
-        <div class="table-td">192.168.0.58</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.5%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-      </div>
-      <div class="table-tr-data-one">
-        <div class="table-td">192.168.0.59</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.5%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
+    <div class="rect">
+      <div class="machineListTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;机器列表</div>
+      <div class="table">
+        <div class="table-tr-title">
+          <div class="table-th">节点</div>
+          <div class="table-th">状态</div>
+          <div class="table-th">负载</div>
+          <div class="table-th">CPU</div>
+          <div class="table-th">内存</div>
+          <div class="table-th">磁盘</div>
+        </div>
+        <div class="table-tr-data-one">
+          <div class="table-td">192.168.0.55</div>
+          <div class="table-td-online">在线</div>
+          <div class="table-td">8.0%</div>
+          <div class="table-td">8.0%</div>
+          <div class="table-td">8.0%</div>
+          <div class="table-td">8.0%</div>
+        </div>
+        <div class="table-tr-data-two">
+          <div class="table-td">192.168.0.56</div>
+          <div class="table-td-offline">离线</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+        </div>
+        <div class="table-tr-data-one">
+          <div class="table-td">192.168.0.57</div>
+          <div class="table-td-online">在线</div>
+          <div class="table-td">8.5%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+        </div>
+        <div class="table-tr-data-two">
+          <div class="table-td">192.168.0.58</div>
+          <div class="table-td-online">在线</div>
+          <div class="table-td">8.5%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+        </div>
+        <div class="table-tr-data-one">
+          <div class="table-td">192.168.0.59</div>
+          <div class="table-td-online">在线</div>
+          <div class="table-td">8.5%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+          <div class="table-td">8.3%</div>
+        </div>
       </div>
     </div>
   </div>
@@ -86,7 +88,7 @@
     height: 75%;
     display: table;
     width: 92%;
-    margin:2% auto;
+    margin: 2% auto;
     border-collapse: collapse;
   }
 
@@ -125,6 +127,20 @@
   .table-td-offline {
     @extend .td;
     color: rgba(247, 42, 42, 1);
+  }
+
+  .rect {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to left, #195091, #195091) left top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left top no-repeat,
+    linear-gradient(to left, #195091, #195091) right top no-repeat,
+    linear-gradient(to bottom, #195091, #195091) right top no-repeat,
+    linear-gradient(to left, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to bottom, #195091, #195091) left bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat,
+    linear-gradient(to left, #195091, #195091) right bottom no-repeat;
+    background-size: 1px 10px, 10px 1px, 2px 10px, 10px 1px;
   }
 
 </style>
