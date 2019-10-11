@@ -39,7 +39,6 @@ export default class HomeExceptionController extends Vue {
     this.microServiceMemory = object.microServiceMemory;
     this.microServiceWarnLog = object.microServiceWarnLog;
     this.microServiceErrorLog = object.microServiceErrorLog;
-
   }
 
   handleClose() {

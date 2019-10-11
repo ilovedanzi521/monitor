@@ -9,17 +9,17 @@
           <img src="../image/tip.png">
         </div>
       </div>
-      <div class="machineStatus-container"><img style="width:98%;height: 98%" src="../image/machineStatus.png"></div>
+      <div class="machineStatus-container">
+        <Monitor :dataList="machineStatusList"></Monitor>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
-  import {Component} from "vue-property-decorator";
+  import HomeMachineStatusController from '../controller/HomeMachineStatusController';
 
-  @Component({})
-  export default class HomeLeftMachineStatus extends Vue {
+  export default class HomeLeftMachineStatus extends HomeMachineStatusController {
   }
 </script>
 

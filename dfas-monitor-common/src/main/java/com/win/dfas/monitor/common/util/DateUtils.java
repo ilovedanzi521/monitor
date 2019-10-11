@@ -88,6 +88,12 @@ public final class DateUtils {
 		return simpleDateFormat.format(date);
 	}
 
+	public static String getCurrentHour(){
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("HH");
+		return formatter.format(currentTime);
+	}
+
 	/**
 	 * 获取当前字符串日期
 	 * @return

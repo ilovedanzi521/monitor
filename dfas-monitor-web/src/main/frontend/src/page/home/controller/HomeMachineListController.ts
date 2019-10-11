@@ -1,51 +1,18 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import PlatformOverviewService from "../service/HomePlatformOverviewService";
+import HomeMachineListService from "../service/HomeMachineListService";
 import {MachineVO} from "../vo/MachineVO";
 
 @Component({})
 export default class HomeMachineListController extends Vue {
 
+  private homeMachineListService: HomeMachineListService = new HomeMachineListService();
+
   ws: WebSocket;
 
   private machine: MachineVO = {};
 
-  private machineList: Array<MachineVO> = [{
-    ip: "",
-    status: "",
-    balance: "",
-    cpu: "",
-    memory: "",
-    disk: ""
-  }, {
-    ip: "",
-    status: "",
-    balance: "",
-    cpu: "",
-    memory: "",
-    disk: ""
-  }, {
-    ip: "",
-    status: "",
-    balance: "",
-    cpu: "",
-    memory: "",
-    disk: ""
-  }, {
-    ip: "",
-    status: "",
-    balance: "",
-    cpu: "",
-    memory: "",
-    disk: ""
-  }, {
-    ip: "",
-    status: "",
-    balance: "",
-    cpu: "",
-    memory: "",
-    disk: ""
-  }];
+  private machineList: Array<MachineVO> = this.homeMachineListService.initMachineList();
 
   mounted() {
     let requestUrl = "ws://localhost:8080/monitor/home/machineList";
@@ -75,7 +42,7 @@ export default class HomeMachineListController extends Vue {
   handleWebSocketData(e) {
     let object = JSON.parse(e.data);
     if (object != null) {
-      if(object.length<=5){
+      if (object.length <= 5) {
         this.machineList = object;
         let length = object.length;
         for (let i = 0; i <= 5 - length; i++) {
@@ -89,7 +56,7 @@ export default class HomeMachineListController extends Vue {
           };
           this.machineList.push(this.machine);
         }
-      }else if(object.length>5){
+      } else if (object.length > 5) {
         this.machineList = [];
         for (let i = 0; i < 5; i++) {
           this.machineList.push(object[i]);

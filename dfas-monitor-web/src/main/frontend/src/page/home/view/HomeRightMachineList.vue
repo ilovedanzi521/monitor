@@ -8,7 +8,7 @@
           <div class="table-th">状态</div>
           <div class="table-th">负载</div>
           <div class="table-th">CPU</div>
-          <div class="table-th">内存{{name}}</div>
+          <div class="table-th">内存</div>
           <div class="table-th">磁盘</div>
         </div>
 

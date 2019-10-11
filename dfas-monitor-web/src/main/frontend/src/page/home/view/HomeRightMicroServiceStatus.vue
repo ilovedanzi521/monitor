@@ -9,18 +9,18 @@
           <img src="../image/tip.png">
         </div>
       </div>
-      <div class="microServiceStatus-container"><img style="width:100%;height: 100%"
-                                                     src="../image/microServiceStatus.png"></div>
+      <div class="microServiceStatus-container">
+        <Monitor type="service" :dataList="microServiceStatusList" :animations="['1','2']"></Monitor>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
-  import {Component} from "vue-property-decorator";
+  import HomeMicroServiceStatusController from "../controller/HomeMicroServiceStatusController";
 
-  @Component({})
-  export default class HomeRightMicroServiceStatus extends Vue {
+  export default class HomeRightMicroServiceStatus extends HomeMicroServiceStatusController {
+
   }
 </script>
 
@@ -33,7 +33,7 @@
     height: 90.5%;
   }
 
-  .tipArea{
+  .tipArea {
     margin-right: 10%;
     float: right;
   }
