@@ -10,7 +10,7 @@ export default class HomeMachineListService {
     for (let i = 0; i < 5; i++) {
       this.machineList.push({
         ip: "",
-        status: "",
+        state: "",
         balance: "",
         cpu: "",
         memory: "",

@@ -14,9 +14,9 @@
 
         <div v-for="(item, index) in machineList"  :class="generateClassName(index)" >
           <div class="table-td">{{item.ip}}</div>
-          <div v-if="item.status == '0' " class="table-td-online">在线</div>
-          <div v-else-if="item.status == '1' " class="table-td-offline">离线</div>
-          <div v-else-if="item.status == '' " class="table-td-offline"></div>
+          <div v-if="item.state == '0' " class="table-td-online">在线</div>
+          <div v-else-if="item.state == '1' " class="table-td-offline">离线</div>
+          <div v-else-if="item.state == '' " class="table-td-offline"></div>
           <div class="table-td">{{item.balance}}</div>
           <div class="table-td">{{item.cpu}}</div>
           <div class="table-td">{{item.memory}}</div>

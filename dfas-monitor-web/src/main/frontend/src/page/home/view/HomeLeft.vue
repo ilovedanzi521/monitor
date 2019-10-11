@@ -2,19 +2,19 @@
   <div class="homeLeft">
     <HomeLeftPlatformOverview></HomeLeftPlatformOverview>
     <HomeLeftQps></HomeLeftQps>
-    <HomeLeftMachineStatus></HomeLeftMachineStatus>
+    <HomeLeftMachineState></HomeLeftMachineState>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from "vue";
   import { Component } from "vue-property-decorator";
-  import HomeLeftMachineStatus from "./HomeLeftMachineStatus.vue";
+  import HomeLeftMachineState from "./HomeLeftMachineState.vue";
   import HomeLeftPlatformOverview from "./HomeLeftPlatformOverview.vue";
   import HomeLeftQps from "./HomeLeftQps.vue";
 
   @Component({
-    components: {HomeLeftMachineStatus, HomeLeftPlatformOverview,HomeLeftQps}
+    components: {HomeLeftMachineState, HomeLeftPlatformOverview,HomeLeftQps}
   })
   export default class HomeLeft extends Vue {}
 </script>

@@ -1,10 +1,10 @@
 import AxiosFun from "../../../api/AxiosFun";
-import {MicroServiceStatusVO} from "../vo/MicroServiceStatusVO";
+import {MachineStateVO} from "../vo/MachineStateVO";
 
 
-export default class HomeMicroServiceStatusService {
+export default class HomeMachineStateService {
 
-  private microServiceStatusList: Array<MicroServiceStatusVO> = [{
+  private machineStateList: Array<MachineStateVO> = [{
     "id": "2111",
     "state": "1",
     "ipAddress": "192.168.0.01111",
@@ -148,8 +148,8 @@ export default class HomeMicroServiceStatusService {
       "diskPer": "60%"
     }];
 
-  public initMicroServiceStatusList() {
-    return this.microServiceStatusList;
+  public initMachineStateList() {
+    return this.machineStateList;
   }
 
 }

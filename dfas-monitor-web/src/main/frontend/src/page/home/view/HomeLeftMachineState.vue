@@ -1,43 +1,43 @@
 <template>
-  <div class="microServiceStatusBlock">
+  <div class="machineStateBlock">
     <div class="rect">
-      <div class="microServiceStatusTitle">
+      <div class="machineStateTitle">
         <div style="float: left">
-          <img src="../image/groupMin.png">&nbsp;&nbsp;微服务状态
+          <img src="../image/groupMin.png">&nbsp;&nbsp;机器状态
         </div>
         <div class="tipArea">
           <img src="../image/tip.png">
         </div>
       </div>
-      <div class="microServiceStatus-container">
-        <Monitor type="service" :dataList="microServiceStatusList" :animations="['1','2']"></Monitor>
+      <div class="machineState-container">
+        <Monitor :dataList="machineStateList"></Monitor>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import HomeMicroServiceStatusController from "../controller/HomeMicroServiceStatusController";
+  import HomeMachineStateController from '../controller/HomeMachineStateController';
 
-  export default class HomeRightMicroServiceStatus extends HomeMicroServiceStatusController {
-
+  export default class HomeLeftMachineState extends HomeMachineStateController {
   }
 </script>
 
 <style lang="scss" scoped>
   @import "../style/home.scss";
 
-  .microServiceStatus-container {
-    margin: 10px;
-    width: 98.5%;
+  .machineState-container {
+    //margin: 10px;
+    width: 100%;
     height: 90.5%;
+    /*overflow: hidden;*/
+
   }
 
-  .tipArea {
+  .tipArea{
     margin-right: 10%;
     float: right;
   }
-
 
   .rect {
     width: 100%;
@@ -50,7 +50,6 @@
     linear-gradient(to bottom, #195091, #195091) left bottom no-repeat,
     linear-gradient(to left, #195091, #195091) right bottom no-repeat,
     linear-gradient(to left, #195091, #195091) right bottom no-repeat;
-    background-size: 3px 20px, 20px 3px, 3px 20px, 20px 3px;
+    background-size: 2px 16px, 16px 2px, 2px 16px, 16px 2px;
   }
-
 </style>

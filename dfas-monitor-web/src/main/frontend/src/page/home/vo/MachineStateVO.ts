@@ -1,8 +1,8 @@
-interface MicroServiceStatusVO {
+interface MachineStateVO {
   "id": string;
   "state": string;
   "ipAddress": string;
-  "cupNum": number,
+  "cpuNum": number,
   "memorySize": string;
   "diskSize": string;
   "cpuPer": string;

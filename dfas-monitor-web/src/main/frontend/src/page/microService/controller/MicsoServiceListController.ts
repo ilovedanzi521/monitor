@@ -54,7 +54,7 @@ import { mapState } from "vuex";
 
 export default class MicsoServiceListController extends BaseController {
   /** service */
-  private service: MicroServiceInfoService = new MicroServiceInfoService();
+  private microServiceInfoService: MicroServiceInfoService = new MicroServiceInfoService();
   /** 数据字典service */
   private dicService: DicService = new DicService();
   /** 选中信息 */
@@ -116,7 +116,7 @@ export default class MicsoServiceListController extends BaseController {
    * @Date:   2019-07-10 11:35:35
    */
   private query(): void {
-    this.service.pageList(this.reqVO).then((res: WinResponseData) => {
+    this.microServiceInfoService.pageList(this.reqVO).then((res: WinResponseData) => {
       if (res.winRspType === "ERROR") {
         this.win_message_error(res.msg);
       }
@@ -201,7 +201,7 @@ export default class MicsoServiceListController extends BaseController {
     rivalInfoReqVO.rivalNo = parseInt(queryString);
     // 查询前10条数据展示
     rivalInfoReqVO.reqPageSize = 10;
-    this.service.list(rivalInfoReqVO).then((response: WinResponseData) => {
+    this.microServiceInfoService.list(rivalInfoReqVO).then((response: WinResponseData) => {
       if (response.winRspType === WinRspType.ERROR) {
         this.win_message_error(response.data);
       } else {
@@ -217,7 +217,7 @@ export default class MicsoServiceListController extends BaseController {
     rivalInfoReqVO.rivalName = queryString;
     // 查询前10条数据展示
     rivalInfoReqVO.reqPageSize = 10;
-    this.service.list(rivalInfoReqVO).then((response: WinResponseData) => {
+    this.microServiceInfoService.list(rivalInfoReqVO).then((response: WinResponseData) => {
       if (response.winRspType === WinRspType.ERROR) {
         this.win_message_error(response.data);
       } else {
@@ -279,7 +279,7 @@ export default class MicsoServiceListController extends BaseController {
             ids.push(element.id);
           });
           const idsStr: string = ids.join("_");
-          this.service.delBatch(idsStr).then((response: WinResponseData) => {
+          this.microServiceInfoService.delBatch(idsStr).then((response: WinResponseData) => {
             this.message(response);
           });
         })

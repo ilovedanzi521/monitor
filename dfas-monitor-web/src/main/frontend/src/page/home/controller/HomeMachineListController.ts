@@ -48,7 +48,7 @@ export default class HomeMachineListController extends Vue {
         for (let i = 0; i <= 5 - length; i++) {
           this.machine = {
             ip: "",
-            status: "",
+            state: "",
             balance: "",
             cpu: "",
             memory: "",

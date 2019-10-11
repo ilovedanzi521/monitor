@@ -89,22 +89,18 @@ public abstract class AbstractMessageBuilder {
      */
     protected String getMicroServiceStatusData() {
         Random random = new Random(System.currentTimeMillis());
-        List<MachineStatusVO> machineStatusList=new ArrayList<>();
+        List<MicroServiceStatusVO> microServiceStatusList=new ArrayList<>();
         int count=70+random.nextInt(10);
         for(int i=0;i<count;i++){
-            MachineStatusVO machineStatus =new MachineStatusVO();
-            machineStatus.setId(String.valueOf(i));
-            machineStatus.setIpAddress("192.168.0."+random.nextInt(255));
-            machineStatus.setCpuPer(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");
-            machineStatus.setCpuNum(random.nextInt(5));
-            machineStatus.setDiskPer(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");
-            machineStatus.setDiskSize(String.valueOf(random.nextInt(1000)) );
-            machineStatus.setMemoryPer(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");
-            machineStatus.setState(String.valueOf(random.nextInt(3)+1));
-            machineStatus.setMemorySize(String.valueOf(random.nextInt(1000)) );
-            machineStatusList.add(machineStatus);
+            MicroServiceStatusVO microServiceStatus =new MicroServiceStatusVO();
+            microServiceStatus.setId(String.valueOf(i));
+            microServiceStatus.setName("订单服务");
+            microServiceStatus.setWarn(random.nextInt(500));
+            microServiceStatus.setError(random.nextInt(5000));
+            microServiceStatus.setState(String.valueOf(random.nextInt(3)+1));
+            microServiceStatusList.add(microServiceStatus);
         }
-        return JsonUtil.toJson(machineStatusList);
+        return JsonUtil.toJson(microServiceStatusList);
     }
 
     /**
@@ -117,7 +113,7 @@ public abstract class AbstractMessageBuilder {
         for (int i = 0; i < random.nextInt(10) + 1; i++) {
             MachineVO machine = new MachineVO();
             machine.setIp("192.168.0." + random.nextInt(255));
-            machine.setStatus(String.valueOf(random.nextInt(2)));
+            machine.setState(String.valueOf(random.nextInt(2)));
             machine.setBalance(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");
             machine.setCpu(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");
             machine.setMemory(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");

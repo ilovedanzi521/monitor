@@ -7,13 +7,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MachineVO {
+public class MicroServiceStatusVO {
 
-    private String ip;
+    private String id;
     private String state;
-    private String balance;
-    private String cpu;
-    private String memory;
-    private String disk;
+    private String name;
+    private Integer warn;
+    private Integer error;
 
 }

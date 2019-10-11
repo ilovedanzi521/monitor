@@ -32,10 +32,10 @@
     <!--产品表格数据:Begin -->
     <div class="rivalDataTable">
       <win-table :height="tableHeight" :data="pageVO.list" ref="rivalInfoTable" @cell-dblclick="dblclick" @select-change="tableSelectionChange" @select-all="tableSelectionChange" @cell-click="handleCurrentChange">
-        <win-table-column prop="rivalName" label="微服务名称" ></win-table-column>
-        <win-table-column prop="rivalShortName" label="状态" ></win-table-column>
-        <win-table-column prop="appraise" label="告警数"  :formatter="formatDic"></win-table-column>
-        <win-table-column prop="golden" label="错误数"  :formatter="formatDic"></win-table-column>
+        <win-table-column prop="name" label="微服务名称" ></win-table-column>
+        <win-table-column prop="state" label="状态" ></win-table-column>
+        <win-table-column prop="warn" label="告警数"  :formatter="formatDic"></win-table-column>
+        <win-table-column prop="error" label="错误数"  :formatter="formatDic"></win-table-column>
         <win-table-column label="操作" width="200">
           <template slot-scope="scope">
             <win-button type="text" size="small" icon="el-icon-edit-outline" @click="operation(scope.row,'UPDATE')">修改</win-button>
