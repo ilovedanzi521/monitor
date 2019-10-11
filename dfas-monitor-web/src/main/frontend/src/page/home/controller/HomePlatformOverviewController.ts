@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import PlatformOverviewService from "../service/PlatformOverviewService";
+import PlatformOverviewService from "../service/HomePlatformOverviewService";
 
 @Component({})
-export default class PlatformOverviewController extends Vue {
+export default class HomePlatformOverviewController extends Vue {
 
   private platformOverviewService:PlatformOverviewService = new PlatformOverviewService();
 
@@ -45,9 +45,6 @@ export default class PlatformOverviewController extends Vue {
   handleClose() {
     if (this.ws != null) {
       this.ws.close();
-      console.log("关闭连接！");
-    }else{
-      console.log("ws is null");
     }
   }
 

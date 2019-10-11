@@ -10,9 +10,9 @@
             <li>机器磁盘告警数</li>
           </ul>
           <ul class="machineNumber">
-            <li>10</li>
-            <li>8</li>
-            <li>6</li>
+            <li>{{machineCpu}}</li>
+            <li>{{machineMemory}}</li>
+            <li>{{machineDisk}}</li>
           </ul>
         </div>
         <div class="microServiceException">
@@ -22,9 +22,9 @@
             <li>微服务日志错误数</li>
           </ul>
           <ul class="microServiceNumber">
-            <li>120</li>
-            <li>86</li>
-            <li>69</li>
+            <li>{{microServiceMemory}}</li>
+            <li>{{microServiceWarnLog}}</li>
+            <li>{{microServiceErrorLog}}</li>
           </ul>
         </div>
       </div>
@@ -35,9 +35,10 @@
 <script lang="ts">
   import Vue from "vue";
   import {Component} from "vue-property-decorator";
+  import HomeExceptionController from '../controller/HomeExceptionController';
 
   @Component({})
-  export default class HomeRightException extends Vue {
+  export default class HomeRightException extends HomeExceptionController {
   }
 </script>
 

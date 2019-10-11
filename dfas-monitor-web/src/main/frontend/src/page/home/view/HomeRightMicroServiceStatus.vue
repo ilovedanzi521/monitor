@@ -34,7 +34,6 @@
   }
 
   .tipArea{
-
     margin-right: 10%;
     float: right;
   }

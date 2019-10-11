@@ -1,7 +1,14 @@
 <template>
   <div class="machineStatusBlock">
     <div class="rect">
-      <div class="machineStatusTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;机器状态</div>
+      <div class="machineStatusTitle">
+        <div style="float: left">
+          <img src="../image/groupMin.png">&nbsp;&nbsp;机器状态
+        </div>
+        <div class="tipArea">
+          <img src="../image/tip.png">
+        </div>
+      </div>
       <div class="machineStatus-container"><img style="width:98%;height: 98%" src="../image/machineStatus.png"></div>
     </div>
   </div>
@@ -23,6 +30,11 @@
     margin: 10px;
     width: 98%;
     height: 90.5%;
+  }
+
+  .tipArea{
+    margin-right: 10%;
+    float: right;
   }
 
   .rect {

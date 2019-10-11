@@ -8,48 +8,19 @@
           <div class="table-th">状态</div>
           <div class="table-th">负载</div>
           <div class="table-th">CPU</div>
-          <div class="table-th">内存</div>
+          <div class="table-th">内存{{name}}</div>
           <div class="table-th">磁盘</div>
         </div>
-        <div class="table-tr-data-one">
-          <div class="table-td">192.168.0.55</div>
-          <div class="table-td-online">在线</div>
-          <div class="table-td">8.0%</div>
-          <div class="table-td">8.0%</div>
-          <div class="table-td">8.0%</div>
-          <div class="table-td">8.0%</div>
-        </div>
-        <div class="table-tr-data-two">
-          <div class="table-td">192.168.0.56</div>
-          <div class="table-td-offline">离线</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-        </div>
-        <div class="table-tr-data-one">
-          <div class="table-td">192.168.0.57</div>
-          <div class="table-td-online">在线</div>
-          <div class="table-td">8.5%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-        </div>
-        <div class="table-tr-data-two">
-          <div class="table-td">192.168.0.58</div>
-          <div class="table-td-online">在线</div>
-          <div class="table-td">8.5%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-        </div>
-        <div class="table-tr-data-one">
-          <div class="table-td">192.168.0.59</div>
-          <div class="table-td-online">在线</div>
-          <div class="table-td">8.5%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
-          <div class="table-td">8.3%</div>
+
+        <div v-for="(item, index) in machineList"  :class="generateClassName(index)" >
+          <div class="table-td">{{item.ip}}</div>
+          <div v-if="item.status == '0' " class="table-td-online">在线</div>
+          <div v-else-if="item.status == '1' " class="table-td-offline">离线</div>
+          <div v-else-if="item.status == '' " class="table-td-offline"></div>
+          <div class="table-td">{{item.balance}}</div>
+          <div class="table-td">{{item.cpu}}</div>
+          <div class="table-td">{{item.memory}}</div>
+          <div class="table-td">{{item.disk}}</div>
         </div>
       </div>
     </div>
@@ -57,11 +28,11 @@
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
+  import HomeMachineListController from '../controller/HomeMachineListController';
   import {Component} from "vue-property-decorator";
 
   @Component({})
-  export default class HomeRightMachineList extends Vue {
+  export default class HomeRightMachineList extends HomeMachineListController {
   }
 </script>
 
@@ -91,6 +62,7 @@
     margin: 2% auto;
     border-collapse: collapse;
   }
+
 
   .table-tr-title {
     display: table-row;

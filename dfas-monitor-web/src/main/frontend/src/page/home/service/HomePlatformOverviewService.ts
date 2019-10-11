@@ -1,6 +1,6 @@
 import AxiosFun from "../../../api/AxiosFun";
 
 
-export default class PlatformOverviewService {
+export default class HomePlatformOverviewService {
 
 }

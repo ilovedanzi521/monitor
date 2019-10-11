@@ -31,11 +31,11 @@
 </template>
 
 <script lang="ts">
-  import PlatformOverviewController from '../controller/PlatformOverviewController';
+  import HomePlatformOverviewController from '../controller/HomePlatformOverviewController';
   import {Component,Prop,Emit,Watch} from "vue-property-decorator";
 
   @Component({})
-  export default class HomePlatformOverview extends PlatformOverviewController {}
+  export default class HomePlatformOverview extends HomePlatformOverviewController {}
 </script>
 
 <style lang="scss" scoped>
