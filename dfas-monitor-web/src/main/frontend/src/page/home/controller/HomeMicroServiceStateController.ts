@@ -3,8 +3,9 @@ import Component from "vue-class-component";
 import Monitor from "../../../components2/vue/Monitor.vue";
 import MicroServiceStateVO from "../vo/MicroServiceStateVO";
 import HomeMicroServiceStateService from "../service/HomeMicroServiceStateService";
+import AxiosFun from "../../../api/AxiosFun";
 
-@Component({components:{Monitor}})
+@Component({components: {Monitor}})
 export default class HomeMicroServiceStateController extends Vue {
 
   ws: WebSocket;
@@ -14,7 +15,7 @@ export default class HomeMicroServiceStateController extends Vue {
   private microServiceStateList: Array<MicroServiceStateVO> = this.homeMicroServiceStateService.initMicroServiceStateList();
 
   mounted() {
-    let requestUrl = "ws://localhost:8080/monitor/home/microServiceState";
+    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/microServiceState";
     this.establishConnection(requestUrl);
   }
 

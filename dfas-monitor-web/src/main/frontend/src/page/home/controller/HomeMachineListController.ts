@@ -2,6 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import HomeMachineListService from "../service/HomeMachineListService";
 import {MachineVO} from "../vo/MachineVO";
+import AxiosFun from "../../../api/AxiosFun";
 
 @Component({})
 export default class HomeMachineListController extends Vue {
@@ -15,7 +16,7 @@ export default class HomeMachineListController extends Vue {
   private machineList: Array<MachineVO> = this.homeMachineListService.initMachineList();
 
   mounted() {
-    let requestUrl = "ws://localhost:8080/monitor/home/machineList";
+    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/machineList";
     this.establishConnection(requestUrl);
   }
 

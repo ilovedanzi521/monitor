@@ -23,7 +23,7 @@
 
 		<dependency>
 			<groupId>com.win.dfas</groupId>
-			<artifactId>dfas-monitor-common</artifactId>
+			<artifactId>dfas-monitor-config</artifactId>
 		</dependency>
 
 	</dependencies>

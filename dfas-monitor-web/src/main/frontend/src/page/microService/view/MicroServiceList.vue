@@ -12,6 +12,13 @@
               </el-button-group>
             </div>
           </win-col>
+          <win-col :span="3">
+            <div style="margin-top: 5px;">
+              <el-button-group>
+                <win-button type="info" icon="el-icon-plus" @click="operation('','SYN')" round>一键同步</win-button>
+              </el-button-group>
+            </div>
+          </win-col>
           <win-col :span="5">
             <win-form-item label="微服务名称">
               <el-autocomplete v-model="reqVO.rivalName" :fetch-suggestions="rivalNameSelect" clearable placeholder="请输入内容">
@@ -34,8 +41,8 @@
       <win-table :height="tableHeight" :data="pageVO.list" ref="rivalInfoTable" @cell-dblclick="dblclick" @select-change="tableSelectionChange" @select-all="tableSelectionChange" @cell-click="handleCurrentChange">
         <win-table-column prop="name" label="微服务名称" ></win-table-column>
         <win-table-column prop="state" label="状态" ></win-table-column>
-        <win-table-column prop="warn" label="告警数"  :formatter="formatDic"></win-table-column>
-        <win-table-column prop="error" label="错误数"  :formatter="formatDic"></win-table-column>
+        <win-table-column prop="warn" label="告警数" ></win-table-column>
+        <win-table-column prop="error" label="错误数" ></win-table-column>
         <win-table-column label="操作" width="200">
           <template slot-scope="scope">
             <win-button type="text" size="small" icon="el-icon-edit-outline" @click="operation(scope.row,'UPDATE')">修改</win-button>
@@ -54,6 +61,7 @@
 <script lang="ts">
   import MicsoServiceListController from "../controller/MicsoServiceListController";
   import Component from "vue-class-component";
+  @Component({})
   export default class MicsoServiceList extends MicsoServiceListController {}
 </script>
 <style lang="scss" scoped>

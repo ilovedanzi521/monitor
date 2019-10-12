@@ -30,6 +30,8 @@
 		<swagger.version>2.7.0</swagger.version>
 <!-- 		<jackson.version>2.9.0</jackson.version> -->
 		<simpleclient.version>0.4.0</simpleclient.version>
+		<mysql-connector-java.version>8.0.11</mysql-connector-java.version>
+		<druid.version>1.1.10</druid.version>
 	</properties>
 
 
@@ -73,6 +75,12 @@
 				<groupId>com.win.dfas</groupId>
 				<artifactId>dfas-common-util</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql-connector-java.version}</version>
 			</dependency>
 
 			<dependency>
@@ -125,6 +133,19 @@
 				<groupId>io.prometheus</groupId>
 				<artifactId>simpleclient_pushgateway</artifactId>
 				<version>${simpleclient.version}</version>
+			</dependency>
+
+			<!--阿里数据库连接池 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid.version}</version>
 			</dependency>
 
 		</dependencies>

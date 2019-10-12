@@ -1,4 +1,4 @@
-package com.win.dfas.monitor.config;
+package com.win.dfas.monitor.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

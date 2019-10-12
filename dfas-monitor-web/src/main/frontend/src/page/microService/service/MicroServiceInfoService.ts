@@ -28,7 +28,7 @@ export default class MicroServiceInfoService {
      */
     public pageList(reqVO: MicroServiceInfoReqVO): Promise<WinResponseData> {
         return AxiosFun.post(
-            AxiosFun.basicParameterServiceName + "/rival/rivalInfo/pageList",
+            AxiosFun.monitorCenterServiceName + "/microService/getMicroServiceList",
             reqVO
         );
     }

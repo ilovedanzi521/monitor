@@ -49,9 +49,6 @@ import { mapState } from "vuex";
     }
   }
 })
-
-
-
 export default class MicsoServiceListController extends BaseController {
   /** service */
   private microServiceInfoService: MicroServiceInfoService = new MicroServiceInfoService();
@@ -93,18 +90,9 @@ export default class MicsoServiceListController extends BaseController {
    * @Date:   2019-07-10 11:35:35
    */
   private mounted() {
-    const dic = new DicReqVO();
-    const dicCodeArray = ["1000271", "1000272", "1000267"];
-    dic.parentDicCodeList = dicCodeArray;
-    this.dicService.dicMultipleAllSubList(dic).then((res: WinResponseData) => {
-      /** 是否优质对手方 */
-      this.rivalInfoDicData.goldenDic = res.data["1000267"];
-      /** 结算方式 */
-      this.rivalInfoDicData.settleTypeDic = res.data["1000271"];
-      /** 对手方评级 */
-      this.rivalInfoDicData.appraiseDic = res.data["1000272"];
-    });
+    console.log("mounted");
     this.$nextTick(() => {
+      console.log("query");
       this.query();
     });
   }

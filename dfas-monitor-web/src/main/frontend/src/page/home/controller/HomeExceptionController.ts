@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import PlatformOverviewService from "../service/HomePlatformOverviewService";
+import AxiosFun from "../../../api/AxiosFun";
 
 @Component({})
 export default class HomeExceptionController extends Vue {
@@ -15,7 +16,7 @@ export default class HomeExceptionController extends Vue {
   private microServiceErrorLog: string = "0";
 
   mounted() {
-    let requestUrl = "ws://localhost:8080/monitor/home/exception";
+    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/exception";
     this.establishConnection(requestUrl);
   }
 

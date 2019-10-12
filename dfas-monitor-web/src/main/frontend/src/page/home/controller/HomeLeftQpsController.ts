@@ -2,6 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import echarts from "echarts";
 import HomeLeftQpsService from "../service/HomeLeftQpsService";
+import AxiosFun from "../../../api/AxiosFun";
 
 @Component({})
 export default class HomeLeftQpsController extends Vue {
@@ -19,12 +20,12 @@ export default class HomeLeftQpsController extends Vue {
   private yAxisData: number[] = this.homeLeftQpsService.inityAxisDataList();
 
   mounted() {
-    this.initChart(this.xAxisData,this.yAxisData);
-    let requestUrl = "ws://localhost:8080/monitor/home/qps";
+    this.initChart(this.xAxisData, this.yAxisData);
+    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/qps";
     this.establishConnection(requestUrl);
   }
 
-  initChart(xAxisData,yAxisData) {
+  initChart(xAxisData, yAxisData) {
     this.chartLine = echarts.init(document.getElementById('chartLineBox'));
 
     // 指定图表的配置项和数据
@@ -113,7 +114,7 @@ export default class HomeLeftQpsController extends Vue {
     let object = JSON.parse(e.data);
     this.xAxisData = object.xaxisData;
     this.yAxisData = object.yaxisData;
-    this.initChart(this.xAxisData,this.yAxisData);
+    this.initChart(this.xAxisData, this.yAxisData);
   }
 
   handleClose() {

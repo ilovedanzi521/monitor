@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.win.dfas.monitor.config.mapper.MicroServiceMapper">
+	
+	<resultMap type="MicroServiceEntity" id="MicroServiceEntityResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="state"    column="state"    />
+        <result property="warn"    column="warn"    />
+        <result property="error"    column="error"    />
+    </resultMap>
+
+	<sql id="micro_service_base_query">
+        select t.* from t_micro_service t
+    </sql>
+
+    <!-- 查询报告管理信息 -->
+    <select id="selectMicroServiceList" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
+        <include refid="micro_service_base_query"/>
+     	<trim prefix="WHERE" prefixOverrides="AND ">
+			<if test="id != null and id != '' ">
+				AND t.fid = #{id}
+			</if>
+		</trim>
+    </select>
+
+</mapper>

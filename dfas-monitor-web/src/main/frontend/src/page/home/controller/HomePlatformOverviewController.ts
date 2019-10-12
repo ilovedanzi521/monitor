@@ -1,24 +1,25 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import PlatformOverviewService from "../service/HomePlatformOverviewService";
+import AxiosFun from "../../../api/AxiosFun";
 
 @Component({})
 export default class HomePlatformOverviewController extends Vue {
 
-  private platformOverviewService:PlatformOverviewService = new PlatformOverviewService();
+  private platformOverviewService: PlatformOverviewService = new PlatformOverviewService();
 
   ws: WebSocket;
 
   private totalNode: string = "0";
 
-  private totalHttpRequest:string="0";
+  private totalHttpRequest: string = "0";
 
-  private totalMicroService:string="0";
+  private totalMicroService: string = "0";
 
-  private qps:string="0";
+  private qps: string = "0";
 
   mounted() {
-    let requestUrl = "ws://localhost:8080/monitor/home/platformOverview";
+    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/platformOverview";
     this.establishConnection(requestUrl);
   }
 
