@@ -51,7 +51,7 @@
         </win-table-column>
       </win-table>
       <!-- 分页组件 -->
-      <win-pagination v-bind:child-msg="pageVO" @callFather="pageQuery"></win-pagination>
+      <win-pagination v-bind:pageInfo="pageVO" @pageInfoChange="pageQuery"></win-pagination>
       <!-- 创建/修改/删除 dialog -->
       <MicroServiceInfoDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="dialogVisible">
       </MicroServiceInfoDialog>
