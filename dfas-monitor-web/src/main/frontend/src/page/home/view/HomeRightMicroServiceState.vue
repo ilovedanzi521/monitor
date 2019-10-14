@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="microServiceState-container">
-        <Monitor type="service" :dataList="microServiceStateList" :animations="['1','2']"></Monitor>
+        <Monitor  :dataList="microServiceStateList" :animations="['1','2']" :col="18" :row="6" type="service"></Monitor>
       </div>
     </div>
   </div>

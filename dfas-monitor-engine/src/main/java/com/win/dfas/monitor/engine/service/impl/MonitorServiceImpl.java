@@ -54,12 +54,12 @@ public class MonitorServiceImpl implements MonitorService {
 
     public Map<String, Object> getMicroServiceList3() {
         Random random = new Random(System.currentTimeMillis());
-        List<MicroServiceStatusVO> microServiceStatusList = new ArrayList<>();
+        List<MicroServiceStateVO> microServiceStatusList = new ArrayList<>();
         int count = 70 + random.nextInt(10);
         for (int i = 0; i < count; i++) {
-            MicroServiceStatusVO microServiceStatus = new MicroServiceStatusVO();
+            MicroServiceStateVO microServiceStatus = new MicroServiceStateVO();
             microServiceStatus.setId(String.valueOf(i));
-            microServiceStatus.setName("订单服务" + i);
+            microServiceStatus.setMicroServiceName("订单服务" + i);
             microServiceStatus.setWarn(random.nextInt(500));
             microServiceStatus.setError(random.nextInt(5000));
             microServiceStatus.setState(String.valueOf(random.nextInt(3) + 1));

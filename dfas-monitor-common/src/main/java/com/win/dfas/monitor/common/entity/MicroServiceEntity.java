@@ -10,7 +10,7 @@ import lombok.ToString;
 public class MicroServiceEntity {
 
     private String id;
-    private String name;
+    private String microServiceName;
     private String state;
     private String warn;
     private String error;

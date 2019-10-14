@@ -76,7 +76,7 @@ public abstract class AbstractMessageBuilder {
             machineStatus.setDiskPer(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");
             machineStatus.setDiskSize(String.valueOf(random.nextInt(1000)) );
             machineStatus.setMemoryPer(String.valueOf(random.nextInt(100)) + "." + String.valueOf(random.nextInt(100)) + "%");
-            machineStatus.setState(String.valueOf(random.nextInt(3)+1));
+            machineStatus.setState(String.valueOf(random.nextInt(4)));
             machineStatus.setMemorySize(String.valueOf(random.nextInt(1000)) );
             machineStatusList.add(machineStatus);
         }
@@ -89,15 +89,15 @@ public abstract class AbstractMessageBuilder {
      */
     protected String getMicroServiceStatusData() {
         Random random = new Random(System.currentTimeMillis());
-        List<MicroServiceStatusVO> microServiceStatusList=new ArrayList<>();
+        List<MicroServiceStateVO> microServiceStatusList=new ArrayList<>();
         int count=70+random.nextInt(10);
         for(int i=0;i<count;i++){
-            MicroServiceStatusVO microServiceStatus =new MicroServiceStatusVO();
+            MicroServiceStateVO microServiceStatus =new MicroServiceStateVO();
             microServiceStatus.setId(String.valueOf(i));
-            microServiceStatus.setName("订单服务");
+            microServiceStatus.setMicroServiceName("订单服务");
             microServiceStatus.setWarn(random.nextInt(500));
             microServiceStatus.setError(random.nextInt(5000));
-            microServiceStatus.setState(String.valueOf(random.nextInt(3)+1));
+            microServiceStatus.setState(String.valueOf(random.nextInt(4)));
             microServiceStatusList.add(microServiceStatus);
         }
         return JsonUtil.toJson(microServiceStatusList);

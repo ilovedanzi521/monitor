@@ -90,7 +90,7 @@ export default class MicsoServiceListController extends BaseController {
    * @Date:   2019-07-10 11:35:35
    */
   private mounted() {
-    console.log("mounted");
+    console.log(this.$refs.rivalInfoTable2);
     this.$nextTick(() => {
       console.log("query");
       this.query();

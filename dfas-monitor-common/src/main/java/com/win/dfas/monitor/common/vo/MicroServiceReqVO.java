@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class MicroServiceReqVO extends BaseReqVO {
 	
-    private String name;
+    private String microServiceName;
     private String state;
     private String warn;
     private String error;

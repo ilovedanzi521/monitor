@@ -1,0 +1,45 @@
+@charset "UTF-8";
+.el-select__tags {
+    .el-tag.el-tag--info:first-child {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        max-width: 60%;
+        .el-select__tags-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+}
+.el-select .el-input__inner {
+    height: 32px !important;
+}
+
+.el-select .el-tag__close.el-icon-close {
+    top: 1px;
+}
+.el-select-group__title {
+    color: $--color-default-color;
+}
+.el-tree__empty-block {
+    min-height: 30px;
+    .el-tree__empty-text {
+        line-height: 1;
+    }
+}
+.el-form-item__label {
+    padding: 0 10px 0 0;
+    color: #adb5bb;
+}
+.el-select-dropdown__list {
+    max-width: 224px;
+}
+.el-select-dropdown__item > .el-tooltip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.win-select-table /deep/ .el-scrollbar__bar.is-horizontal {
+    display: none;
+}

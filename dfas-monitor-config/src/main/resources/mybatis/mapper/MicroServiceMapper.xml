@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<resultMap type="MicroServiceEntity" id="MicroServiceEntityResult">
         <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
+        <result property="microServiceName"    column="microServiceName"    />
         <result property="state"    column="state"    />
         <result property="warn"    column="warn"    />
         <result property="error"    column="error"    />

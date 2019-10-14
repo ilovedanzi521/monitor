@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="machineState-container">
-        <Monitor :dataList="machineStateList"></Monitor>
+        <Monitor :dataList="machineStateList" :col="7" :row="5" type="machine"></Monitor>
       </div>
     </div>
   </div>

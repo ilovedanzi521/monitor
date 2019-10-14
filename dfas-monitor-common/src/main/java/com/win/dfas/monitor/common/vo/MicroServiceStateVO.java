@@ -7,11 +7,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MicroServiceStatusVO {
+public class MicroServiceStateVO {
 
     private String id;
     private String state;
-    private String name;
+    private String microServiceName;
     private Integer warn;
     private Integer error;
 

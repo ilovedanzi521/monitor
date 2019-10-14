@@ -15,13 +15,13 @@
           <win-col :span="3">
             <div style="margin-top: 5px;">
               <el-button-group>
-                <win-button type="info" icon="el-icon-plus" @click="operation('','SYN')" round>一键同步</win-button>
+                <win-button type="info" icon="win win-rizhichaxun" @click="operation('','SYN')" round>一键同步</win-button>
               </el-button-group>
             </div>
           </win-col>
           <win-col :span="5">
             <win-form-item label="微服务名称">
-              <el-autocomplete v-model="reqVO.rivalName" :fetch-suggestions="rivalNameSelect" clearable placeholder="请输入内容">
+              <el-autocomplete v-model="reqVO.name" :fetch-suggestions="rivalNameSelect" clearable placeholder="请输入内容">
               </el-autocomplete>
             </win-form-item>
           </win-col>
@@ -37,15 +37,16 @@
     </div>
     <!--产品查询表单:End -->
     <!--产品表格数据:Begin -->
-    <div class="rivalDataTable">
-      <win-table :height="tableHeight" :data="pageVO.list" ref="rivalInfoTable" @cell-dblclick="dblclick" @select-change="tableSelectionChange" @select-all="tableSelectionChange" @cell-click="handleCurrentChange">
-        <win-table-column prop="name" label="微服务名称" ></win-table-column>
+    <div class="microServiceDataTable">
+      <win-table :height="tableHeight" :data="pageVO.list" ref="rivalInfoTable2" @cell-dblclick="dblclick" @select-change="tableSelectionChange" @select-all="tableSelectionChange" @cell-click="handleCurrentChange">
+        <win-table-column prop="microServiceName" label="微服务名称" ></win-table-column>
         <win-table-column prop="state" label="状态" ></win-table-column>
         <win-table-column prop="warn" label="告警数" ></win-table-column>
         <win-table-column prop="error" label="错误数" ></win-table-column>
         <win-table-column label="操作" width="200">
           <template slot-scope="scope">
             <win-button type="text" size="small" icon="el-icon-edit-outline" @click="operation(scope.row,'UPDATE')">修改</win-button>
+            <win-button type="text" size="small" icon="el-icon-view" @click="operation(scope.row,'VIEW')">查看</win-button>
             <win-button type="text" size="small" style="color:#FF4D4D" icon="el-icon-delete" @click="operation(scope.row,'DELETE')">删除</win-button>
           </template>
         </win-table-column>
@@ -73,7 +74,7 @@
   .left {
     margin-left: 160px;
   }
-  .rivalDataTable {
+  .microServiceDataTable {
     margin-right: 10px;
   }
 </style>
