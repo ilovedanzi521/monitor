@@ -12,7 +12,7 @@
                     <win-table-column prop="dicExplain" :min-width="180" label="字典项说明" sortable></win-table-column>
                 </win-table>
                 <div class="paginatio-contanier">
-                    <win-pagination name="dic" :isEasy="true" v-bind:childMsg="dicPageVO" @callFather="dicPageQuery"></win-pagination>
+                    <win-pagination name="dic" :isEasy="true" v-bind:pageInfo="dicPageVO" @pageInfoChange="dicPageQuery"></win-pagination>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                     <win-table-column prop="paramExplain" :min-width="150" label="字典子项参数说明"></win-table-column>
                 </win-table>
                 <div class="paginatio-contanier">
-                    <win-pagination name="subDic" v-bind:childMsg="dicSubPageVO" @callFather="dicSubPageQuery"></win-pagination>
+                    <win-pagination name="subDic" v-bind:pageInfo="dicSubPageVO" @pageInfoChange="dicSubPageQuery"></win-pagination>
                 </div>
             </div>
         </div>
