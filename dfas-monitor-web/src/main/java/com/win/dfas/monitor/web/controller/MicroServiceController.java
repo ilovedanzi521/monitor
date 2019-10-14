@@ -9,8 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 /**
  * 包名称：com.win.dfas.monitor.web.controller
  * 类名称：MicroServiceController
@@ -27,23 +25,14 @@ public class MicroServiceController extends BaseController {
     private MonitorService monitorService;
 
     /**
-     * 获取qps
+     * 新增微服务
      */
     @MonitorMetrics
-    @ApiOperation(value = "查询平台Qps", notes = "查询平台Qps")
-    @GetMapping("/httpRequestQps")
-    public String httpRequestQps() {
-        return monitorService.getQps();
-    }
-
-    /**
-     * 查询平台当日请求数
-     */
-    @MonitorMetrics
-    @ApiOperation(value = "查询平台当日请求数", notes = "查询平台当日请求数")
-    @GetMapping("/httpRequestTotal")
-    public String httpRequestTotal() {
-        return monitorService.getHttpRequestTotal();
+    @ApiOperation(value = "新增微服务", notes = "新增微服务")
+    @GetMapping("/insertMicroService")
+    public WinResponseData insertMicroService(@RequestBody MicroServiceReqVO reqVO) {
+        monitorService.insertMicroService(reqVO);
+        return WinResponseData.handleSuccess("success");
     }
 
     /**

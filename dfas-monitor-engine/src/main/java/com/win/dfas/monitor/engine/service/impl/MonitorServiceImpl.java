@@ -8,9 +8,11 @@ import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
+import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.*;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.MonitorService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -45,10 +47,18 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Override
     public PageInfo<MicroServiceRepVO> getMicroServiceList(MicroServiceReqVO reqVO) {
-        PageHelper.startPage(reqVO.getReqPageNum(),reqVO.getReqPageSize());
+        PageHelper.startPage(reqVO.getReqPageNum(), reqVO.getReqPageSize());
         List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(reqVO);
         PageInfo<MicroServiceEntity> info = new PageInfo<MicroServiceEntity>(list);
         return ObjectUtils.copyPageInfo(info, MicroServiceRepVO.class);
+    }
+
+    @Override
+    public void insertMicroService(MicroServiceReqVO microServiceReqVO) {
+        MicroServiceEntity microServiceEntity = new MicroServiceEntity();
+        microServiceEntity.setId(IDUtils.nextId());
+        BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
+        microServiceMapper.insertMicroService(microServiceEntity);
     }
 
 

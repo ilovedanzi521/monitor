@@ -1,6 +1,7 @@
 package com.win.dfas.monitor.engine.service;
 
 import com.github.pagehelper.PageInfo;
+import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
 
@@ -12,4 +13,5 @@ public interface MonitorService {
 
     PageInfo<MicroServiceRepVO> getMicroServiceList(MicroServiceReqVO reqVO);
 
+    void insertMicroService(MicroServiceReqVO microServiceReqVO);
 }

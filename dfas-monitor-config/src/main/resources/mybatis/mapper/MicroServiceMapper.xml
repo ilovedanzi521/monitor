@@ -26,4 +26,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
     </select>
 
+    <insert id="insertMicroService"
+            parameterType="com.win.dfas.monitor.common.entity.MicroServiceEntity">
+        insert into t_micro_service
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''  ">id,</if>
+            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName,</if>
+            <if test="state != null  and state != ''  ">state,</if>
+            <if test="warn != null  and warn != ''  ">warn,</if>
+            <if test="error != null  and error != ''  ">error,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''  ">#{id},</if>
+            <if test="microServiceName != null  and microServiceName != ''  ">#{microServiceName},</if>
+            <if test="state != null  and state != ''  ">#{state},</if>
+            <if test="warn != null  and warn != ''  ">#{warn},</if>
+            <if test="error != null  and error != ''  ">#{error},</if>
+        </trim>
+    </insert>
+
 </mapper>

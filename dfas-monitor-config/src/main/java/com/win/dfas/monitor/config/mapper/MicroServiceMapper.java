@@ -9,4 +9,6 @@ public interface MicroServiceMapper {
 
     List<MicroServiceEntity> selectMicroServiceList(MicroServiceReqVO reqVO);
 
+    void insertMicroService(MicroServiceEntity microServiceEntity);
+
 }
