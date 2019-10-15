@@ -29,7 +29,7 @@ import {
     WinButtonGroup,
     WinFold
 } from "win-plus";
-import { WinDicSelect } from "@win-frond-frameworks/trade-biz";
+// import { WinDicSelect } from "@win-frond-frameworks/trade-biz";
 
 //新增抽出来的业务组件
 import {
@@ -71,7 +71,6 @@ import PageVO from "../vo/PageVO";
         WinCheckbox,
         WinTree,
         WinAutocomplete,
-        WinDicSelect,
         WinDivider,
         WinSelectTable,
         WinButtonGroup,
@@ -134,15 +133,15 @@ export default class BaseController extends Vue {
         });
     }
 
-  /**字典值,表格显示 */
-  dicFormatter(cellValue: string, dics: DicRepVO[]) {
-    for (var i = 0; i < dics.length; i++) {
-      if (cellValue === dics[i].dicCode) {
-        return dics[i].dicExplain;
-      }
-    }
-    return "";
-  }
+//   /**字典值,表格显示 */
+//   dicFormatter(cellValue: string, dics: DicRepVO[]) {
+//     for (var i = 0; i < dics.length; i++) {
+//       if (cellValue === dics[i].dicCode) {
+//         return dics[i].dicExplain;
+//       }
+//     }
+//     return "";
+//   }
 
   /**对象复制 */
   copy(arr) {

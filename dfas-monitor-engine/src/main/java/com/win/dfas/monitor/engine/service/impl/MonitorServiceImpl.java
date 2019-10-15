@@ -3,12 +3,12 @@ package com.win.dfas.monitor.engine.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.win.dfas.common.util.ObjectUtils;
+import com.win.dfas.common.util.PrimaryKeyUtil;
 import com.win.dfas.monitor.common.constant.ResultTypeEnum;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
-import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.*;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.MonitorService;
@@ -49,16 +49,39 @@ public class MonitorServiceImpl implements MonitorService {
     public PageInfo<MicroServiceRepVO> getMicroServiceList(MicroServiceReqVO reqVO) {
         PageHelper.startPage(reqVO.getReqPageNum(), reqVO.getReqPageSize());
         List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(reqVO);
-        PageInfo<MicroServiceEntity> info = new PageInfo<MicroServiceEntity>(list);
+        PageInfo<MicroServiceEntity> info = new PageInfo<>(list);
         return ObjectUtils.copyPageInfo(info, MicroServiceRepVO.class);
+    }
+
+    @Override
+    public List<MicroServiceRepVO> searchMicroService(MicroServiceReqVO microServiceReqVO) {
+        List<MicroServiceEntity> list = microServiceMapper.searchMicroService(microServiceReqVO);
+        return ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
     }
 
     @Override
     public void insertMicroService(MicroServiceReqVO microServiceReqVO) {
         MicroServiceEntity microServiceEntity = new MicroServiceEntity();
-        microServiceEntity.setId(IDUtils.nextId());
         BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
+        microServiceEntity.setId(PrimaryKeyUtil.generateId());
         microServiceMapper.insertMicroService(microServiceEntity);
+    }
+
+    @Override
+    public void updateMicroService(MicroServiceReqVO microServiceReqVO) {
+        MicroServiceEntity microServiceEntity = new MicroServiceEntity();
+        BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
+        microServiceMapper.updateMicroService(microServiceEntity);
+    }
+
+    @Override
+    public void deleteMicroService(String id) {
+        microServiceMapper.deleteMicroService(id);
+    }
+
+    @Override
+    public void deleteMicroServiceByIds(String ids) {
+        microServiceMapper.deleteMicroServiceByIds(ids.split("_"));
     }
 
 

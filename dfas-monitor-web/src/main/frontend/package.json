@@ -23,6 +23,7 @@
     "getmac": "^1.4.6",
     "install": "^0.13.0",
     "os": "^0.1.1",
+    "pinyin": "^2.9.0",
     "prettier": "^1.12.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.1.0",
@@ -32,6 +33,7 @@
     "vuex": "^3.1.1",
     "vxe-table": "^2.5.22",
     "vxe-utils": "^1.7.2",
+    "win-biz": "^1.0.15",
     "win-plus": "^2.0.9",
     "xe-utils": "^2.2.2"
   },

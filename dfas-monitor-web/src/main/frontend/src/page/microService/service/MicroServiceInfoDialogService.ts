@@ -19,7 +19,7 @@ export default class MicroServiceInfoDialogService {
      */
     public insert(MicroServiceInfoRepVO: MicroServiceInfoRepVO) {
         return AxiosFun.post(
-            AxiosFun.basicParameterServiceName + "/rival/rivalInfo/",
+            AxiosFun.monitorCenterServiceName + "/microService/insertMicroService",
             MicroServiceInfoRepVO
         );
     }
@@ -30,7 +30,7 @@ export default class MicroServiceInfoDialogService {
      */
     public update(MicroServiceInfoRepVO: MicroServiceInfoRepVO) {
         return AxiosFun.put(
-            AxiosFun.basicParameterServiceName + "/rival/rivalInfo/",
+            AxiosFun.monitorCenterServiceName + "/microService/updateMicroService",
             MicroServiceInfoRepVO
         );
     }
@@ -41,7 +41,7 @@ export default class MicroServiceInfoDialogService {
      */
     public del(id: number) {
         return AxiosFun.winDelete(
-            AxiosFun.basicParameterServiceName + "/rival/rivalInfo/" + id,
+            AxiosFun.monitorCenterServiceName + "/microService/deleteMicroService/" + id,
             {}
         );
     }

@@ -2,7 +2,7 @@
  * 创建人：     @author zoujian
  * 创建时间: 2019年7月5日/下午5:52:56
  * 项目名称：  FRONTEND
- * 文件名称: ProdSettlementAccountDialogController
+ * 文件名称: MicroServiceInfoDialogController
  * 文件描述: @Description: (结算账户增删改页面Controller)
  *
  * All rights Reserved, Designed By 投资交易团队
@@ -37,10 +37,10 @@ export default class MicroServiceInfoDialogController extends BaseController {
         rivalInfoDicData: MicroServiceInfoDicDataVO;
     };
 
-    private rivalInfoDialogService: MicroServiceInfoDialogService = new MicroServiceInfoDialogService();
+    private microServiceInfoDialogService: MicroServiceInfoDialogService = new MicroServiceInfoDialogService();
     private MicroServiceInfoRepVO: MicroServiceInfoRepVO = new MicroServiceInfoRepVO();
     private rivalInfoDicData: MicroServiceInfoDicDataVO = new MicroServiceInfoDicDataVO();
-    private dialogVisible: boolean = true;
+    private infoDialogVisible: boolean = true;
     private dialogLoading: boolean = false;
     private createLoading: boolean = false;
     private formDisabled: boolean = false;
@@ -99,7 +99,7 @@ export default class MicroServiceInfoDialogController extends BaseController {
             this.formDisabled = true;
         }
         this.rivalInfoDicData = this.fromFatherMsg.rivalInfoDicData;
-        this.dialogVisible = true;
+        this.infoDialogVisible = true;
     }
 
     /** 取消 */
@@ -120,17 +120,17 @@ export default class MicroServiceInfoDialogController extends BaseController {
             if (valid) {
                 this.dialogLoading = true;
                 if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
-                    this.rivalInfoDialogService.insert(this.MicroServiceInfoRepVO).then((response: WinResponseData) => {
+                    this.microServiceInfoDialogService.insert(this.MicroServiceInfoRepVO).then((response: WinResponseData) => {
                         this.dialogMessage(response);
                     });
                 }
                 if (this.fromFatherMsg.type === OperationTypeEnum.UPDATE) {
-                    this.rivalInfoDialogService.update(this.MicroServiceInfoRepVO).then((response: WinResponseData) => {
+                    this.microServiceInfoDialogService.update(this.MicroServiceInfoRepVO).then((response: WinResponseData) => {
                         this.dialogMessage(response);
                     });
                 }
                 if (this.fromFatherMsg.type === OperationTypeEnum.DELETE) {
-                    this.rivalInfoDialogService.del(this.MicroServiceInfoRepVO.id).then((response: WinResponseData) => {
+                    this.microServiceInfoDialogService.del(this.MicroServiceInfoRepVO.id).then((response: WinResponseData) => {
                         this.dialogMessage(response);
                     });
                 }

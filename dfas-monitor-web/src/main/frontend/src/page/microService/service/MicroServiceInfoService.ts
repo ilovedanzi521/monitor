@@ -39,7 +39,7 @@ export default class MicroServiceInfoService {
      */
     public list(reqVO: MicroServiceInfoReqVO): Promise<WinResponseData> {
         return AxiosFun.post(
-            AxiosFun.basicParameterServiceName + "/rival/rivalInfo/list",
+            AxiosFun.monitorCenterServiceName + "/microService/searchMicroService",
             reqVO
         );
     }
@@ -50,8 +50,8 @@ export default class MicroServiceInfoService {
      */
     public delBatch(ids: string): Promise<WinResponseData> {
         return AxiosFun.winDelete(
-            AxiosFun.basicParameterServiceName +
-                "/rival/rivalInfo/delBatch/" +
+            AxiosFun.monitorCenterServiceName +
+                "/microService/batDeleteMicroService/" +
                 ids,
             {}
         );

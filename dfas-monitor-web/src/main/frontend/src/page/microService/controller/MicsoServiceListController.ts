@@ -23,6 +23,7 @@ import dateUtils from "../../common/util/DateUtils";
 import { WinRspType } from "../../common/enum/BaseEnum";
 import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import MicroServiceInfoDialog from "../view/MicroServiceInfoDialog.vue";
+import MicroServiceDetailDialog from "../view/MicroServiceDetailDialog.vue";
 import { BaseConst } from "../../common/const/BaseConst";
 import { mapState } from "vuex";
 /**
@@ -32,7 +33,7 @@ import { mapState } from "vuex";
  * 创建时间：2019-07-10 11:35:35
  */
 @Component({
-  components: { MicroServiceInfoDialog },
+  components: { MicroServiceInfoDialog,MicroServiceDetailDialog },
   computed: {
     ...mapState({
       showMore: (state: any) => state.rival.showMore
@@ -43,7 +44,7 @@ import { mapState } from "vuex";
       handler(newValue, oldValue) {
         // 当关联信息点击修改
         if (newValue.flag) {
-          this.tableHeight = newValue.offsetTop - this.$refs.rivalInfoTable.$el.offsetTop - 70;
+          this.tableHeight = newValue.offsetTop - this.$refs.microServiceInfoTable.$el.offsetTop - 70;
         }
       }
     }
@@ -61,7 +62,9 @@ export default class MicsoServiceListController extends BaseController {
   /** 数据字典 */
   private rivalInfoDicData: MicroServiceInfoDicDataVO = new MicroServiceInfoDicDataVO();
   /** dialog显示控制 */
-  private dialogVisible: boolean = false;
+  private infoDialogVisible: boolean = false;
+  /** dialog显示控制 */
+  private detailDialogVisible: boolean = false;
   // 表格默认高度
   private tableHeight: number = 400;
   /** 子组件显示的信息 */
@@ -79,7 +82,8 @@ export default class MicsoServiceListController extends BaseController {
     if (msg === WinRspType.SUCC) {
       this.query();
     }
-    this.dialogVisible = false;
+    this.infoDialogVisible = false;
+    this.detailDialogVisible = false;
   }
 
   /**
@@ -90,9 +94,7 @@ export default class MicsoServiceListController extends BaseController {
    * @Date:   2019-07-10 11:35:35
    */
   private mounted() {
-    console.log(this.$refs.rivalInfoTable2);
     this.$nextTick(() => {
-      console.log("query");
       this.query();
     });
   }
@@ -110,11 +112,11 @@ export default class MicsoServiceListController extends BaseController {
       }
       this.pageVO = res.data;
       this.$nextTick(() => {
-        if (this.$refs.rivalInfoTable !== undefined && this.$refs.rivalInfoTable.data.length > 0) {
+        if (this.$refs.microServiceInfoTable !== undefined && this.$refs.microServiceInfoTable.data.length > 0) {
           // 第一行选中
-          this.$refs.rivalInfoTable.setCurrentRow(this.$refs.rivalInfoTable.data[0]);
+          this.$refs.microServiceInfoTable.setCurrentRow(this.$refs.microServiceInfoTable.data[0]);
           // 同步
-          this.syncRivalState(this.$refs.rivalInfoTable.data[0]);
+          this.syncRivalState(this.$refs.microServiceInfoTable.data[0]);
         } else {
           this.syncRivalState(null);
         }
@@ -200,17 +202,17 @@ export default class MicsoServiceListController extends BaseController {
   }
 
   /** 对手方名称查询 */
-  private rivalNameSelect(queryString: string, cb: any) {
-    const rivalInfoReqVO = new MicroServiceInfoReqVO();
-    rivalInfoReqVO.rivalName = queryString;
+  private microServiceNameSelect(queryString: string, cb: any) {
+    const microServiceInfoReqVO = new MicroServiceInfoReqVO();
+    microServiceInfoReqVO.microServiceName = queryString;
     // 查询前10条数据展示
-    rivalInfoReqVO.reqPageSize = 10;
-    this.microServiceInfoService.list(rivalInfoReqVO).then((response: WinResponseData) => {
+    microServiceInfoReqVO.reqPageSize = 10;
+    this.microServiceInfoService.list(microServiceInfoReqVO).then((response: WinResponseData) => {
       if (response.winRspType === WinRspType.ERROR) {
         this.win_message_error(response.data);
       } else {
         const list = response.data;
-        this.filter(list, cb, queryString, "rivalName");
+        this.filter(list, cb, queryString, "microServiceName");
       }
     });
   }
@@ -220,13 +222,13 @@ export default class MicsoServiceListController extends BaseController {
     if (list.length > 0) {
       list.forEach((element: MicroServiceInfoRepVO) => {
         const ob: any = { key: "", value: "" };
-        if (name === "rivalNo") {
+        if (name === "microServiceNo") {
           ob.key = element.rivalNo;
           ob.value = element.rivalNo.toString();
         }
-        if (name === "rivalName") {
-          ob.key = element.rivalName;
-          ob.value = element.rivalName;
+        if (name === "microServiceName") {
+          ob.key = element.microServiceName;
+          ob.value = element.microServiceName;
         }
         array.push(ob);
       });
@@ -291,7 +293,7 @@ export default class MicsoServiceListController extends BaseController {
 
   /** 双击查看 */
   private dblclick({ row }, event: Event) {
-    this.dialogVisible = true;
+    this.detailDialogVisible = true;
     this.cardNumber = {
       type: OperationTypeEnum.VIEW,
       data: this.copy(row),
@@ -305,8 +307,9 @@ export default class MicsoServiceListController extends BaseController {
    * @param type
    */
   private operation(row: MicroServiceInfoRepVO, type: string) {
-    this.dialogVisible = true;
+
     if (type === OperationTypeEnum.ADD) {
+      this.infoDialogVisible = true;
       row = new MicroServiceInfoRepVO();
       this.cardNumber = {
         type: OperationTypeEnum.ADD,
@@ -314,16 +317,25 @@ export default class MicsoServiceListController extends BaseController {
         rivalInfoDicData: this.rivalInfoDicData
       };
     }
-    if (type === OperationTypeEnum.DELETE) {
+    else if (type === OperationTypeEnum.DELETE) {
+      this.infoDialogVisible = true;
       this.cardNumber = {
         type: OperationTypeEnum.DELETE,
         data: this.copy(row),
         rivalInfoDicData: this.rivalInfoDicData
       };
-    }
-    if (type === OperationTypeEnum.UPDATE) {
+    }else if (type === OperationTypeEnum.UPDATE) {
+      this.infoDialogVisible = true;
       this.cardNumber = {
         type: OperationTypeEnum.UPDATE,
+        data: this.copy(row),
+        rivalInfoDicData: this.rivalInfoDicData
+      };
+    }
+    else if (type === OperationTypeEnum.VIEW) {
+      this.detailDialogVisible = true;
+      this.cardNumber = {
+        type: OperationTypeEnum.VIEW,
         data: this.copy(row),
         rivalInfoDicData: this.rivalInfoDicData
       };
@@ -345,15 +357,15 @@ export default class MicsoServiceListController extends BaseController {
   private syncRivalState(row: any) {
     if (row !== null) {
       // 同步一行
-      this.$store.commit("setRivalInfo", {
-        rivalNo: row.rivalNo,
-        rivalName: row.rivalName
+      this.$store.commit("setMicroServiceInfo", {
+        microServiceNo: row.microServiceNo,
+        microServiceName: row.microServiceName
       });
     } else {
       // 同步默认
-      this.$store.commit("setRivalInfo", {
-        rivalNo: -1,
-        rivalName: ""
+      this.$store.commit("setMicroServiceInfo", {
+        microServiceNo: -1,
+        microServiceName: ""
       });
     }
   }

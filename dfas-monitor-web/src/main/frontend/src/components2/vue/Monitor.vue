@@ -12,9 +12,9 @@
                         <img src="../style.css/img/bs.svg" v-else />
                     </div>
                     <div class="tool-container" v-if="isTool">
-                        <p v-if="aitem.ipAddress||aitem.name">
+                        <p v-if="aitem.ipAddress||aitem.microServiceName">
                             <label>{{aitem.ipAddress?"ip地址:":"微服务名称:"}}</label>
-                            <span>{{aitem.ipAddress||aitem.name}}</span>
+                            <span>{{aitem.ipAddress||aitem.microServiceName}}</span>
                         </p>
                         <p v-if="aitem.cpuNum||aitem.warn">
                             <label>{{aitem.cpuNum?"cpu个数：:":"日志告警数:"}}</label>
@@ -193,7 +193,6 @@ export default {
                     let diff =
                         maxElememt -
                         (maxItemNum - arrayItem[arrayItem.length - 1]);
-                    console.log(diff);
                     formatArray[formatArray.length - 1].splice(diff);
                 }
 

@@ -1,6 +1,7 @@
 package com.win.dfas.monitor.web.controller;
 
 import com.win.dfas.common.vo.WinResponseData;
+import com.win.dfas.monitor.common.constant.ReturnMsgEnum;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
 import com.win.dfas.monitor.engine.service.MonitorService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
@@ -29,10 +30,43 @@ public class MicroServiceController extends BaseController {
      */
     @MonitorMetrics
     @ApiOperation(value = "新增微服务", notes = "新增微服务")
-    @GetMapping("/insertMicroService")
+    @PostMapping("/insertMicroService")
     public WinResponseData insertMicroService(@RequestBody MicroServiceReqVO reqVO) {
         monitorService.insertMicroService(reqVO);
-        return WinResponseData.handleSuccess("success");
+        return WinResponseData.handleSuccess(ReturnMsgEnum.Add.getMsg());
+    }
+
+    /**
+     * 更新微服务
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "更新微服务", notes = "更新微服务")
+    @PutMapping("/updateMicroService")
+    public WinResponseData  updateMicroService(@RequestBody MicroServiceReqVO reqVO) {
+        monitorService.updateMicroService(reqVO);
+        return WinResponseData.handleSuccess(ReturnMsgEnum.Edit.getMsg());
+    }
+
+    /**
+     * 删除微服务
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "删除微服务", notes = "删除微服务")
+    @DeleteMapping("/deleteMicroService/{id}")
+    public WinResponseData  deleteMicroService(@PathVariable("id") String id) {
+        monitorService.deleteMicroService(id);
+        return WinResponseData.handleSuccess(ReturnMsgEnum.Remove.getMsg());
+    }
+
+    /**
+     * 批量删除微服务
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "批量删除微服务", notes = "批量删除微服务")
+    @DeleteMapping("/batDeleteMicroService/{ids}")
+    public WinResponseData  batDeleteMicroService(@PathVariable("ids") String ids) {
+        monitorService.deleteMicroServiceByIds(ids);
+        return WinResponseData.handleSuccess(ReturnMsgEnum.Remove.getMsg());
     }
 
     /**
@@ -45,5 +79,18 @@ public class MicroServiceController extends BaseController {
     public WinResponseData getMicroServiceList(@RequestBody MicroServiceReqVO reqVO) {
         return WinResponseData.handleSuccess(monitorService.getMicroServiceList(reqVO));
     }
+
+    /**
+     * 微服务搜索查询
+     * @return
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "微服务搜索查询", notes = "微服务搜索查询")
+    @PostMapping("/searchMicroService")
+    public WinResponseData searchMicroService(@RequestBody MicroServiceReqVO reqVO) {
+        return WinResponseData.handleSuccess(monitorService.searchMicroService(reqVO));
+    }
+
+
 
 }

@@ -1,10 +1,11 @@
-import Layout from "@/layout/Layout.vue";
+import {Layout} from "win-biz";
 import Login from "@/page/login/view/index.vue";
 import Home from "@/page/home/view/index.vue";
 import Directional from "@/page/fram/view/Directional.vue";
 import MicroServiceList from "@/page/microService/view/MicroServiceList.vue";
 import MicroServicePanel from "@/page/microService/view/MicroServicePanel.vue";
-import MicroServiceDetail from "@/page/microService/view/MicroServiceDetail.vue";
+import MicroServiceDetailDialog from "@/page/microService/view/MicroServiceDetailDialog.vue";
+import JvmMemoryChart from "@/page/microService/view/detail/JvmMemoryChart.vue";
 import MachineList from "@/page/machine/view/MachineList.vue";
 import MachinePanel from "@/page/machine/view/MachinePanel.vue";
 import WarnList from "@/page/warn/view/WarnList.vue";
@@ -47,9 +48,14 @@ const routerChildren = [
       component: MicroServicePanel
     },
     {
-      path: "/microServiceDetail",
-      name: "microServiceDetail",
-      component: MicroServiceDetail
+      path: "/microServiceDetailDialog",
+      name: "microServiceDetailDialog",
+      component: MicroServiceDetailDialog
+    },
+    {
+      path: "/jvmMemoryChart",
+      name: "jvmMemoryChart",
+      component: JvmMemoryChart
     },
     {
       path: "/machineList",

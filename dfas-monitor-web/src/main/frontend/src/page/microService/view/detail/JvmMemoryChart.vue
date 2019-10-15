@@ -1,5 +1,5 @@
 <template>
-  <div id="chartLineBox">
+  <div id="chartLineBox" style="width:100%; height:100%" >
   </div>
 </template>
 
@@ -11,16 +11,13 @@
   @Component({})
   export default class JvmMemoryChart extends Vue {
 
-
     name: 'chartLineBox';
 
-    chartLine;
+    chartLine: any;
 
-    private mounted() {
-      this.chartLine = echarts.init(document.getElementById('chartLineBox'));
-
+    private getOption(){
       // 指定图表的配置项和数据
-      var option = {
+      let option = {
         tooltip: {              //设置tip提示
           trigger: 'axis'
         },
@@ -102,9 +99,14 @@
           }
         ]
       };
+      return option;
+    }
 
+    private mounted() {
+      let boxID=document.getElementById('chartLineBox');
+      this.chartLine = echarts.init(boxID);
       // 使用刚指定的配置项和数据显示图表。
-      this.chartLine.setOption(option);
+      this.chartLine.setOption(this.getOption());
       window.onresize = this.chartLine.resize;
     }
 

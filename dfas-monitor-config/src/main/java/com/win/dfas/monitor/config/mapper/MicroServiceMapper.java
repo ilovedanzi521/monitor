@@ -11,4 +11,12 @@ public interface MicroServiceMapper {
 
     void insertMicroService(MicroServiceEntity microServiceEntity);
 
+    void updateMicroService(MicroServiceEntity microServiceEntity);
+
+    void deleteMicroService(String id);
+
+    List<MicroServiceEntity> searchMicroService(MicroServiceReqVO reqVO);
+
+    void deleteMicroServiceByIds(String[] ids);
+
 }

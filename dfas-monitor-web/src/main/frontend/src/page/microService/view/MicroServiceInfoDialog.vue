@@ -1,11 +1,11 @@
 <template>
-  <win-fdialog :title="dialogTitle" :before-close="closeDialog" :visible.sync="dialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="780px">
-    <win-form id="#create" :model="MicroServiceInfoRepVO" :rules="rules" ref="MicroServiceInfo" v-testName="{'TEST_NAME':'rivalInfoDialog'}" label-width="110px" :disabled="formDisabled">
+  <win-fdialog :title="dialogTitle" :before-close="closeDialog" :visible.sync="infoDialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="780px">
+    <win-form id="#create" :model="MicroServiceInfoRepVO" :rules="rules" ref="MicroServiceInfo" v-testName="{'TEST_NAME':'microServiceInfoDialog'}" label-width="110px" :disabled="formDisabled">
       <div class="hr">
         <win-row>
           <win-col :span="spanWidth">
-            <win-form-item label="微服务名称" prop="rivalName">
-              <el-input v-model.number="MicroServiceInfoRepVO.rivalName" clearable></el-input>
+            <win-form-item label="微服务名称" prop="microServiceName">
+              <el-input v-model.number="MicroServiceInfoRepVO.microServiceName" clearable></el-input>
             </win-form-item>
           </win-col>
         </win-row>

@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class MicroServiceEntity {
 
-    private String id;
+    private Long id;
     private String microServiceName;
     private String state;
     private String warn;

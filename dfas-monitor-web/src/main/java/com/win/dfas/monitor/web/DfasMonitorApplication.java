@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
+import java.net.URL;
+
 /*@EnableAdminServer*/
 //@EnableDiscoveryClient
 @EnableMonitorConfig
@@ -16,6 +18,8 @@ import org.springframework.context.annotation.Import;
 public class DfasMonitorApplication {
 
     public static void main(String[] args) {
+       //System.setProperty("h2.baseDir",Thread.currentThread().getContextClassLoader().getResource("").getPath());
+        System.setProperty("h2.baseDir",System.getProperty("user.dir"));
         SpringApplication.run(DfasMonitorApplication.class, args);
     }
 

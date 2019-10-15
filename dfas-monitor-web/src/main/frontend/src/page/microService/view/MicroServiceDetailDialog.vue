@@ -1,29 +1,27 @@
 <template>
-  <div class="detailContainer">
-    <div class="topContainer">
-      <div class="leftContainer">
-        <div class="title1">JVM内存数据变化折线图</div>
-        <JvmMemoryChart></JvmMemoryChart>
+  <win-fdialog :title="dialogTitle" :before-close="closeDialog" :visible.sync="detailDialogVisible"
+               :close-on-click-modal="false" :close-on-press-escape="false" height="100%" width="100%">
+    <div class="detailContainer">
+      <div class="topContainer">
+        <div class="leftContainer">
+          <div class="title1">JVM内存数据变化折线图</div>
+          <JvmMemoryChart></JvmMemoryChart>
+        </div>
+        <div class="rightContainer">
+          <MicroServiceBaseInfo></MicroServiceBaseInfo>
+        </div>
       </div>
-      <div class="rightContainer">
-        <MicroServiceBaseInfo></MicroServiceBaseInfo>
+      <div class="bottomContainer">
+        <div class="title2">微服务机器列表</div>
+        <BottomMachineList></BottomMachineList>
       </div>
     </div>
-    <div class="bottomContainer">
-      <div class="title2">微服务机器列表</div>
-      <BottomMachineList></BottomMachineList>
-    </div>
-  </div>
+  </win-fdialog>
 </template>
 <script lang="ts">
-  import MicroServiceDetailController from '../controller/MicroServiceDetailController';
-  import JvmMemoryChart from './detail/JvmMemory.vue';
-  import MicroServiceBaseInfo from './detail/MicroServiceBaseInfo.vue';
-  import Component from "vue-class-component";
-  import BottomMachineList from './detail/BottomMachineList.vue';
+  import MicroServiceDetailDialogController from '../controller/MicroServiceDetailDialogController';
 
-  @Component({components: {JvmMemoryChart,MicroServiceBaseInfo,BottomMachineList}})
-  export default class MicroServiceDetail extends MicroServiceDetailController {
+  export default class MicroServiceDetailDialog extends MicroServiceDetailDialogController {
   };
 </script>
 
@@ -44,6 +42,7 @@
         height: 100%;
         background: rgba(12, 22, 63, 1);
         opacity: 1;
+
         .title1 {
           height: 21px;
           font-size: 16px;
@@ -71,6 +70,7 @@
       margin: 20px;
       background: rgba(12, 22, 63, 1);
       opacity: 1;
+
       .title2 {
         width: 100%;
         height: 19px;

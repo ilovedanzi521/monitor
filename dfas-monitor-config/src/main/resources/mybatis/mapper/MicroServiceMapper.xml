@@ -20,10 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectMicroServiceList" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
         <include refid="micro_service_base_query"/>
      	<trim prefix="WHERE" prefixOverrides="AND ">
-			<if test="id != null and id != '' ">
-				AND t.fid = #{id}
-			</if>
+            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName  like concat('', #{microServiceName},'%')</if>
 		</trim>
+    </select>
+
+    <!-- 查询报告管理信息 -->
+    <select id="searchMicroService" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
+        <include refid="micro_service_base_query"/>
+        <trim prefix="WHERE" prefixOverrides="AND ">
+            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName  like concat('', #{microServiceName},'%')</if>
+        </trim>
     </select>
 
     <insert id="insertMicroService"
@@ -44,5 +50,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="error != null  and error != ''  ">#{error},</if>
         </trim>
     </insert>
+
+    <update id="updateMicroService" parameterType="com.win.dfas.monitor.common.entity.MicroServiceEntity">
+        update t_micro_service
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName=#{microServiceName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMicroService" parameterType="String">
+        delete from t_micro_service where id = #{id}
+    </delete>
+
+    <delete id="deleteMicroServiceByIds" parameterType="String">
+        delete from t_micro_service where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

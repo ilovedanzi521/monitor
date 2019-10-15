@@ -30,7 +30,7 @@ export class MicroServiceInfoRepVO extends BaseRepVO {
     /**
      * 对手名称
      */
-    public rivalName: string;
+    public microServiceName: string;
 
     /**
      * 对手简称
@@ -83,7 +83,7 @@ export class MicroServiceInfoReqVO extends BaseReqVO {
     /**
      * 对手名称
      */
-    public rivalName: string;
+    public microServiceName: string;
 
     /**
      * 对手简称
