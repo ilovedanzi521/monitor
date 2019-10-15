@@ -252,6 +252,20 @@ export default class MicsoServiceListController extends BaseController {
     this.multipleSelection = val.selection;
   }
 
+  private synchronize(){
+    this.win_message_box_warning(
+      "此操作将同步微服务信息, 是否继续?",
+      BaseConst.WARNING,
+      false
+    )
+      .then((res: any) => {
+        this.microServiceInfoService.synchronize().then((response: WinResponseData) => {
+          this.message(response);
+        });
+      })
+      .catch(() => {});
+  }
+
   /**
    * 批量删除
    */
@@ -307,7 +321,7 @@ export default class MicsoServiceListController extends BaseController {
    * @param type
    */
   private operation(row: MicroServiceInfoRepVO, type: string) {
-
+     console.log(row)
     if (type === OperationTypeEnum.ADD) {
       this.infoDialogVisible = true;
       row = new MicroServiceInfoRepVO();
@@ -316,11 +330,17 @@ export default class MicsoServiceListController extends BaseController {
         data: this.copy(row),
         rivalInfoDicData: this.rivalInfoDicData
       };
-    }
-    else if (type === OperationTypeEnum.DELETE) {
+    } else if (type === OperationTypeEnum.DELETE) {
       this.infoDialogVisible = true;
       this.cardNumber = {
         type: OperationTypeEnum.DELETE,
+        data: this.copy(row),
+        rivalInfoDicData: this.rivalInfoDicData
+      };
+    } else if (type === OperationTypeEnum.SYN) {
+      this.infoDialogVisible = true;
+      this.cardNumber = {
+        type: OperationTypeEnum.SYN,
         data: this.copy(row),
         rivalInfoDicData: this.rivalInfoDicData
       };
@@ -331,8 +351,7 @@ export default class MicsoServiceListController extends BaseController {
         data: this.copy(row),
         rivalInfoDicData: this.rivalInfoDicData
       };
-    }
-    else if (type === OperationTypeEnum.VIEW) {
+    } else if (type === OperationTypeEnum.VIEW) {
       this.detailDialogVisible = true;
       this.cardNumber = {
         type: OperationTypeEnum.VIEW,

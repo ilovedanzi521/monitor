@@ -24,4 +24,6 @@ public interface MonitorService {
 
     void deleteMicroServiceByIds(String ids);
 
+    void synchronizeMicroService();
+
 }

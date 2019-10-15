@@ -84,6 +84,13 @@ public class MonitorServiceImpl implements MonitorService {
         microServiceMapper.deleteMicroServiceByIds(ids.split("_"));
     }
 
+    @Override
+    public void synchronizeMicroService() {
+        String url = registrationCenterUrl + "/eureka/apps";
+        String result = RestfulTools.get(url, String.class);
+        System.out.println(result);
+    }
+
 
     public Map<String, Object> getMicroServiceList3() {
         Random random = new Random(System.currentTimeMillis());

@@ -44,6 +44,14 @@ export default class MicroServiceInfoService {
         );
     }
 
+    public synchronize(): Promise<WinResponseData> {
+      return AxiosFun.put(
+        AxiosFun.monitorCenterServiceName +
+        "/microService/synchronizeMicroService",
+        {}
+      );
+    }
+
     /**
      * 批量删除交易对手
      * @param ids

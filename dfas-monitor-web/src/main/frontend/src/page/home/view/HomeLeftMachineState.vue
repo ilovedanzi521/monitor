@@ -2,11 +2,14 @@
   <div class="machineStateBlock">
     <div class="rect">
       <div class="machineStateTitle">
-        <div style="float: left">
+        <div class="titleArea">
           <img src="../image/groupMin.png">&nbsp;&nbsp;机器状态
         </div>
         <div class="tipArea">
           <img src="../image/tip.png">
+        </div>
+        <div class="moreArea">
+          &nbsp;&nbsp;<img src="../image/more.png">&nbsp;&nbsp;
         </div>
       </div>
       <div class="machineState-container">
@@ -34,9 +37,22 @@
 
   }
 
+  .titleArea{
+    //margin-left: auto;
+    display:inline;
+    float: left;
+  }
+
   .tipArea{
-    margin-right: 10%;
-    float: right;
+    //margin-left: auto;
+    display:inline;
+    float: left;
+  }
+
+  .tipArea{
+    //margin-left: 20%;
+    display:inline;
+    float: left;
   }
 
   .rect {

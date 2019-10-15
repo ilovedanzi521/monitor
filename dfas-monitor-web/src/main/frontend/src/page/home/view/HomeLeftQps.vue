@@ -3,7 +3,7 @@
     <div class="rect">
       <div class="qpsTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;Qps趋势图
       </div>
-      <div id="chartLineBox"></div>
+      <div id="qpsChartLineBox"></div>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@
 <style lang="scss" scoped>
   @import "../style/home.scss";
 
-  #chartLineBox {
+  #qpsChartLineBox {
     width: 100%;
     height: 98%;
     font-size: 18px;

@@ -11,9 +11,9 @@ export default class HomeLeftQpsController extends Vue {
 
   ws: WebSocket;
 
-  name: 'chartLineBox';
+  name: 'qpsChartLineBox';
 
-  chartLine;
+  qpsChartLine;
 
   private xAxisData: string[] = this.homeLeftQpsService.initHourList();
 
@@ -26,7 +26,7 @@ export default class HomeLeftQpsController extends Vue {
   }
 
   initChart(xAxisData, yAxisData) {
-    this.chartLine = echarts.init(document.getElementById('chartLineBox'));
+    this.qpsChartLine = echarts.init(document.getElementById('qpsChartLineBox'));
 
     // 指定图表的配置项和数据
     let option = {
@@ -95,8 +95,8 @@ export default class HomeLeftQpsController extends Vue {
     };
 
     // 使用刚指定的配置项和数据显示图表。
-    this.chartLine.setOption(option);
-    window.onresize = this.chartLine.resize;
+    this.qpsChartLine.setOption(option);
+    window.onresize = this.qpsChartLine.resize;
   }
 
   establishConnection(requestUrl) {

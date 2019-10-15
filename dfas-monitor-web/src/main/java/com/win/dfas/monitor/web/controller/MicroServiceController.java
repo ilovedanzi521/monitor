@@ -37,6 +37,17 @@ public class MicroServiceController extends BaseController {
     }
 
     /**
+     * 同步微服务
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "同步微服务", notes = "同步微服务")
+    @PutMapping("/synchronizeMicroService")
+    public WinResponseData synchronizeMicroService() {
+        monitorService.synchronizeMicroService();
+        return WinResponseData.handleSuccess(ReturnMsgEnum.Syn.getMsg());
+    }
+
+    /**
      * 更新微服务
      */
     @MonitorMetrics

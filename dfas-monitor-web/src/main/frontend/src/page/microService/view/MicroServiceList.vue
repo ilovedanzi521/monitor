@@ -21,7 +21,7 @@
           <win-col :span="3">
             <div style="margin-top: 5px;">
               <el-button-group>
-                <win-button type="info" icon="win win-rizhichaxun" @click="operation('','SYN')" round>一键同步</win-button>
+                <win-button type="info" icon="win win-rizhichaxun" @click="synchronize" round>一键同步</win-button>
               </el-button-group>
             </div>
           </win-col>

@@ -10,8 +10,10 @@
         </div>
       </div>
       <div class="microServiceState-container">
-        <Monitor  :dataList="microServiceStateList" :animations="['1','2']" :col="18" :row="6" type="service"></Monitor>
+        <Monitor  :dataList="microServiceStateList" :animations="['1','2']" :col="18" :row="6" type="service" @clickItem="operation"></Monitor>
       </div>
+      <MicroServiceDetailDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="detailDialogVisible">
+      </MicroServiceDetailDialog>
     </div>
   </div>
 </template>
