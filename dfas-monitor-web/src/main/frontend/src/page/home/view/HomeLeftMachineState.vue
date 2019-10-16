@@ -2,14 +2,16 @@
   <div class="machineStateBlock">
     <div class="rect">
       <div class="machineStateTitle">
-        <div class="titleArea">
-          <img src="../image/groupMin.png">&nbsp;&nbsp;机器状态
-        </div>
-        <div class="tipArea">
-          <img src="../image/tip.png">
-        </div>
-        <div class="moreArea">
-          &nbsp;&nbsp;<img src="../image/more.png">&nbsp;&nbsp;
+        <div class="table-tr-title">
+          <div class="titleArea">
+            <img src="../image/groupMin.png">&nbsp;&nbsp;机器状态
+          </div>
+          <div class="tipArea">
+            <img src="../image/tip.png">
+          </div>
+          <div class="moreArea">
+            <a href="/#/machinePanel" target="_blank"><img src="../image/more.png"></a>
+          </div>
         </div>
       </div>
       <div class="machineState-container">
@@ -31,28 +33,38 @@
 
   .machineState-container {
     //margin: 10px;
+    padding-top: 10px;
     width: 100%;
     height: 90.5%;
     /*overflow: hidden;*/
+  }
 
+  .table-tr-title {
+    display: table-row;
+    vertical-align: middle;
+  }
+
+
+  .td {
+    display: table-cell;
+    vertical-align: middle;
   }
 
   .titleArea{
-    //margin-left: auto;
-    display:inline;
-    float: left;
+    @extend .td;
+    text-align:left;
   }
 
   .tipArea{
-    //margin-left: auto;
-    display:inline;
-    float: left;
+    @extend .td;
+    text-align:center;
   }
 
-  .tipArea{
-    //margin-left: 20%;
-    display:inline;
-    float: left;
+  .moreArea{
+    @extend .td;
+    text-align:right;
+    padding-right: 30px;
+    color:rgba(139,162,191,1);
   }
 
   .rect {

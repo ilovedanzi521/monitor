@@ -1,7 +1,16 @@
 <template>
   <div class="machineListBlock">
     <div class="rect">
-      <div class="machineListTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;机器列表</div>
+      <div class="machineListTitle">
+        <div class="table-tr-title2">
+          <div class="titleArea">
+            <img src="../image/groupMin.png">&nbsp;&nbsp;资源
+          </div>
+          <div class="moreArea">
+            <a href="/#/machineList" target="_blank"><img src="../image/more.png"></a>
+          </div>
+        </div>
+      </div>
       <div class="table">
         <div class="table-tr-title">
           <div class="table-th">节点</div>
@@ -38,6 +47,25 @@
 
 <style lang="scss" scoped>
   @import "../style/home.scss";
+
+  .table-tr-title2 {
+    display: table-row;
+    vertical-align: middle;
+  }
+
+  .titleArea{
+    display: table-cell;
+    vertical-align: middle;
+    text-align:left;
+  }
+
+  .moreArea{
+    display: table-cell;
+    vertical-align: middle;
+    text-align:right;
+    padding-right: 30px;
+    color:rgba(139,162,191,1);
+  }
 
   .tr {
     display: table-row;

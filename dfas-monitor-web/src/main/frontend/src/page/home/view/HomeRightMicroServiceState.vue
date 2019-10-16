@@ -2,11 +2,16 @@
   <div class="microServiceStateBlock">
     <div class="rect">
       <div class="microServiceStateTitle">
-        <div style="float: left">
-          <img src="../image/groupMin.png">&nbsp;&nbsp;微服务状态
-        </div>
-        <div class="tipArea">
-          <img src="../image/tip.png">
+        <div class="table-tr-title">
+          <div class="titleArea">
+            <img src="../image/groupMin.png">&nbsp;&nbsp;微服务状态
+          </div>
+          <div class="tipArea">
+            <img src="../image/tip.png">
+          </div>
+          <div class="moreArea">
+            <a href="/#/microServicePanel" target="_blank"><img src="../image/more.png"></a>
+          </div>
         </div>
       </div>
       <div class="microServiceState-container">
@@ -34,9 +39,32 @@
     height: 90.5%;
   }
 
-  .tipArea {
-    margin-right: 10%;
-    float: right;
+  .table-tr-title {
+    display: table-row;
+    vertical-align: middle;
+  }
+
+
+  .td {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .titleArea{
+    @extend .td;
+    text-align:left;
+  }
+
+  .tipArea{
+    @extend .td;
+    text-align:right;
+  }
+
+  .moreArea{
+    @extend .td;
+    text-align:right;
+    padding-right: 30px;
+    color:rgba(139,162,191,1);
   }
 
 

@@ -45,7 +45,7 @@ public abstract class AbstractMessageBuilder {
         String suffix = ":00";
 
         for (int i = 0; i <= hour + 1; i++) {
-            if (hour < 10) {
+            if (i < 10) {
                 xAxisData.add("0" + i + suffix);
             } else {
                 xAxisData.add(i + suffix);

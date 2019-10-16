@@ -1,7 +1,16 @@
 <template>
   <div class="exceptionBlock">
     <div class="rect">
-      <div class="exceptionTitle"><img src="../image/groupMin.png">&nbsp;&nbsp;异常</div>
+      <div class="exceptionTitle">
+        <div class="table-tr-title">
+          <div class="titleArea">
+            <img src="../image/groupMin.png">&nbsp;&nbsp;异常
+          </div>
+          <div class="moreArea">
+            <a href="/#/warnList" target="_blank"><img src="../image/more.png"></a>
+          </div>
+        </div>
+      </div>
       <div class="exceptionContainer">
         <div class="machineException">
           <ul class="contentTitle">
@@ -44,6 +53,34 @@
 
 <style lang="scss" scoped>
   @import "../style/home.scss";
+
+  .table-tr-title {
+    display: table-row;
+    vertical-align: middle;
+  }
+
+
+  .td {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .titleArea{
+    @extend .td;
+    text-align:left;
+  }
+
+  .tipArea{
+    @extend .td;
+    text-align:center;
+  }
+
+  .moreArea{
+    @extend .td;
+    text-align:right;
+    padding-right: 30px;
+    color:rgba(139,162,191,1);
+  }
 
   .exceptionContainer {
     height: 100%;
