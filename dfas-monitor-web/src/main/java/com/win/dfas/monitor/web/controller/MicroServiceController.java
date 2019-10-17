@@ -1,9 +1,11 @@
 package com.win.dfas.monitor.web.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.win.dfas.common.vo.WinResponseData;
 import com.win.dfas.monitor.common.constant.ReturnMsgEnum;
+import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
-import com.win.dfas.monitor.engine.service.MonitorService;
+import com.win.dfas.monitor.engine.service.MicroService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class MicroServiceController extends BaseController {
 
     @Autowired
-    private MonitorService monitorService;
+    private MicroService microService;
 
     /**
      * 新增微服务
@@ -32,7 +34,7 @@ public class MicroServiceController extends BaseController {
     @ApiOperation(value = "新增微服务", notes = "新增微服务")
     @PostMapping("/insertMicroService")
     public WinResponseData insertMicroService(@RequestBody MicroServiceReqVO reqVO) {
-        monitorService.insertMicroService(reqVO);
+        microService.insertMicroService(reqVO);
         return WinResponseData.handleSuccess(ReturnMsgEnum.Add.getMsg());
     }
 
@@ -43,9 +45,21 @@ public class MicroServiceController extends BaseController {
     @ApiOperation(value = "同步微服务", notes = "同步微服务")
     @PutMapping("/synchronizeMicroService")
     public WinResponseData synchronizeMicroService() {
-        monitorService.synchronizeMicroService();
+        microService.synchronizeMicroService();
         return WinResponseData.handleSuccess(ReturnMsgEnum.Syn.getMsg());
     }
+
+
+    /**
+     * 查询单个微服务
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "查询单个微服务", notes = "查询单个微服务")
+    @PostMapping("/microServiceInfo")
+    public WinResponseData microServiceInfo(@RequestBody MicroServiceReqVO reqVO) {
+        return WinResponseData.handleSuccess(microService.microServiceInfo(reqVO));
+    }
+
 
     /**
      * 更新微服务
@@ -53,8 +67,8 @@ public class MicroServiceController extends BaseController {
     @MonitorMetrics
     @ApiOperation(value = "更新微服务", notes = "更新微服务")
     @PutMapping("/updateMicroService")
-    public WinResponseData  updateMicroService(@RequestBody MicroServiceReqVO reqVO) {
-        monitorService.updateMicroService(reqVO);
+    public WinResponseData updateMicroService(@RequestBody MicroServiceReqVO reqVO) {
+        microService.updateMicroService(reqVO);
         return WinResponseData.handleSuccess(ReturnMsgEnum.Edit.getMsg());
     }
 
@@ -64,8 +78,8 @@ public class MicroServiceController extends BaseController {
     @MonitorMetrics
     @ApiOperation(value = "删除微服务", notes = "删除微服务")
     @DeleteMapping("/deleteMicroService/{id}")
-    public WinResponseData  deleteMicroService(@PathVariable("id") String id) {
-        monitorService.deleteMicroService(id);
+    public WinResponseData deleteMicroService(@PathVariable("id") String id) {
+        microService.deleteMicroService(id);
         return WinResponseData.handleSuccess(ReturnMsgEnum.Remove.getMsg());
     }
 
@@ -75,8 +89,8 @@ public class MicroServiceController extends BaseController {
     @MonitorMetrics
     @ApiOperation(value = "批量删除微服务", notes = "批量删除微服务")
     @DeleteMapping("/batDeleteMicroService/{ids}")
-    public WinResponseData  batDeleteMicroService(@PathVariable("ids") String ids) {
-        monitorService.deleteMicroServiceByIds(ids);
+    public WinResponseData batDeleteMicroService(@PathVariable("ids") String ids) {
+        microService.deleteMicroServiceByIds(ids);
         return WinResponseData.handleSuccess(ReturnMsgEnum.Remove.getMsg());
     }
 
@@ -88,7 +102,8 @@ public class MicroServiceController extends BaseController {
     @ApiOperation(value = "查询平台微服务列表", notes = "查询平台微服务列表")
     @PostMapping("/getMicroServiceList")
     public WinResponseData getMicroServiceList(@RequestBody MicroServiceReqVO reqVO) {
-        return WinResponseData.handleSuccess(monitorService.getMicroServiceList(reqVO));
+        PageInfo<MicroServiceRepVO> pageInfo = microService.getMicroServiceList(reqVO);
+        return WinResponseData.handleSuccess(pageInfo);
     }
 
     /**
@@ -99,9 +114,18 @@ public class MicroServiceController extends BaseController {
     @ApiOperation(value = "微服务搜索查询", notes = "微服务搜索查询")
     @PostMapping("/searchMicroService")
     public WinResponseData searchMicroService(@RequestBody MicroServiceReqVO reqVO) {
-        return WinResponseData.handleSuccess(monitorService.searchMicroService(reqVO));
+        return WinResponseData.handleSuccess(microService.searchMicroService(reqVO));
     }
 
-
+    /**
+     * 微服务机器数据查询
+     * @return
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "微服务机器数据", notes = "微服务机器数据")
+    @PostMapping("/microServiceMachineList")
+    public WinResponseData microServiceMachineList(@RequestBody MicroServiceReqVO reqVO) {
+        return WinResponseData.handleSuccess(microService.microServiceMachineList(reqVO));
+    }
 
 }

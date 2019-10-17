@@ -20,7 +20,7 @@ import { MicroServiceInfoReqVO } from "../vo/MicroServiceInfoVO";
  * 创建人：@author wangyaoheng
  * 创建时间：2019-07-10 11:35:35
  */
-export default class MicroServiceInfoService {
+export default class JvmMemoryChartService {
     /**
      * 交易对手表 分页列表查询
      * @param reqVO

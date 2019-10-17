@@ -1,8 +1,8 @@
 /****************************************************
- * 创建人：  @author zoujian
+ * 创建人：  @author wangyaoheng
  * 创建时间: 2019-07-10 11:35:35
  * 文件名称: MicroServiceInfoVO.ts
- * 文件描述: @Description: 交易对手表 返回VO
+ * 文件描述: @Description: 微服务 返回VO
  *
  * All rights Reserved, Designed By 投资交易团队
  * @Copyright:2016-2019
@@ -13,14 +13,14 @@ import { BaseRepVO, BaseReqVO } from "../../common/vo/BaseVO";
 /**
  * 类名称：MicroServiceInfoRepVO
  * 类描述：交易对手表 返回VO
- * 创建人：@author zoujian
+ * 创建人：@author wangyaoheng
  * 创建时间：2019-07-10 11:35:35
  */
 export class MicroServiceInfoRepVO extends BaseRepVO {
     /**
      * 对手序号
      */
-    public rivalNo: number;
+    public microServiceAlias: String;
 
     /**
      * 对手编号
@@ -66,14 +66,14 @@ export class MicroServiceInfoRepVO extends BaseRepVO {
 /**
  * MicroServiceInfoReqVO
  * 类描述：交易对手表 请求VO
- * 创建人：@author zoujian
+ * 创建人：@author wangyaoheng
  * 创建时间：2019-07-10 11:35:35
  */
 export class MicroServiceInfoReqVO extends BaseReqVO {
     /**
      * 对手序号
      */
-    public rivalNo: number;
+    public microServiceAlias: string;
 
     /**
      * 对手编号

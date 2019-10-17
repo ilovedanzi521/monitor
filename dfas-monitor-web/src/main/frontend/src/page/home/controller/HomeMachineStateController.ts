@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import Monitor from "../../../components2/vue/Monitor.vue";
-import MachineStateVO from "../vo/MachineStateVO";
+import {MachineStateVO} from "../vo/MachineStateVO";
 import HomeMachineStateService from "../service/HomeMachineStateService";
 import AxiosFun from "../../../api/AxiosFun";
 
@@ -15,7 +15,7 @@ export default class HomeMachineStateController extends Vue {
   private machineStateList: Array<MachineStateVO> = this.homeMachineStateService.initMachineStateList();
 
   mounted() {
-    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl+"/home/machineState";
+    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/machineState";
     this.establishConnection(requestUrl);
   }
 

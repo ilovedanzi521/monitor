@@ -4,8 +4,8 @@
       <div class="hr">
         <win-row>
           <win-col :span="spanWidth">
-            <win-form-item label="微服务名称" prop="microServiceName">
-              <el-input v-model.number="MicroServiceInfoRepVO.microServiceName" clearable></el-input>
+            <win-form-item label="微服务名称" prop="microServiceAlias">
+              <el-input v-model.number="MicroServiceInfoRepVO.microServiceAlias" clearable></el-input>
             </win-form-item>
           </win-col>
         </win-row>

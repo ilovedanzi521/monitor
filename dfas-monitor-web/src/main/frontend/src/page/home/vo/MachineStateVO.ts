@@ -1,8 +1,8 @@
-interface MachineStateVO {
+export class MachineStateVO {
   "id": string;
   "state": string;
   "ipAddress": string;
-  "cpuNum": number,
+  "cpuNum": number;
   "memorySize": string;
   "diskSize": string;
   "cpuPer": string;

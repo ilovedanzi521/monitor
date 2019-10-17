@@ -3,42 +3,46 @@
     <div class="outDivStyle">
       <div class="innerDivStyle">
         <div class="title">微服务名称</div>
-        <div class="name">订单服务</div>
+        <div class="name">{{microServiceInfoRepVO.microServiceName}}</div>
       </div>
     </div>
     <div class="outDivStyle">
       <div class="innerDivStyle">
-        <div class="title">微服务描述</div>
-        <div class="name">这是一个在线订单服务</div>
+        <div class="title">微服务别名</div>
+        <div class="name">{{microServiceInfoRepVO.microServiceAlias}}</div>
       </div>
     </div>
     <div class="outDivStyle">
       <div class="innerDivStyle">
         <div class="title">状态</div>
-        <div class="status">在线</div>
+        <div v-if="microServiceInfoRepVO.state == '0' " class="status">离线</div>
+        <div v-else-if="microServiceInfoRepVO.state == '1' " class="status">异常</div>
+        <div v-else-if="microServiceInfoRepVO.state == '2' " class="status">告警</div>
+        <div v-else-if="microServiceInfoRepVO.state == '3' " class="status">在线</div>
+        <div v-else-if="microServiceInfoRepVO.state == '-' " class="status">-</div>
       </div>
     </div>
     <div class="outDivStyle">
       <div class="innerDivStyle">
         <div class="title">告警数</div>
-        <div class="warn">300</div>
+        <div class="warn">{{microServiceInfoRepVO.warn}}</div>
       </div>
     </div>
     <div>
       <div class="innerDivStyle">
         <div class="title">错误数</div>
-        <div class="error">20</div>
+        <div class="error">{{microServiceInfoRepVO.error}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
+  import MicroServiceBaseInfoController from "../../controller/MicroServiceBaseInfoController";
   import {Component} from "vue-property-decorator";
 
   @Component({})
-  export default class MicroServiceBaseInfo extends Vue {
+  export default class MicroServiceBaseInfo extends MicroServiceBaseInfoController {
   }
 </script>
 

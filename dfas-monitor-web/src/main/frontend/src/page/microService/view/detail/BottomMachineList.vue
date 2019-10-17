@@ -8,55 +8,24 @@
         <div class="table-th">告警数</div>
         <div class="table-th">错误数</div>
       </div>
-      <div class="table-tr-data-one">
-        <div class="table-td">192.168.0.55</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.0%</div>
-        <div class="table-td">8.0%</div>
-        <div class="table-td">8.0%</div>
-        <div class="table-td">8.0%</div>
-      </div>
-      <div class="table-tr-data-two">
-        <div class="table-td">192.168.0.56</div>
-        <div class="table-td-offline">离线</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-      </div>
-      <div class="table-tr-data-one">
-        <div class="table-td">192.168.0.57</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.5%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-      </div>
-      <div class="table-tr-data-two">
-        <div class="table-td">192.168.0.58</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.5%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-      </div>
-      <div class="table-tr-data-one">
-        <div class="table-td">192.168.0.59</div>
-        <div class="table-td-online">在线</div>
-        <div class="table-td">8.5%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
-        <div class="table-td">8.3%</div>
+      <div v-for="(item, index) in microServiceMachineRepList"  :class="generateClassName(index)" >
+        <div class="table-td">{{item.ipAddr}}</div>
+        <div v-if="item.state == 'UP' " class="table-td-online">在线</div>
+        <div v-else-if="item.state == 'DOWN' " class="table-td-offline">离线</div>
+        <div class="table-td">{{item.balance}}</div>
+        <div class="table-td">{{item.jvm}}</div>
+        <div class="table-td">{{item.warn}}</div>
+        <div class="table-td">{{item.error}}</div>
       </div>
     </div>
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
+  import BottomMachineListController from "../../controller/BottomMachineListController";
   import {Component} from "vue-property-decorator";
 
   @Component({})
-  export default class BottomMachineList extends Vue {
+  export default class BottomMachineList extends BottomMachineListController {
   }
 </script>
 

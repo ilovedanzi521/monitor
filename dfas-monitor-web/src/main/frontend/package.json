@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@types/echarts": "^4.1.15",
     "@types/node": "^12.7.8",
     "@win-frond-frameworks/trade-biz": "^1.0.20",
     "awe-dnd": "^0.3.4",

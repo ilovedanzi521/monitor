@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import Monitor from "../../../components2/vue/Monitor.vue";
-import MicroServiceStateVO from "../vo/MicroServiceStateVO";
+import {MicroServiceStateVO} from "../vo/MicroServiceStateVO";
 import HomeMicroServiceStateService from "../service/HomeMicroServiceStateService";
 import AxiosFun from "../../../api/AxiosFun";
 import {MicroServiceInfoRepVO} from "../../microService/vo/MicroServiceInfoVO";
@@ -12,7 +12,7 @@ import MicroServiceDetailDialog from "../../microService/view/MicroServiceDetail
 import {Prop} from "vue-property-decorator";
 import {WinRspType} from "../../common/enum/BaseEnum";
 
-@Component({components: {Monitor,MicroServiceDetailDialog}})
+@Component({components: {Monitor, MicroServiceDetailDialog}})
 export default class HomeMicroServiceStateController extends BaseController {
 
   public $refs: {
@@ -72,7 +72,7 @@ export default class HomeMicroServiceStateController extends BaseController {
    * @param type
    */
   private operation({item}) {
-   console.log(item)
+    console.log(item)
     this.detailDialogVisible = true;
     this.cardNumber = {
       type: OperationTypeEnum.VIEW,

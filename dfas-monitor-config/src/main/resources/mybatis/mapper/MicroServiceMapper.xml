@@ -7,9 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="MicroServiceEntity" id="MicroServiceEntityResult">
         <result property="id"    column="id"    />
         <result property="microServiceName"    column="microServiceName"    />
-        <result property="state"    column="state"    />
-        <result property="warn"    column="warn"    />
-        <result property="error"    column="error"    />
+        <result property="microServiceAlias"    column="microServiceAlias"    />
+        <result property="app"    column="app"    />
+        <result property="instanceId"    column="instanceId"    />
+        <result property="hostName"    column="hostName"    />
+        <result property="ipAddr"    column="ipAddr"    />
     </resultMap>
 
 	<sql id="micro_service_base_query">
@@ -20,7 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectMicroServiceList" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
         <include refid="micro_service_base_query"/>
      	<trim prefix="WHERE" prefixOverrides="AND ">
-            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName  like concat('', #{microServiceName},'%')</if>
+            <if test="microServiceName != null  and microServiceName != ''  ">
+                microServiceName  like concat('', #{microServiceName},'%')
+                or
+                microServiceAlias  like concat('', #{microServiceName},'%')
+            </if>
+
 		</trim>
     </select>
 
@@ -32,22 +39,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
     </select>
 
+    <!-- 查询报告管理信息 -->
+    <select id="microServiceMachineList" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
+        <include refid="micro_service_base_query"/>
+        <trim prefix="WHERE" prefixOverrides="AND ">
+            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName =  #{microServiceName}</if>
+        </trim>
+    </select>
+
+    <insert id="insertMicroServiceList"
+            parameterType="java.util.List">
+        insert into t_micro_service (id, microServiceName,microServiceAlias,instanceId,hostName,app,ipAddr)
+        VALUES <foreach collection="list" item="item" index="index"
+                        separator=",">
+        ( #{item.id}, #{item.microServiceName}, #{item.microServiceAlias}, #{item.instanceId}, #{item.hostName}, #{item.app}, #{item.ipAddr})
+    </foreach>
+    </insert>
+
+
     <insert id="insertMicroService"
             parameterType="com.win.dfas.monitor.common.entity.MicroServiceEntity">
         insert into t_micro_service
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''  ">id,</if>
             <if test="microServiceName != null  and microServiceName != ''  ">microServiceName,</if>
-            <if test="state != null  and state != ''  ">state,</if>
-            <if test="warn != null  and warn != ''  ">warn,</if>
-            <if test="error != null  and error != ''  ">error,</if>
+            <if test="microServiceAlias != null  and microServiceName != ''  ">microServiceAlias,</if>
+            <if test="app != null  and app != ''  ">app,</if>
+            <if test="instanceId != null  and instanceId != ''  ">instanceId,</if>
+            <if test="hostName != null  and hostName != ''  ">hostName,</if>
+            <if test="ipAddr != null  and ipAddr != ''  ">ipAddr,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''  ">#{id},</if>
             <if test="microServiceName != null  and microServiceName != ''  ">#{microServiceName},</if>
-            <if test="state != null  and state != ''  ">#{state},</if>
-            <if test="warn != null  and warn != ''  ">#{warn},</if>
-            <if test="error != null  and error != ''  ">#{error},</if>
+            <if test="microServiceAlias != null  and microServiceAlias != ''  ">#{microServiceAlias},</if>
+            <if test="app != null  and app != ''  ">#{app},</if>
+            <if test="instanceId != null  and instanceId != ''  ">#{instanceId},</if>
+            <if test="hostName != null  and hostName != ''  ">#{hostName},</if>
+            <if test="ipAddr != null  and ipAddr != ''  ">#{ipAddr},</if>
         </trim>
     </insert>
 
@@ -55,9 +84,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update t_micro_service
         <trim prefix="SET" suffixOverrides=",">
             <if test="microServiceName != null  and microServiceName != ''  ">microServiceName=#{microServiceName},</if>
+            <if test="microServiceAlias != null  and microServiceAlias != ''  ">microServiceAlias=#{microServiceAlias},</if>
         </trim>
         where id = #{id}
     </update>
+
+    <delete id="clearMicroService">
+        delete from t_micro_service
+    </delete>
 
     <delete id="deleteMicroService" parameterType="String">
         delete from t_micro_service where id = #{id}

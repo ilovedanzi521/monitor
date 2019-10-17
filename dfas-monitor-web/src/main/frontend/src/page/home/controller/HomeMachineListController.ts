@@ -9,9 +9,9 @@ export default class HomeMachineListController extends Vue {
 
   private homeMachineListService: HomeMachineListService = new HomeMachineListService();
 
-  ws: WebSocket;
+  private ws: WebSocket;
 
-  private machine: MachineVO = {};
+  private machine: MachineVO = new MachineVO();
 
   private machineList: Array<MachineVO> = this.homeMachineListService.initMachineList();
 

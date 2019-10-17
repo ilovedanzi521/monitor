@@ -1,6 +1,6 @@
 
 
-interface Machine {
+export class MachineVO {
   ip: string; //ip
   state: string; //状态
   balance: string; //负载

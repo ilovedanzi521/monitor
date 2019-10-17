@@ -1,5 +1,5 @@
 /****************************************************
- * 创建人：     @author zoujian
+ * 创建人：     @author wangyaoheng
  * 创建时间: 2019年7月5日/下午5:52:56
  * 项目名称：  FRONTEND
  * 文件名称: MicroServiceDetailDialogController
@@ -17,7 +17,6 @@ import { WinRspType } from "../../common/enum/BaseEnum";
 import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import MicroServiceInfoDialogService from "../service/MicroServiceInfoDialogService";
 import { MicroServiceInfoRepVO } from "../vo/MicroServiceInfoVO";
-import MicroServiceInfoDicDataVO from "../vo/MicroServiceInfoDicDataVO";
 import { MicroServiceValidateConst } from "../const/MicroServiceValidateConst";
 import JvmMemoryChart from '../view/detail/JvmMemoryChart.vue';
 import MicroServiceBaseInfo from '../view/detail/MicroServiceBaseInfo.vue';
@@ -38,12 +37,10 @@ export default class MicroServiceDetailDialogController extends BaseController {
   private fromFatherMsg!: {
     type: OperationTypeEnum;
     data: MicroServiceInfoRepVO;
-    rivalInfoDicData: MicroServiceInfoDicDataVO;
   };
 
   private microServiceInfoDialogService: MicroServiceInfoDialogService = new MicroServiceInfoDialogService();
   private microServiceInfoRepVO: MicroServiceInfoRepVO = new MicroServiceInfoRepVO();
-  private rivalInfoDicData: MicroServiceInfoDicDataVO = new MicroServiceInfoDicDataVO();
   private detailDialogVisible: boolean = true;
   private dialogLoading: boolean = false;
   private createLoading: boolean = false;
@@ -77,7 +74,6 @@ export default class MicroServiceDetailDialogController extends BaseController {
   };
   /** 页面初始化 */
   private mounted() {
-    this.microServiceInfoRepVO = new MicroServiceInfoRepVO();
     this.microServiceInfoRepVO = this.fromFatherMsg.data;
     if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
       this.dialogTitle = MicroServiceInfoConst.CREATETITLE;
@@ -102,7 +98,6 @@ export default class MicroServiceDetailDialogController extends BaseController {
       this.operationShow = false;
       this.formDisabled = true;
     }
-    this.rivalInfoDicData = this.fromFatherMsg.rivalInfoDicData;
     this.detailDialogVisible = true;
   }
 

@@ -5,6 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.common.util.PrimaryKeyUtil;
 import com.win.dfas.monitor.common.constant.ResultTypeEnum;
+import com.win.dfas.monitor.common.dto.MicroServiceApplicationDTO;
+import com.win.dfas.monitor.common.dto.MicroServiceDTO;
+import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
@@ -21,9 +24,6 @@ import java.util.*;
 
 @Service
 public class MonitorServiceImpl implements MonitorService {
-
-    @Autowired
-    private MicroServiceMapper microServiceMapper;
 
     @Value("${prometheus.server.url}")
     private String prometheusServerUrl;
@@ -45,77 +45,6 @@ public class MonitorServiceImpl implements MonitorService {
         return convert(result);
     }
 
-    @Override
-    public PageInfo<MicroServiceRepVO> getMicroServiceList(MicroServiceReqVO reqVO) {
-        PageHelper.startPage(reqVO.getReqPageNum(), reqVO.getReqPageSize());
-        List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(reqVO);
-        PageInfo<MicroServiceEntity> info = new PageInfo<>(list);
-        return ObjectUtils.copyPageInfo(info, MicroServiceRepVO.class);
-    }
-
-    @Override
-    public List<MicroServiceRepVO> searchMicroService(MicroServiceReqVO microServiceReqVO) {
-        List<MicroServiceEntity> list = microServiceMapper.searchMicroService(microServiceReqVO);
-        return ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
-    }
-
-    @Override
-    public void insertMicroService(MicroServiceReqVO microServiceReqVO) {
-        MicroServiceEntity microServiceEntity = new MicroServiceEntity();
-        BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
-        microServiceEntity.setId(PrimaryKeyUtil.generateId());
-        microServiceMapper.insertMicroService(microServiceEntity);
-    }
-
-    @Override
-    public void updateMicroService(MicroServiceReqVO microServiceReqVO) {
-        MicroServiceEntity microServiceEntity = new MicroServiceEntity();
-        BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
-        microServiceMapper.updateMicroService(microServiceEntity);
-    }
-
-    @Override
-    public void deleteMicroService(String id) {
-        microServiceMapper.deleteMicroService(id);
-    }
-
-    @Override
-    public void deleteMicroServiceByIds(String ids) {
-        microServiceMapper.deleteMicroServiceByIds(ids.split("_"));
-    }
-
-    @Override
-    public void synchronizeMicroService() {
-        String url = registrationCenterUrl + "/eureka/apps";
-        String result = RestfulTools.get(url, String.class);
-        System.out.println(result);
-    }
-
-
-    public Map<String, Object> getMicroServiceList3() {
-        Random random = new Random(System.currentTimeMillis());
-        List<MicroServiceStateVO> microServiceStatusList = new ArrayList<>();
-        int count = 70 + random.nextInt(10);
-        for (int i = 0; i < count; i++) {
-            MicroServiceStateVO microServiceStatus = new MicroServiceStateVO();
-            microServiceStatus.setId(String.valueOf(i));
-            microServiceStatus.setMicroServiceName("订单服务" + i);
-            microServiceStatus.setWarn(random.nextInt(500));
-            microServiceStatus.setError(random.nextInt(5000));
-            microServiceStatus.setState(String.valueOf(random.nextInt(3) + 1));
-            microServiceStatusList.add(microServiceStatus);
-        }
-        Map<String, Object> retList = new HashMap<>();
-        retList.put("list", microServiceStatusList);
-        return retList;
-    }
-
-
-    public String getMicroServiceList2() {
-        String url = registrationCenterUrl + "/eureka/apps";
-        String result = RestfulTools.get(url, String.class);
-        return result;
-    }
 
     private String convert(String result) {
         MetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, MetricsReturnMsgVO.class);

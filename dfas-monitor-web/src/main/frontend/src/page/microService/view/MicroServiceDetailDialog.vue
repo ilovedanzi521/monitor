@@ -5,15 +5,15 @@
       <div class="topContainer">
         <div class="leftContainer">
           <div class="title1">JVM内存数据变化折线图</div>
-          <JvmMemoryChart></JvmMemoryChart>
+          <JvmMemoryChart :fromFatherMsg="fromFatherMsg"></JvmMemoryChart>
         </div>
         <div class="rightContainer">
-          <MicroServiceBaseInfo></MicroServiceBaseInfo>
+          <MicroServiceBaseInfo :fromFatherMsg="fromFatherMsg"></MicroServiceBaseInfo>
         </div>
       </div>
       <div class="bottomContainer">
         <div class="title2">微服务机器列表</div>
-        <BottomMachineList></BottomMachineList>
+        <BottomMachineList  :fromFatherMsg="fromFatherMsg"></BottomMachineList>
       </div>
   </win-fdialog>
   </div>
@@ -26,8 +26,6 @@
 </script>
 
 <style lang="scss" scoped>
-
-
   .detailContainer {
     //background: red !important;
     align-items: center !important;
@@ -98,7 +96,7 @@
 
   .bottomContainer {
     width: 98%;
-    height: 40%;
+    height: 38%;
     margin: 20px;
     background: rgba(12, 22, 63, 1);
     opacity: 1;
@@ -108,6 +106,7 @@
       height: 19px;
       font-size: 14px;
       font-family: Microsoft YaHei;
+      vertical-align: middle;
       font-weight: 400;
       line-height: 19px;
       color: rgba(255, 255, 255, 1);

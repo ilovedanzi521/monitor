@@ -22,7 +22,6 @@ public abstract class AbstractMessageBuilder {
         Random random = new Random(System.currentTimeMillis());
         PlatformOverviewVO platformOverview = new PlatformOverviewVO();
         platformOverview.setQps(String.valueOf(thousandBitNumberFormat.format(random.nextInt(100) + 1)));
-        ;
         platformOverview.setTotalHttpRequest(String.valueOf(thousandBitNumberFormat.format(random.nextInt(10000) + 1)));
         platformOverview.setTotalMicroService(String.valueOf(thousandBitNumberFormat.format(random.nextInt(1000) + 1)));
         platformOverview.setTotalNode(String.valueOf(thousandBitNumberFormat.format(random.nextInt(10) + 1)));

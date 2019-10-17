@@ -1,5 +1,5 @@
 /****************************************************
- * 创建人：     @author zoujian
+ * 创建人：     @author wangyaoheng
  * 创建时间: 2019年7月11日/下午5:52:56
  * 项目名称：  FRONTEND
  * 文件名称: ProdFundsAccountInfoDialogService

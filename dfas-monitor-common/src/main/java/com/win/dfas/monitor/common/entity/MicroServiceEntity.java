@@ -11,8 +11,10 @@ public class MicroServiceEntity {
 
     private Long id;
     private String microServiceName;
-    private String state;
-    private String warn;
-    private String error;
+    private String microServiceAlias;
+    private String instanceId;
+    private String hostName;
+    private String app;
+    private String ipAddr;
 
 }
