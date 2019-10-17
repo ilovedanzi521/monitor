@@ -1,23 +1,12 @@
-import AxiosFun from "../../../api/AxiosFun";
+import Vue from "vue";
+import Component from "vue-class-component";
+import HomeMachineListService from "../service/HomeMachineListService";
 import {MachineVO} from "../vo/MachineVO";
+import AxiosFun from "../../../api/AxiosFun";
+import {WinResponseData} from "../../common/vo/BaseVO";
 
+@Component({})
+export default class HomeMachineListController extends Vue {
 
-export default class HomeMachineListService {
-
-  private machineList: Array<MachineVO> = [];
-
-  public initMachineList() {
-    for (let i = 0; i < 5; i++) {
-      this.machineList.push({
-        ip: "",
-        state: "",
-        balance: "",
-        cpu: "",
-        memory: "",
-        disk: ""
-      })
-    }
-    return this.machineList;
-  }
 
 }

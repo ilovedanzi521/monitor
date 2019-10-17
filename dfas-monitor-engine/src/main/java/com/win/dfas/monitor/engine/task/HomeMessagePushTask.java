@@ -27,13 +27,13 @@ public class HomeMessagePushTask extends AbstractMessageBuilder implements Runna
                     webSocket.sendMessage(getPlatformOverviewData());
                 } else if (HomeModuleEnum.qps == webSocket.getModuleName()) {
                     webSocket.sendMessage(getQpsData());
-                } else if (HomeModuleEnum.machineState == webSocket.getModuleName()) {
+                } /*else if (HomeModuleEnum.machineState == webSocket.getModuleName()) {
                     webSocket.sendMessage(getMachineStatusData());
-                } else if (HomeModuleEnum.microServiceState == webSocket.getModuleName()) {
+                }*/ else if (HomeModuleEnum.microServiceState == webSocket.getModuleName()) {
                     webSocket.sendMessage(getMicroServiceStatusData());
-                } else if (HomeModuleEnum.machineList == webSocket.getModuleName()) {
+                } /*else if (HomeModuleEnum.machineList == webSocket.getModuleName()) {
                     webSocket.sendMessage(getMachineListData());
-                } else if (HomeModuleEnum.exception == webSocket.getModuleName()) {
+                }*/ else if (HomeModuleEnum.exception == webSocket.getModuleName()) {
                     webSocket.sendMessage(getExceptionData());
                 }
             } catch (Exception e) {

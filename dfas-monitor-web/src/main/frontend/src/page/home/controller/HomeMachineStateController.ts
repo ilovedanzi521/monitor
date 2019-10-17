@@ -4,6 +4,7 @@ import Monitor from "../../../components2/vue/Monitor.vue";
 import {MachineStateVO} from "../vo/MachineStateVO";
 import HomeMachineStateService from "../service/HomeMachineStateService";
 import AxiosFun from "../../../api/AxiosFun";
+import {WinResponseData} from "../../common/vo/BaseVO";
 
 @Component({components: {Monitor}})
 export default class HomeMachineStateController extends Vue {
@@ -12,9 +13,12 @@ export default class HomeMachineStateController extends Vue {
 
   private homeMachineStateService: HomeMachineStateService = new HomeMachineStateService();
 
-  private machineStateList: Array<MachineStateVO> = this.homeMachineStateService.initMachineStateList();
+  //private machineStateList: Array<MachineStateVO> = this.homeMachineStateService.initMachineStateList();
+
+  private machineStateList: Array<MachineStateVO> = [];
 
   mounted() {
+    this.machinePanelData();
     let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/machineState";
     this.establishConnection(requestUrl);
   }
@@ -39,6 +43,20 @@ export default class HomeMachineStateController extends Vue {
     if (this.ws != null) {
       this.ws.close();
     }
+  }
+
+  machinePanelData() {
+    AxiosFun.post(
+      AxiosFun.monitorCenterServiceName + "/machine/machinePanelData",
+      null
+    ).then((response: WinResponseData) => {
+      console.log(response.data);
+      //let object = JSON.parse(response.data);
+      this.machineStateList = response.data;
+    })
+      .catch((ex: any) => {
+
+      });;
   }
 
 }

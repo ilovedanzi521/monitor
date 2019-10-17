@@ -6,10 +6,11 @@ import MicroServiceList from "@/page/microService/view/MicroServiceList.vue";
 import MicroServicePanel from "@/page/microService/view/MicroServicePanel.vue";
 import MicroServiceDetailDialog from "@/page/microService/view/MicroServiceDetailDialog.vue";
 import JvmMemoryChart from "@/page/microService/view/detail/JvmMemoryChart.vue";
-import MachineList from "@/page/machine/view/MachineList.vue";
-import MachinePanel from "@/page/machine/view/MachinePanel.vue";
+import MachineList from "@/page/machine/view/machineList.vue";
+import MachinePanel from "@/page/machine/view/machinePanel.vue";
 import WarnList from "@/page/warn/view/WarnList.vue";
 import ThresholdList from "@/page/warn/view/ThresholdList.vue";
+import IssueList from "@/page/issue/view/issueList.vue";
 
 const routers = [
   {
@@ -84,6 +85,12 @@ const routerChildren = [
         "thresholdList",
       component:
       ThresholdList
+    }
+    ,
+    {
+      path: "/issueList",
+      name: "issueList",
+      component: IssueList
     }
   ]
 ;

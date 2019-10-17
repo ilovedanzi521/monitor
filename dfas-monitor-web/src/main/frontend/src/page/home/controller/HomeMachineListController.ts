@@ -3,6 +3,7 @@ import Component from "vue-class-component";
 import HomeMachineListService from "../service/HomeMachineListService";
 import {MachineVO} from "../vo/MachineVO";
 import AxiosFun from "../../../api/AxiosFun";
+import {WinResponseData} from "../../common/vo/BaseVO";
 
 @Component({})
 export default class HomeMachineListController extends Vue {
@@ -13,9 +14,12 @@ export default class HomeMachineListController extends Vue {
 
   private machine: MachineVO = new MachineVO();
 
-  private machineList: Array<MachineVO> = this.homeMachineListService.initMachineList();
+  private machineList: Array<MachineVO> = [];
+
+  //private machineList: Array<MachineVO> = this.homeMachineListService.initMachineList();
 
   mounted() {
+    this.initMachineList();
     let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/machineList";
     this.establishConnection(requestUrl);
   }
@@ -70,6 +74,20 @@ export default class HomeMachineListController extends Vue {
     if (this.ws != null) {
       this.ws.close();
     }
+  }
+
+  initMachineList() {
+    AxiosFun.post(
+      AxiosFun.monitorCenterServiceName + "/machine/homePageMachineTop5",
+      null
+    ).then((response: WinResponseData) => {
+      console.log(response.data);
+      //let object = JSON.parse(response.data);
+      this.machineList = response.data;
+    })
+      .catch((ex: any) => {
+
+      });
   }
 
 }

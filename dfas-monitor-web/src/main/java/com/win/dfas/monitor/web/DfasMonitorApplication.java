@@ -6,14 +6,16 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.net.URL;
 
 /*@EnableAdminServer*/
 //@EnableDiscoveryClient
 @EnableMonitorConfig
+@EnableScheduling
 @MapperScan("com.win.dfas.monitor.config.mapper")
-@SpringBootApplication(scanBasePackages = {"com.win.dfas.monitor.engine", "com.win.dfas.monitor.web", "com.win.dfas.monitor.config"})
+@SpringBootApplication(scanBasePackages = {"com.win.dfas.monitor.engine", "com.win.dfas.monitor.web", "com.win.dfas.monitor.config","com.win.dfas.monitor.common.util"})
 @Import(MonitorEngineInitializer.class)
 public class DfasMonitorApplication {
 

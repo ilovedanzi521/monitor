@@ -54,6 +54,7 @@ public class BaseController {
 		Map<String, Object> returnMessage = new HashMap<String, Object>();
 		returnMessage.put("data", data);
 		returnMessage.put("code", 0);
+		returnMessage.put("winRspType", "SUCC");
 		returnMessage.put("msg", message);
 		return JsonUtil.toJson(returnMessage);
 	}

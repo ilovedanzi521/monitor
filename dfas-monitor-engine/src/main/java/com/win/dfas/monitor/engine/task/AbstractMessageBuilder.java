@@ -2,7 +2,9 @@ package com.win.dfas.monitor.engine.task;
 
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.util.SpringContextUtils;
 import com.win.dfas.monitor.common.vo.*;
+import com.win.dfas.monitor.engine.service.IDcDevcieService;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -19,12 +21,13 @@ public abstract class AbstractMessageBuilder {
      * @return
      */
     protected String getPlatformOverviewData() {
+        IDcDevcieService dcDevcieService = SpringContextUtils.getBean(IDcDevcieService.class);
         Random random = new Random(System.currentTimeMillis());
         PlatformOverviewVO platformOverview = new PlatformOverviewVO();
         platformOverview.setQps(String.valueOf(thousandBitNumberFormat.format(random.nextInt(100) + 1)));
         platformOverview.setTotalHttpRequest(String.valueOf(thousandBitNumberFormat.format(random.nextInt(10000) + 1)));
         platformOverview.setTotalMicroService(String.valueOf(thousandBitNumberFormat.format(random.nextInt(1000) + 1)));
-        platformOverview.setTotalNode(String.valueOf(thousandBitNumberFormat.format(random.nextInt(10) + 1)));
+        platformOverview.setTotalNode(String.valueOf(dcDevcieService.getTotalNode()));
         return JsonUtil.toJson(platformOverview);
     }
 

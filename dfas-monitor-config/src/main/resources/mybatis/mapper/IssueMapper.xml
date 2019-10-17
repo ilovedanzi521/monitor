@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.win.dfas.monitor.config.mapper.IssueMapper">
+    
+    <resultMap type="com.win.dfas.monitor.common.entity.Issue" id="IssueResult">
+        <result property="id"    column="id"    />
+        <result property="ipAddress"    column="ip_address"    />
+        <result property="issueDesc"    column="issue_desc"    />
+        <result property="warnLevel"    column="warn_level"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectIssueVo">
+        select id, ip_address, issue_desc, warn_level, create_time, update_time from t_issue
+    </sql>
+	
+    <select id="selectIssueList" parameterType="com.win.dfas.monitor.common.entity.Issue" resultMap="IssueResult">
+        <include refid="selectIssueVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="ipAddress != null  and ipAddress != '' "> and ip_address = #{ipAddress}</if>
+             <if test="issueDesc != null  and issueDesc != '' "> and issue_desc = #{issueDesc}</if>
+             <if test="warnLevel != null  and warnLevel != '' "> and warn_level = #{warnLevel}</if>
+             <if test="createTime != null  and createTime != '' "> and create_time = #{createTime}</if>
+             <if test="updateTime != null  and updateTime != '' "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectIssueById" parameterType="String" resultMap="IssueResult">
+        <include refid="selectIssueVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertIssue" parameterType="com.win.dfas.monitor.common.entity.Issue">
+        insert into t_issue
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="ipAddress != null  and ipAddress != ''  ">ip_address,</if>
+			<if test="issueDesc != null  and issueDesc != ''  ">issue_desc,</if>
+			<if test="warnLevel != null  and warnLevel != ''  ">warn_level,</if>
+			<if test="createTime != null  and createTime != ''  ">create_time,</if>
+			<if test="updateTime != null  and updateTime != ''  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="ipAddress != null  and ipAddress != ''  ">#{ipAddress},</if>
+			<if test="issueDesc != null  and issueDesc != ''  ">#{issueDesc},</if>
+			<if test="warnLevel != null  and warnLevel != ''  ">#{warnLevel},</if>
+			<if test="createTime != null  and createTime != ''  ">#{createTime},</if>
+			<if test="updateTime != null  and updateTime != ''  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateIssue" parameterType="com.win.dfas.monitor.common.entity.Issue">
+        update t_issue
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ipAddress != null  and ipAddress != ''  ">ip_address = #{ipAddress},</if>
+            <if test="issueDesc != null  and issueDesc != ''  ">issue_desc = #{issueDesc},</if>
+            <if test="warnLevel != null  and warnLevel != ''  ">warn_level = #{warnLevel},</if>
+            <if test="createTime != null  and createTime != ''  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  and updateTime != ''  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteIssueById" parameterType="String">
+        delete from t_issue where id = #{id}
+    </delete>
+	
+    <delete id="deleteIssueByIds" parameterType="String">
+        delete from t_issue where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

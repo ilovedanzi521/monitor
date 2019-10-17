@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.win.dfas.monitor.config.mapper.DcDevcieMapper">
+    <resultMap type="com.win.dfas.monitor.common.entity.DcDevcie" id="DcDevcieResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="alias"    column="alias"    />
+        <result property="ipAddress"    column="ip_address"    />
+        <result property="userName"    column="user_name"    />
+        <result property="port"    column="port"    />
+        <result property="osType"    column="os_type"    />
+        <result property="status"    column="status"    />
+        <result property="description"    column="description"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="cpu"    column="cpu"    />
+        <result property="memory"    column="memory"    />
+        <result property="disk"    column="disk"    />
+        <result property="cpuNum"    column="cpuNum"    />
+        <result property="diskSize"    column="diskSize"    />
+        <result property="memorySize"    column="memorySize"    />
+        <result property="balance"    column="balance"    />
+    </resultMap>
+	
+	<sql id="selectDcDevcieVo">
+        select id, name, alias, ip_address, user_name, port, os_type, status, description, create_time, update_time,cpu,memory,disk,cpuNum,diskSize,memorySize,balance from dc_devcie
+    </sql>
+	
+    <select id="selectDcDevcieList" parameterType="com.win.dfas.monitor.common.entity.DcDevcie" resultMap="DcDevcieResult">
+        <include refid="selectDcDevcieVo"/>
+        <where>  
+            <if test="id != null and id != ''  "> and id = #{id}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="alias != null  and alias != '' "> and alias = #{alias}</if>
+             <if test="ipAddress != null  and ipAddress != '' "> and ip_address = #{ipAddress}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="port != null "> and port = #{port}</if>
+             <if test="osType != null  and osType != '' "> and os_type = #{osType}</if>
+             <if test="status != null "> and status = #{status}</if>
+             <if test="description != null  and description != '' "> and description = #{description}</if>
+             <if test="createTime != null  and createTime != '' "> and create_time = #{createTime}</if>
+             <if test="updateTime != null  and updateTime != '' "> and update_time = #{updateTime}</if>
+            <if test="cpu != null  and cpu != '' "> and cpu = #{cpu}</if>
+            <if test="memory != null  and memory != '' "> and memory = #{memory}</if>
+            <if test="disk != null  and disk != '' "> and disk = #{disk}</if>
+            <if test="cpuNum != null"> and cpuNum = #{cpuNum}</if>
+            <if test="diskSize != null  and diskSize != '' "> and disk = #{diskSize}</if>
+            <if test="memorySize != null  and disk != '' "> and disk = #{memorySize}</if>
+            <if test="balance != null  and balance != '' "> and balance = #{balance}</if>
+         </where>
+    </select>
+    
+    <select id="selectDcDevcieById" parameterType="Long" resultMap="DcDevcieResult">
+        <include refid="selectDcDevcieVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="getTotalNode"  resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM dc_devcie
+    </select>
+        
+    <insert id="insertDcDevcie" parameterType="com.win.dfas.monitor.common.entity.DcDevcie">
+        insert into dc_devcie
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="alias != null  and alias != ''  ">alias,</if>
+			<if test="ipAddress != null  and ipAddress != ''  ">ip_address,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="port != null  ">port,</if>
+			<if test="osType != null  and osType != ''  ">os_type,</if>
+			<if test="status != null  ">status,</if>
+			<if test="description != null  and description != ''  ">description,</if>
+			<if test="createTime != null  and createTime != ''  ">create_time,</if>
+			<if test="updateTime != null  and updateTime != ''  ">update_time,</if>
+            <if test="cpu != null  and cpu != ''  ">cpu,</if>
+            <if test="memory != null  and memory != ''  ">memory,</if>
+            <if test="disk != null  and disk != ''  ">disk,</if>
+            <if test="cpuNum != null  ">cpuNum,</if>
+            <if test="diskSize != null  and diskSize != ''  ">diskSize,</if>
+            <if test="memorySize != null  and memorySize != ''  ">memorySize,</if>
+            <if test="balance != null  and balance != ''  ">balance,</if>
+
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="alias != null  and alias != ''  ">#{alias},</if>
+			<if test="ipAddress != null  and ipAddress != ''  ">#{ipAddress},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="port != null  ">#{port},</if>
+			<if test="osType != null  and osType != ''  ">#{osType},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="description != null  and description != ''  ">#{description},</if>
+			<if test="createTime != null  and createTime != ''  ">#{createTime},</if>
+			<if test="updateTime != null  and updateTime != ''  ">#{updateTime},</if>
+            <if test="cpu != null  and cpu != ''  ">#{cpu},</if>
+            <if test="memory != null  and memory != ''  ">#{memory},</if>
+            <if test="disk != null  and disk != ''  ">#{disk},</if>
+            <if test="cpuNum != null  ">#{cpuNum},</if>
+            <if test="diskSize != null  and diskSize != ''  ">#{diskSize},</if>
+            <if test="memorySize != null  and memorySize != ''  ">#{memorySize},</if>
+            <if test="balance != null  and balance != ''  ">#{balance},</if>
+
+         </trim>
+    </insert>
+	 
+    <update id="updateDcDevcie" parameterType="com.win.dfas.monitor.common.entity.DcDevcie">
+        update dc_devcie
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="alias != null  and alias != ''  ">alias = #{alias},</if>
+            <if test="ipAddress != null  and ipAddress != ''  ">ip_address = #{ipAddress},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="port != null  ">port = #{port},</if>
+            <if test="osType != null  and osType != ''  ">os_type = #{osType},</if>
+            <if test="status != null  ">status = #{status},</if>
+            <if test="description != null  and description != ''  ">description = #{description},</if>
+            <if test="createTime != null  and createTime != ''  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  and updateTime != ''  ">update_time = #{updateTime},</if>
+            <if test="cpu != null  and cpu != ''  ">cpu = #{cpu},</if>
+            <if test="memory != null  and memory != ''  ">memory = #{memory},</if>
+            <if test="disk != null  and disk != ''  ">disk = #{disk},</if>
+            <if test="cpuNum != null  ">cpuNum = #{cpuNum},</if>
+            <if test="diskSize != null  and diskSize != ''  ">diskSize = #{diskSize},</if>
+            <if test="memorySize != null  and memorySize != ''  ">memorySize = #{memorySize},</if>
+            <if test="balance != null  and balance != ''  ">balance = #{balance},</if>
+
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update dc_devcie
+        <trim prefix="SET" suffixOverrides=",">
+            <trim prefix="status =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.status !=null ">
+                        when id=#{item.id} then #{item.status}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="cpu =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.cpu !=null and item.cpu != '' ">
+                        when id=#{item.id} then #{item.cpu}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="memory =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.memory !=null and item.memory != '' ">
+                        when id=#{item.id} then #{item.memory}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="disk =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.disk !=null and item.disk != '' ">
+                        when id=#{item.id} then #{item.disk}
+                    </if>
+                </foreach>
+            </trim>
+           <trim prefix="cpuNum =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.cpuNum !=null">
+                        when id=#{item.id} then #{item.cpuNum}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="diskSize =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.diskSize !=null and item.diskSize != '' ">
+                        when id=#{item.id} then #{item.diskSize}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="memorySize =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.memorySize !=null and item.memorySize != '' ">
+                        when id=#{item.id} then #{item.memorySize}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="balance =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.balance !=null and item.balance != '' ">
+                        when id=#{item.id} then #{item.balance}
+                    </if>
+                </foreach>
+            </trim>
+
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+
+	<delete id="deleteDcDevcieById" parameterType="Long">
+        delete from dc_devcie where id = #{id}
+    </delete>
+	
+    <delete id="deleteDcDevcieByIds" parameterType="String">
+        delete from dc_devcie where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
