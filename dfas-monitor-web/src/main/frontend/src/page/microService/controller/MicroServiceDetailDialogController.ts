@@ -18,11 +18,13 @@ import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import MicroServiceInfoDialogService from "../service/MicroServiceInfoDialogService";
 import { MicroServiceInfoRepVO } from "../vo/MicroServiceInfoVO";
 import { MicroServiceValidateConst } from "../const/MicroServiceValidateConst";
-import JvmMemoryChart from '../view/detail/JvmMemoryChart.vue';
-import MicroServiceBaseInfo from '../view/detail/MicroServiceBaseInfo.vue';
-import BottomMachineList from '../view/detail/BottomMachineList.vue';
+import JvmMemoryChart from "../view/detail/JvmMemoryChart.vue";
+import MicroServiceBaseInfo from "../view/detail/MicroServiceBaseInfo.vue";
+import BottomMachineList from "../view/detail/BottomMachineList.vue";
 
-@Component({components: {JvmMemoryChart,MicroServiceBaseInfo,BottomMachineList}})
+@Component({
+  components: { JvmMemoryChart, MicroServiceBaseInfo, BottomMachineList }
+})
 export default class MicroServiceDetailDialogController extends BaseController {
   public $refs: {
     validate: HTMLFormElement;
@@ -75,6 +77,7 @@ export default class MicroServiceDetailDialogController extends BaseController {
   /** 页面初始化 */
   private mounted() {
     this.microServiceInfoRepVO = this.fromFatherMsg.data;
+    //alert(JSON.stringify(this.microServiceInfoRepVO));
     if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
       this.dialogTitle = MicroServiceInfoConst.CREATETITLE;
       this.dialogSumbitText = BaseConst.CONFIRM;
@@ -119,19 +122,25 @@ export default class MicroServiceDetailDialogController extends BaseController {
       if (valid) {
         this.dialogLoading = true;
         if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
-          this.microServiceInfoDialogService.insert(this.microServiceInfoRepVO).then((response: WinResponseData) => {
-            this.dialogMessage(response);
-          });
+          this.microServiceInfoDialogService
+            .insert(this.microServiceInfoRepVO)
+            .then((response: WinResponseData) => {
+              this.dialogMessage(response);
+            });
         }
         if (this.fromFatherMsg.type === OperationTypeEnum.UPDATE) {
-          this.microServiceInfoDialogService.update(this.microServiceInfoRepVO).then((response: WinResponseData) => {
-            this.dialogMessage(response);
-          });
+          this.microServiceInfoDialogService
+            .update(this.microServiceInfoRepVO)
+            .then((response: WinResponseData) => {
+              this.dialogMessage(response);
+            });
         }
         if (this.fromFatherMsg.type === OperationTypeEnum.DELETE) {
-          this.microServiceInfoDialogService.del(this.microServiceInfoRepVO.id).then((response: WinResponseData) => {
-            this.dialogMessage(response);
-          });
+          this.microServiceInfoDialogService
+            .del(this.microServiceInfoRepVO.id)
+            .then((response: WinResponseData) => {
+              this.dialogMessage(response);
+            });
         }
       }
     });

@@ -1,29 +1,20 @@
 package com.win.dfas.monitor.engine.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.win.dfas.common.util.ObjectUtils;
-import com.win.dfas.common.util.PrimaryKeyUtil;
 import com.win.dfas.monitor.common.constant.ResultTypeEnum;
-import com.win.dfas.monitor.common.dto.MicroServiceApplicationDTO;
-import com.win.dfas.monitor.common.dto.MicroServiceDTO;
-import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
-import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
-import com.win.dfas.monitor.common.vo.*;
-import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
-import com.win.dfas.monitor.engine.service.MonitorService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.win.dfas.monitor.common.vo.MetricsResultVO;
+import com.win.dfas.monitor.common.vo.MetricsReturnMsgVO;
+import com.win.dfas.monitor.engine.service.PrometheusService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class MonitorServiceImpl implements MonitorService {
+public class PrometheusServiceImpl implements PrometheusService {
 
     @Value("${prometheus.server.url}")
     private String prometheusServerUrl;

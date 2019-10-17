@@ -1,7 +1,6 @@
 package com.win.dfas.monitor.config.mapper;
 
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
-import com.win.dfas.monitor.common.vo.MicroServiceMachineRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
 import org.springframework.stereotype.Repository;
 

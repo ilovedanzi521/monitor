@@ -322,6 +322,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
     }
 
+    public static String defaultValueIfEmpty(Object str,String defaultValue) {
+        if (isEmpty(str)) {
+            return defaultValue;
+        } else {
+            return str.toString();
+        }
+    }
+
     public static boolean isEmpty(Object str) {
 
         return (str == null || str.toString().trim().length() == 0);

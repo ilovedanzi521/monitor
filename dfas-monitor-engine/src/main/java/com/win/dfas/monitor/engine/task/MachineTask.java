@@ -48,17 +48,17 @@ public class MachineTask {
     @Scheduled(cron = "0/10 * * * * ?")
     public void pushMachineStatusData() throws Exception {
         log.info("【推送机器数据】开始执行：{}", DateUtils.getCurrentDateTime());
-        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get();
-        for (AbstractWebSocket webSocket : webSocketSet) {
-            try {
-                if (HomeModuleEnum.machineState == webSocket.getModuleName()) {
+        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.machineState);
+        if(webSocketSet != null){
+            for (AbstractWebSocket webSocket : webSocketSet) {
+                try {
                     webSocket.sendMessage(getMachineStatusData());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            log.info("【推送机器数据】执行结束：{}", DateUtils.getCurrentDateTime());
         }
-        log.info("【推送机器数据】执行结束：{}", DateUtils.getCurrentDateTime());
     }
 
     /**
@@ -67,17 +67,17 @@ public class MachineTask {
     @Scheduled(cron = "0/10 * * * * ?")
     public void pushMachineListData() throws Exception {
         log.info("【推送机器数据】开始执行：{}", DateUtils.getCurrentDateTime());
-        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get();
-        for (AbstractWebSocket webSocket : webSocketSet) {
-            try {
-                if (HomeModuleEnum.machineList == webSocket.getModuleName()) {
+        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.machineList);
+        if(webSocketSet != null){
+            for (AbstractWebSocket webSocket : webSocketSet) {
+                try {
                     webSocket.sendMessage(getMachineListData());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            log.info("【推送机器数据】执行结束：{}", DateUtils.getCurrentDateTime());
         }
-        log.info("【推送机器数据】执行结束：{}", DateUtils.getCurrentDateTime());
     }
 
     /**
@@ -96,9 +96,9 @@ public class MachineTask {
     private String getMachineStatusData() {
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
-        List<MachineStatusVO> machineStatusList=new ArrayList<>();
+        List<MachineStatusVO> machineStatusList = new ArrayList<>();
         for (DcDevcie dc : dcDevices) {
-            MachineStatusVO machineStatus =new MachineStatusVO();
+            MachineStatusVO machineStatus = new MachineStatusVO();
             machineStatus.setId(dc.getId());
             machineStatus.setIpAddress(dc.getIpAddress());
             machineStatus.setCpuPer(dc.getCpu() + "%");
@@ -121,7 +121,7 @@ public class MachineTask {
         Random random = new Random(System.currentTimeMillis());
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
-        List<MachineStatusVO> machineStatusList=new ArrayList<>();
+        List<MachineStatusVO> machineStatusList = new ArrayList<>();
         List<MachineVO> machineList = new ArrayList<>();
         for (DcDevcie dc : dcDevices) {
             MachineVO machine = new MachineVO();
@@ -146,25 +146,25 @@ public class MachineTask {
             String ip = dc.getIpAddress();
             Map<String, Object> parameters = new HashMap<>();
             //机器状态
-            parameters.put("queryParam","up{instance='expoter_"+ip+"'}");
-            List<Object> value = getValue(prometheusServerUrl,parameters);
-            if(value != null && value.size() > 0){
+            parameters.put("queryParam", "up{instance='expoter_" + ip + "'}");
+            List<Object> value = getValue(prometheusServerUrl, parameters);
+            if (value != null && value.size() > 0) {
                 String status = value.get(1).toString();
-                if(1 == Integer.parseInt(status)){
+                if (1 == Integer.parseInt(status)) {
                     /*
-                    * 0 - 离线
-                    * 1 - 异常
-                    * 2 - 告警
-                    * 3 - 在线
-                    * */
+                     * 0 - 离线
+                     * 1 - 异常
+                     * 2 - 告警
+                     * 3 - 在线
+                     * */
                     dc.setStatus(3);
-                }else{
+                } else {
                     dc.setStatus(Integer.parseInt(status));
                 }
             }
 
             //未连接状态cpu使用率、内存使用率、磁盘使用率设置为0
-            if(dc.getStatus() == 0){
+            if (dc.getStatus() == 0) {
                 dc.setCpu("0");
                 dc.setMemory("0");
                 dc.setDisk("0");
@@ -172,60 +172,60 @@ public class MachineTask {
                 dc.setDiskSize("0");
                 dc.setMemorySize("0");
                 //连接状态实时采集cpu使用率、内存使用率、磁盘使用率数据、CPU核数、磁盘大小、内存大小
-            }else{
+            } else {
                 //cpu使用率
-                parameters.put("queryParam","100 - (avg(irate(node_cpu_seconds_total{instance='expoter_"+ip+"',mode='idle'}[5m])) * 100)");
-                value = getValue(prometheusServerUrl,parameters);
-                if(value != null && value.size() > 0){
+                parameters.put("queryParam", "100 - (avg(irate(node_cpu_seconds_total{instance='expoter_" + ip + "',mode='idle'}[5m])) * 100)");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
                     String cpu = value.get(1).toString();
-                    dc.setCpu(String.valueOf(BigDecimalUtils.bigDecimalStringRound(cpu,2)));
+                    dc.setCpu(String.valueOf(BigDecimalUtils.bigDecimalStringRound(cpu, 2)));
                 }
 
                 //内存使用率
-                parameters.put("queryParam","(1 - (node_memory_MemAvailable_bytes{instance='expoter_"+ip+"'} / (node_memory_MemTotal_bytes{instance='expoter_"+ip+"'})))* 100");
-                value = getValue(prometheusServerUrl,parameters);
-                if(value != null && value.size() > 0){
+                parameters.put("queryParam", "(1 - (node_memory_MemAvailable_bytes{instance='expoter_" + ip + "'} / (node_memory_MemTotal_bytes{instance='expoter_" + ip + "'})))* 100");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
                     String memory = value.get(1).toString();
-                    dc.setMemory(String.valueOf(BigDecimalUtils.bigDecimalStringRound(memory,2)));
+                    dc.setMemory(String.valueOf(BigDecimalUtils.bigDecimalStringRound(memory, 2)));
                 }
 
                 //磁盘使用率
-                parameters.put("queryParam","100 - node_filesystem_free_bytes{instance='expoter_"+ip+"',fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|udev|none|devpts|sysfs|debugfs|fuse.*\"} / node_filesystem_size_bytes{instance='expoter_"+ip+"',fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|udev|none|devpts|sysfs|debugfs|fuse.*\"} * 100");
-                value = getValue(prometheusServerUrl,parameters);
-                if(value != null && value.size() > 0){
+                parameters.put("queryParam", "100 - node_filesystem_free_bytes{instance='expoter_" + ip + "',fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|udev|none|devpts|sysfs|debugfs|fuse.*\"} / node_filesystem_size_bytes{instance='expoter_" + ip + "',fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|udev|none|devpts|sysfs|debugfs|fuse.*\"} * 100");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
                     String disk = value.get(1).toString();
-                    dc.setDisk(String.valueOf(BigDecimalUtils.bigDecimalStringRound(disk,2)));
+                    dc.setDisk(String.valueOf(BigDecimalUtils.bigDecimalStringRound(disk, 2)));
                 }
 
                 //CPU核数
-                parameters.put("queryParam","count(count(node_cpu_seconds_total{instance='expoter_"+ip+"', mode='system'}) by (cpu))");
-                value = getValue(prometheusServerUrl,parameters);
-                if(value != null && value.size() > 0){
+                parameters.put("queryParam", "count(count(node_cpu_seconds_total{instance='expoter_" + ip + "', mode='system'}) by (cpu))");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
                     String cpuNum = value.get(1).toString();
                     dc.setCpuNum(Integer.parseInt(cpuNum));
                 }
 
 
                 //磁盘大小
-                parameters.put("queryParam","node_filesystem_size_bytes{instance='expoter_"+ip+"',fstype=~'ext4|xfs'}");
-                value = getValue(prometheusServerUrl,parameters);
-                if(value != null && value.size() > 0){
+                parameters.put("queryParam", "node_filesystem_size_bytes{instance='expoter_" + ip + "',fstype=~'ext4|xfs'}");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
                     String diskSize = value.get(1).toString();
                     dc.setDiskSize(formatSize(diskSize));
                 }
 
                 //内存大小
-                parameters.put("queryParam","node_memory_MemTotal_bytes{instance='expoter_"+ip+"'}");
-                value = getValue(prometheusServerUrl,parameters);
-                if(value != null && value.size() > 0){
+                parameters.put("queryParam", "node_memory_MemTotal_bytes{instance='expoter_" + ip + "'}");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
                     String memorySize = value.get(1).toString();
                     dc.setMemorySize(formatSize(memorySize));
                 }
 
                 //机器负载
-                parameters.put("queryParam"," node_load5{instance='expoter_"+ip+"'}");
-                value = getValue(prometheusServerUrl,parameters);
-                if(value != null && value.size() > 0){
+                parameters.put("queryParam", " node_load5{instance='expoter_" + ip + "'}");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
                     String balance = value.get(1).toString();
                     dc.setBalance(balance);
                 }
@@ -237,18 +237,18 @@ public class MachineTask {
         long size = Long.parseLong(value);
         String hrSize = null;
         double b = size;
-        double k = size/1024.0;
-        double m = ((size/1024.0)/1024.0);
-        double g = (((size/1024.0)/1024.0)/1024.0);
-        double t = ((((size/1024.0)/1024.0)/1024.0)/1024.0);
+        double k = size / 1024.0;
+        double m = ((size / 1024.0) / 1024.0);
+        double g = (((size / 1024.0) / 1024.0) / 1024.0);
+        double t = ((((size / 1024.0) / 1024.0) / 1024.0) / 1024.0);
         DecimalFormat dec = new DecimalFormat("0.00");
-        if ( t>1 ) {
+        if (t > 1) {
             hrSize = dec.format(t).concat(" TB");
-        } else if ( g>1 ) {
+        } else if (g > 1) {
             hrSize = dec.format(g).concat(" GB");
-        } else if ( m>1 ) {
+        } else if (m > 1) {
             hrSize = dec.format(m).concat(" MB");
-        } else if ( k>1 ) {
+        } else if (k > 1) {
             hrSize = dec.format(k).concat(" KB");
         } else {
             hrSize = dec.format(b).concat(" bytes");
@@ -256,12 +256,12 @@ public class MachineTask {
         return hrSize;
     }
 
-    private List<Object> getValue(String prometheusServerUrl,Map<String, Object> parameters){
-        String url = prometheusServerUrl+"/api/v1/query?query={queryParam}";
-        String result = RestfulTools.get(url, String.class,parameters);
-        MetricsReturnMsgVO metricsReturnMsgVO =  convert(result);
+    private List<Object> getValue(String prometheusServerUrl, Map<String, Object> parameters) {
+        String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
+        String result = RestfulTools.get(url, String.class, parameters);
+        MetricsReturnMsgVO metricsReturnMsgVO = convert(result);
         List<MetricsResultVO> resultList = metricsReturnMsgVO.getData().getResult();
-        if(resultList != null && resultList.size() > 0){
+        if (resultList != null && resultList.size() > 0) {
             return resultList.get(0).getValue();
         }
         return null;

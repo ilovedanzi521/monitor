@@ -1,10 +1,9 @@
 package com.win.dfas.monitor.engine.service;
 
-public interface MonitorService {
+public interface PrometheusService {
 
     String getQps();
 
     String getHttpRequestTotal();
-
 
 }

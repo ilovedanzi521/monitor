@@ -1,6 +1,7 @@
 package com.win.dfas.monitor.engine.service;
 
 import com.github.pagehelper.PageInfo;
+import com.win.dfas.monitor.common.vo.MicroServiceJvmMemoryVO;
 import com.win.dfas.monitor.common.vo.MicroServiceMachineRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
@@ -27,5 +28,7 @@ public interface MicroService {
     void synchronizeMicroService();
 
     MicroServiceRepVO microServiceInfo(MicroServiceReqVO reqVO);
+
+    MicroServiceJvmMemoryVO jvmMemory(MicroServiceReqVO reqVO);
 
 }

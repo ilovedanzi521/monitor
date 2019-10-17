@@ -84,6 +84,7 @@ export default class HomeMachineListController extends Vue {
       console.log(response.data);
       //let object = JSON.parse(response.data);
       this.machineList = response.data;
+
     })
       .catch((ex: any) => {
 

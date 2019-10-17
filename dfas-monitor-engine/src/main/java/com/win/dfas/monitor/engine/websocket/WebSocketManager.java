@@ -1,22 +1,32 @@
 package com.win.dfas.monitor.engine.websocket;
 
+import com.win.dfas.monitor.common.constant.HomeModuleEnum;
+
 import java.util.concurrent.CopyOnWriteArraySet;
 
 class WebSocketManager extends AbstractWebSocketManager {
 
     @Override
     public void add(AbstractWebSocket socket) {
+        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = webSocketMap.get(socket.getModuleName());
+        if (webSocketSet == null) {
+            webSocketSet = new CopyOnWriteArraySet<>();
+            webSocketMap.put(socket.getModuleName(), webSocketSet);
+        }
         webSocketSet.add(socket);
     }
 
     @Override
     public void remove(AbstractWebSocket socket) {
-        webSocketSet.remove(socket);
+        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = webSocketMap.get(socket.getModuleName());
+        if (webSocketSet != null) {
+            webSocketSet.remove(socket);
+        }
     }
 
     @Override
-    public CopyOnWriteArraySet<AbstractWebSocket> get() {
-        return webSocketSet;
+    public CopyOnWriteArraySet<AbstractWebSocket> get(HomeModuleEnum homeModuleEnum) {
+        return webSocketMap.get(homeModuleEnum);
     }
 
     /**

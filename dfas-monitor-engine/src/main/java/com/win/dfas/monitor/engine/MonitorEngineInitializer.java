@@ -49,8 +49,8 @@ public class MonitorEngineInitializer implements SmartLifecycle {
                 logger.debug("ibt初始化");
 
                 //-----------------------------------------
-                ScheduledThreadPool.init();
-                ScheduledThreadPool.scheduleAtFixedRate(new HomeMessagePushTask(), 1000, 5 * DateUtils.MILLIS_PER_SECOND);
+               // ScheduledThreadPool.init();
+                //ScheduledThreadPool.scheduleAtFixedRate(new HomeMessagePushTask(), 1000, 5 * DateUtils.MILLIS_PER_SECOND);
 
             }
         } catch (Exception e) {

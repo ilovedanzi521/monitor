@@ -1,7 +1,6 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.win.dfas.monitor.common.util.JsonUtil;
-import com.win.dfas.monitor.engine.service.MonitorService;
+import com.win.dfas.monitor.engine.service.PrometheusService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController extends BaseController {
 
     @Autowired
-    private MonitorService monitorService;
+    private PrometheusService monitorService;
 
     /**
      * 获取qps

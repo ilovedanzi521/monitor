@@ -5,6 +5,7 @@ import com.win.dfas.common.vo.WinResponseData;
 import com.win.dfas.monitor.common.constant.ReturnMsgEnum;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
+import com.win.dfas.monitor.engine.service.EurekaService;
 import com.win.dfas.monitor.engine.service.MicroService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
@@ -60,6 +61,15 @@ public class MicroServiceController extends BaseController {
         return WinResponseData.handleSuccess(microService.microServiceInfo(reqVO));
     }
 
+    /**
+     * 查询微服务JVM变化情况
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "查询微服务JVM变化情况", notes = "查询微服务JVM变化情况")
+    @PostMapping("/jvmMemory")
+    public WinResponseData jvmMemory(@RequestBody MicroServiceReqVO reqVO) {
+        return WinResponseData.handleSuccess(microService.jvmMemory(reqVO));
+    }
 
     /**
      * 更新微服务

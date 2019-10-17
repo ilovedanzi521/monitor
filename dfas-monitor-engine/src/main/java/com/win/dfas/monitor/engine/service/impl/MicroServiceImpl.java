@@ -4,19 +4,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.common.util.PrimaryKeyUtil;
+import com.win.dfas.monitor.common.constant.LineColorEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.dto.MicroServiceApplicationDTO;
 import com.win.dfas.monitor.common.dto.MicroServiceDTO;
 import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
+import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
 import com.win.dfas.monitor.common.util.StringUtils;
-import com.win.dfas.monitor.common.vo.MicroServiceMachineRepVO;
-import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
-import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
-import com.win.dfas.monitor.common.vo.MicroServiceStateVO;
+import com.win.dfas.monitor.common.vo.*;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
+import com.win.dfas.monitor.engine.service.EurekaService;
 import com.win.dfas.monitor.engine.service.MicroService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,7 +153,7 @@ public class MicroServiceImpl implements MicroService {
         int normal = 0;
         for (MicroServiceEntity microServiceEntity : list) {
             microServiceRep.setMicroServiceName(microServiceEntity.getMicroServiceName());
-            microServiceRep.setMicroServiceAlias(microServiceEntity.getMicroServiceAlias());
+            microServiceRep.setMicroServiceAlias(StringUtils.defaultValueIfEmpty(microServiceEntity.getMicroServiceAlias(),MonitorConstants.DEFAULT_DISPLAY_SYMBOL));
             ApplicationInstance applicationInstance = microServiceMap.get(microServiceEntity.getInstanceId());
             if (applicationInstance != null) {
                 if (MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())) {
@@ -169,6 +169,36 @@ public class MicroServiceImpl implements MicroService {
             microServiceRep.setState("3");
         }
         return microServiceRep;
+    }
+
+    @Override
+    public MicroServiceJvmMemoryVO jvmMemory(MicroServiceReqVO reqVO) {
+        MicroServiceJvmMemoryVO microServiceJvmMemory = new MicroServiceJvmMemoryVO();
+        List<MicroServiceEntity> list = microServiceMapper.microServiceMachineList(reqVO);
+
+        Random random = new Random(System.currentTimeMillis());
+        int hour = Integer.parseInt(DateUtils.getCurrentHour());
+
+        List<String> xAxisData = new ArrayList<>();
+        String suffix = ":00";
+        for (int i = 0; i <= hour + 1; i++) {
+            if (i < 10) {
+                xAxisData.add("0" + i + suffix);
+            } else {
+                xAxisData.add(i + suffix);
+            }
+        }
+        microServiceJvmMemory.setXAxisData(xAxisData);
+        for (int i = 0; i < list.size(); i++) {
+            microServiceJvmMemory.getLegendData().add(list.get(i).getIpAddr());
+            microServiceJvmMemory.getColorData().add(LineColorEnum.values()[i].getColor());
+            List<Integer> seriesData = new ArrayList<>();
+            for (int j = 0; j <= hour + 1; j++) {
+                seriesData.add(random.nextInt(1000));
+            }
+            microServiceJvmMemory.getSeriesData().add(seriesData);
+        }
+        return microServiceJvmMemory;
     }
 
 
