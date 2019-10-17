@@ -5,7 +5,7 @@
         <div class="fl"></div>
       </div>
       <div>
-        <IssueTable :userReqVo="userReqVo" @machinePageQuery="httpIssuePageQuery"  @delBatch="delIssueBatch"></IssueTable>
+        <MachineTable :userReqVo="userReqVo" @machinePageQuery="httpMachinePageQuery" @editMachinePage="editMachinePage" @addMachinePage="addMachinePage"  @delBatch="delBatch"></MachineTable>
       </div>
     </div>
     <component :is="userReqVo.stateController.switchFormType" :userReqVo="userReqVo"  @addMachine="httpAddMachine" @deletemachine="httpDeleteMachine" @editmachine="httpEditMachine">
@@ -15,11 +15,11 @@
 </template>
 
 <script lang="ts">
-  import IssueController from "../controller/issueController";
+  import MachineController from "../controller/MachineController";
   import "../style/machine.scss";
   import { symlink } from "fs";
   import { Watch } from "vue-property-decorator";
-  export default class IssueView extends IssueController {
+  export default class MachineView extends MachineController {
     activeName: string = "organizational";
     switchingUserState;
     filterText = "";

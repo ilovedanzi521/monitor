@@ -25,7 +25,7 @@
 import Vue from "vue";
 import { Component, Prop, Emit } from "vue-property-decorator";
 import BaseController from "../../common/controller/BaseController";
-import { CompanyClass,MachineClass, UserReqVO } from "../vo/IssueVO";
+import { CompanyClass,MachineClass, UserReqVO } from "../vo/MachineVO";
 
 @Component({})
 export default class AddMachine extends BaseController {

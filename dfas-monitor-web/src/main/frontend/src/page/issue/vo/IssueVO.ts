@@ -29,6 +29,22 @@ interface Machine {
   name: string; //机器名称
 }
 
+/**
+ *
+ *
+ * 问题数据接口
+ *
+ *
+ * */
+interface Issue {
+  id:string;
+  ipAddress: string;
+  issueDesc: string;
+  warnLevel: string;
+  warnLevelDesc : string;
+}
+
+
 
 /**
  *
@@ -179,6 +195,13 @@ export class UserReqVO extends BaseReqVO {
       ipAddress: "",
       name: ""
     };
+    issue: Issue = {
+      id : "" ,
+      ipAddress: "",
+      issueDesc: "",
+      warnLevel: "",
+      warnLevelDesc : ""
+    };
     company: Company = {
         companyId: "",
         companyName: "",
@@ -302,6 +325,21 @@ export class MachineClass implements Machine {
   id:"";
   ipAddress: "";
   name: "请输入机器名称";
+}
+
+/**
+ *
+ *
+ * 添加公司模块继承公司接口
+ *
+ *
+ *  */
+export class IssueClass implements Issue {
+  id:"";
+  ipAddress :"";
+  issueDesc: "";
+  warnLevel: "";
+  warnLevelDesc : "";
 }
 
 /**

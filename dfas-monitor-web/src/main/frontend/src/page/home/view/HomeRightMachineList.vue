@@ -27,6 +27,7 @@
           <div v-else-if="item.state == '1' " class="table-td-offline">异常</div>
           <div v-else-if="item.state == '2' " class="table-td-offline">告警</div>
           <div v-else-if="item.state == '3' " class="table-td-offline">在线</div>
+          <div v-else-if="item.state == '' " class="table-td-offline"></div>
           <div class="table-td">{{item.balance}}</div>
           <div class="table-td">{{item.cpu}}</div>
           <div class="table-td">{{item.memory}}</div>

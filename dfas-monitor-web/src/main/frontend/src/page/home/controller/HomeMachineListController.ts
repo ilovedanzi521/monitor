@@ -12,14 +12,10 @@ export default class HomeMachineListController extends Vue {
 
   private ws: WebSocket;
 
-  private machine: MachineVO = new MachineVO();
-
   private machineList: Array<MachineVO> = [];
 
-  //private machineList: Array<MachineVO> = this.homeMachineListService.initMachineList();
-
   mounted() {
-    this.initMachineList();
+    this.homeMachineListService.initMachineList(this.machineList);
     let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/machineList";
     this.establishConnection(requestUrl);
   }
@@ -76,19 +72,6 @@ export default class HomeMachineListController extends Vue {
     }
   }
 
-  initMachineList() {
-    AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/homePageMachineTop5",
-      null
-    ).then((response: WinResponseData) => {
-      console.log(response.data);
-      //let object = JSON.parse(response.data);
-      this.machineList = response.data;
 
-    })
-      .catch((ex: any) => {
-
-      });
-  }
 
 }

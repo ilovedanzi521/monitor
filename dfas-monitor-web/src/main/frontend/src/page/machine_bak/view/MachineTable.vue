@@ -4,11 +4,19 @@
         <dt>{{setTitle}}管理</dt>
         <dd>
             <span class="btngrounp">
-                    <button class="but"  @click="delIssueBatch">
+                    <button class="but" @click="handleAddMachine">
+                        <i class="icon el-icon-plus"></i>
+                        <span>新增机器</span>
+                    </button>
+                    <button class="but"  @click="delBatch">
                         <i class="icon el-icon-delete"></i>
                         <span>删除机器</span>
                     </button>
-            </span>
+                   <button class="but" @click="onKeySync" >
+                        <i class="icon el-icon-time"></i>
+                        <span>一键同步</span>
+                    </button>
+                </span>
         </dd>
       </dl>
       <div class="rl">
@@ -18,15 +26,30 @@
         <div class="test"></div>
       </div>
        <win-table ref="multipleTable" style="width: 100%" :data="userReqVo.userArray" :showSelection="true" @select-change="tableSelectionChange" @select-all="tableSelectionChange"  max-height="600">
-            <win-table-column prop="ipAddress" label="节点" width="150"></win-table-column>
-            <win-table-column prop="name" label="问题描述" width="150"></win-table-column>
+
+            <win-table-column prop="ipAddress" label="IP" width="150"></win-table-column>
+            <win-table-column prop="name" label="主机名" width="150"></win-table-column>
             <!--<win-table-column :formatter="formatRoleName" label="状态" width="200"></win-table-column>-->
-            <win-table-column prop="warnLevel" label="告警级别" width="90">
+            <win-table-column prop="status" label="状态" width="90">
               <template slot-scope="scope">
-                <span v-if="scope.row.warnLevel === 0">低</span>
-                <span v-if="scope.row.warnLevel === 1">中</span>
-                <span v-if="scope.row.warnLevel === 2">高</span>
+                <span v-if="scope.row.status === 0">离线</span>
+                <span v-if="scope.row.status === 1">异常</span>
+                <span v-if="scope.row.status === 2">告警</span>
+                <span v-if="scope.row.status === 3">在线</span>
               </template>
+            </win-table-column>
+            <win-table-column prop="cpu" label="CPU使用率(%)" width="150"></win-table-column>
+            <win-table-column prop="memory" label="内存使用率(%)" width="200"></win-table-column>
+            <win-table-column prop="disk" label="磁盘使用率(%)" width="200"></win-table-column>
+            <win-table-column prop="operation" align="center" fixed="right" label="操作" width="480">
+                <template slot-scope="scope">
+                  <span class="operation" @click="handleEditMachine(scope.row)">
+                        <i class="icon icon2 el-icon-edit"></i>修改机器
+                  </span>
+                  <span class="operation" @click="handleDeleteMachine(scope.row,1)">
+                            <i class="icon icon1 el-icon-delete"></i>删除机器
+                  </span>
+                </template>
             </win-table-column>
         </win-table>
         <win-pagination name="machine" v-bind:childMsg="userReqVo.userPageVO" @callFather="machinePageQuery"></win-pagination>
@@ -37,13 +60,13 @@
 import Vue from "vue";
 import { Component, Prop, Emit } from "vue-property-decorator";
 import BaseController from "../../common/controller/BaseController";
-import IssueController from "../controller/issueController";
+import MachineController from "../controller/MachineController";
 import Component from "vue-class-component";
 import { debuglog } from "util";
-import { UserReqVO, UserClass } from "../vo/IssueVO";
+import { UserReqVO, UserClass } from "../vo/MachineVO";
 import PageVO from "../../common/vo/PageVO";
 @Component({})
-export default class UserTable extends IssueController {
+export default class UserTable extends MachineController {
     @Prop()
     userReqVo: UserReqVO;
 

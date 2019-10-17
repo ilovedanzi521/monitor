@@ -18,7 +18,7 @@
   import { UserReqVO, UserClass } from "../vo/MachineVO";
   import PageVO from "../../common/vo/PageVO";
   import Monitor from "../../../components2/vue/Monitor.vue"
-  import machineService from "../service/machineService";
+  import machineService from "../service/MachineService";
   import { WinResponseData } from "../../common/vo/BaseVO";
 
   import AxiosFun from "../../../api/AxiosFun";

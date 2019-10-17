@@ -1,11 +1,10 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import issueService from "../service/issueService";
+import issueService from "../service/IssueService";
 import { UserReqVO } from "../vo/IssueVO";
-import AddMachine from "../view/AddMachine.vue";
-import EditMachine from "../view/editMachine.vue";
-import DeleteMachine from "../view/deleteMachine.vue";
-import IssueTable from "../view/issueTable.vue";
+import ViewIssue from "../view/ViewIssue.vue";
+import DeleteIssue from "../view/DeleteIssue.vue";
+import IssueTable from "../view/IssueTable.vue";
 import BaseController from "../../common/controller/BaseController";
 import { WinRspType } from "../../common/enum/BaseEnum";
 import { WinResponseData } from "../../common/vo/BaseVO";
@@ -16,9 +15,8 @@ import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import AxiosFun from "../../../api/AxiosFun";
 @Component({
     components: {
-        AddMachine,
-        EditMachine,
-        DeleteMachine,
+        ViewIssue,
+      DeleteIssue,
         IssueTable
     }
 })
@@ -90,9 +88,32 @@ export default class IssueController extends BaseController {
     this.userReqVo.stateController.switchFormType = "AddMachine";
   }
 
-  editMachinePage(row) {
-    this.userReqVo.machine = row;
-    this.userReqVo.stateController.switchFormType = "EditMachine";
+  viewIssuePage(row) {
+    this.userReqVo.issue = row;
+    if(this.userReqVo.issue.warnLevel == "0"){
+      this.userReqVo.issue.warnLevelDesc = "低" ;
+    }
+    if(this.userReqVo.issue.warnLevel == "1"){
+      this.userReqVo.issue.warnLevelDesc = "中" ;
+    }
+    if(this.userReqVo.issue.warnLevel == "2"){
+      this.userReqVo.issue.warnLevelDesc = "高" ;
+    }
+    this.userReqVo.stateController.switchFormType = "ViewIssue";
+  }
+
+  deleteIssuePage(row) {
+    this.userReqVo.issue = row;
+    if(this.userReqVo.issue.warnLevel == "0"){
+      this.userReqVo.issue.warnLevelDesc = "低" ;
+    }
+    if(this.userReqVo.issue.warnLevel == "1"){
+      this.userReqVo.issue.warnLevelDesc = "中" ;
+    }
+    if(this.userReqVo.issue.warnLevel == "2"){
+      this.userReqVo.issue.warnLevelDesc = "高" ;
+    }
+    this.userReqVo.stateController.switchFormType = "DeleteIssue";
   }
 
   /***添加机器*/
@@ -135,23 +156,23 @@ export default class IssueController extends BaseController {
       });
   }
 
-  /***删除机器*/
-  httpDeleteMachine(res) {
-    let id = this.userReqVo.machine.id;
-    let ipAddress = this.userReqVo.machine.ipAddress;
-    let name = this.userReqVo.machine.name;
+  /***删除问题*/
+  httpDeleteIssue(res) {
+    let id = this.userReqVo.issue.id;
+    let ipAddress = this.userReqVo.issue.ipAddress;
+    let warnLevel = this.userReqVo.issue.warnLevel;
     let params = {
       ...res,
       id: id,
       ipAddress: ipAddress,
-      name: name
+      warnLevel: warnLevel
     };
     issueService
-      .deleteMachine(params)
+      .deleteIssue(params)
       .then((winResponseData: WinResponseData) => {
         if (WinRspType.SUCC == winResponseData.winRspType) {
           this.userReqVo.stateController.switchFormType = "";
-          this.win_message_success("删除机器成功");
+          this.win_message_success("删除问题成功");
           let params = {
           };
           this.getIssueList(params);

@@ -15,10 +15,10 @@
   import BaseController from "../../common/controller/BaseController";
   import Component from "vue-class-component";
   import { debuglog } from "util";
-  import { UserReqVO, UserClass } from "../vo/IssueVO";
+  import { UserReqVO, UserClass } from "../vo/MachineVO";
   import PageVO from "../../common/vo/PageVO";
   import Monitor from "../../../components2/vue/Monitor.vue"
-  import issueService from "../service/issueService";
+  import machineService from "../service/MachineService";
   import { WinResponseData } from "../../common/vo/BaseVO";
 
   import AxiosFun from "../../../api/AxiosFun";
@@ -59,7 +59,7 @@
     /** 机器明细数据 */
     machinePanelData() {
       console.log("machinePanelData")
-      issueService
+      machineService
         .machinePanelData()
         .then((response: WinResponseData) => {
           console.log(response.data);

@@ -46,10 +46,10 @@ export default class issueService {
     );
   }
 
-  //删除机器
-  static deleteMachine(vo: UserReqVO): Promise<WinResponseData> {
+  //删除问题
+  static deleteIssue(vo: UserReqVO): Promise<WinResponseData> {
     return AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/delete",
+      AxiosFun.monitorCenterServiceName + "/issue/delete",
       vo
     );
   }
@@ -57,7 +57,7 @@ export default class issueService {
   /** 批量删除 */
   static delBatch(ids: string) {
     return AxiosFun.winDelete(
-      AxiosFun.monitorCenterServiceName + "/machine/batchDelete/" + ids
+      AxiosFun.monitorCenterServiceName + "/issue/batchDelete/" + ids
     );
   }
 
