@@ -10,7 +10,7 @@ import MachineList from "@/page/machine/view/machineList.vue";
 import MachinePanel from "@/page/machine/view/machinePanel.vue";
 import WarnList from "@/page/warn/view/WarnList.vue";
 import ThresholdList from "@/page/warn/view/ThresholdList.vue";
-import IssueList from "@/page/issue/view/issueList.vue";
+//import IssueList from "@/page/issue/view/issueList.vue";
 
 const routers = [
   {
@@ -86,12 +86,12 @@ const routerChildren = [
       component:
       ThresholdList
     }
-    ,
+   /* ,
     {
       path: "/issueList",
       name: "issueList",
       component: IssueList
-    }
+    }*/
   ]
 ;
 
