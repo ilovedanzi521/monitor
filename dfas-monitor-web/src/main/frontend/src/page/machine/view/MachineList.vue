@@ -19,7 +19,7 @@
   import "../style/machine.scss";
   import { symlink } from "fs";
   import { Watch } from "vue-property-decorator";
-  export default class MachineView extends MachineController {
+  export default class MachineList extends MachineController {
     activeName: string = "organizational";
     switchingUserState;
     filterText = "";

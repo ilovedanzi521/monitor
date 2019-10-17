@@ -3,25 +3,10 @@ import { UserReqVO } from "../vo/MachineVO";
 import AxiosFun from "../../../api/AxiosFun";
 
 /**
- * user页面获取数据
+ * 机器页面获取数据
  */
-export default class machineService {
-    /**获取树形公司菜单 */
-    static getCompany(): Promise<WinResponseData> {
-        return AxiosFun.post(
-            AxiosFun.monitorCenterServiceName + "/api/menuTree/cdrTree",
-            {}
-        );
-    }
-
-    static getUsers(vo): Promise<WinResponseData> {
-      console.log("getUsers")
-        return AxiosFun.post(
-            AxiosFun.monitorCenterServiceName + "/api/multiQuery/userCompanyPage",
-            vo
-        );
-    }
-
+export default class MachineService {
+  
   static getMachine(vo): Promise<WinResponseData> {
       console.log("getMachine");
     return AxiosFun.post(

@@ -19,7 +19,7 @@
   import "../style/machine.scss";
   import { symlink } from "fs";
   import { Watch } from "vue-property-decorator";
-  export default class IssueView extends IssueController {
+  export default class IssueList extends IssueController {
     activeName: string = "organizational";
     switchingUserState;
     filterText = "";

@@ -66,14 +66,9 @@ import { debuglog } from "util";
 import { UserReqVO, UserClass } from "../vo/MachineVO";
 import PageVO from "../../common/vo/PageVO";
 @Component({})
-export default class UserTable extends MachineController {
+export default class MachineTable extends MachineController {
     @Prop()
     userReqVo: UserReqVO;
-
-    handleEditUser(row, column) {
-        this.userReqVo.user = row;
-        this.userReqVo.stateController.switchFormType = "EditUser";
-    }
 
   //@Emit("editMachinePage")
   handleEditMachine(row, column) {

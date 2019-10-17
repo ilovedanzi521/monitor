@@ -69,25 +69,6 @@ export default class IssueController extends BaseController {
       }
     }
 
-  /** 一键同步 */
-  private onKeySync() {
-    console.log("onKeySync")
-    issueService
-      .onKeySync()
-      .then((response: WinResponseData) => {
-        this.success("一键同步成功");
-        //this.message(response);
-      })
-      .catch((ex: any) => {
-        this.win_message_error("一键同步失败");
-      });
-  }
-
-  /***添加机器页面*/
-  addMachinePage() {
-    this.userReqVo.stateController.switchFormType = "AddMachine";
-  }
-
   viewIssuePage(row) {
     this.userReqVo.issue = row;
     if(this.userReqVo.issue.warnLevel == "0"){
@@ -114,46 +95,6 @@ export default class IssueController extends BaseController {
       this.userReqVo.issue.warnLevelDesc = "高" ;
     }
     this.userReqVo.stateController.switchFormType = "DeleteIssue";
-  }
-
-  /***添加机器*/
-  async httpAddMachine(params) {
-    issueService
-      .addMachine(params)
-      .then((winResponseData: WinResponseData) => {
-        if (WinRspType.SUCC === winResponseData.winRspType) {
-          this.userReqVo.machine.id = winResponseData.data.id;
-          this.success("添加机器成功");
-        } else {
-          this.errorMessage(winResponseData.msg);
-        }
-      });
-  }
-
-  /***编辑机器*/
-  httpEditMachine(res) {
-    let id = this.userReqVo.machine.id;
-    let ipAddress = this.userReqVo.machine.ipAddress;
-    let name = this.userReqVo.machine.name;
-    let params = {
-      ...res,
-      id: id,
-      ipAddress: ipAddress,
-      name: name
-    };
-    issueService
-      .editMachine(params)
-      .then((winResponseData: WinResponseData) => {
-        if (WinRspType.SUCC == winResponseData.winRspType) {
-          this.userReqVo.stateController.switchFormType = "";
-          this.win_message_success("修改机器成功");
-          let params = {
-          };
-          this.getIssueList(params);
-        } else {
-          this.win_message_error(winResponseData.msg);
-        }
-      });
   }
 
   /***删除问题*/
@@ -183,7 +124,7 @@ export default class IssueController extends BaseController {
   }
 
 
-    /***首次加载机器列表数据 */
+    /***首次加载问题列表数据 */
     async fristGetCompent() {
 
         /*let params = {

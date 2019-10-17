@@ -25,7 +25,7 @@ import { Component, Prop, Emit } from "vue-property-decorator";
 import { UserReqVO,MachineClass, UserClass } from "../vo/IssueVO";
 import BaseController from "../../common/controller/BaseController";
 @Component({})
-export default class EditMachine extends BaseController {
+export default class ViewIssue extends BaseController {
     dialogFormVisible: boolean = true;
     machine: MachineClass = new MachineClass();
     ipAddress: string = "";
@@ -40,58 +40,12 @@ export default class EditMachine extends BaseController {
     @Prop()
     userReqVo: UserReqVO;
 
-
-
-    @Emit("editmachine")
-    handleEditMachine() {
-      let userParams = {
-        id: this.machine.id, //ID
-        ipAddress: this.machine.ipAddress, //ip
-        name: this.machine.name//机器名称
-      };
-      return userParams;
-    }
-
-    @Emit("changeDep")
-    /**改变部门 */
-    changeDep(res) {
-        console.log(res);
-        this.roleIds = [];
-        this.depId = res.id;
-        return res;
-    }
-
-    /**改变角色状态 */
-
-    /**改变用户状态 */
-    changeUserType(res) {
-        this.userType = res.userTypeName;
-        this.userTypeId = res.userType;
-    }
     close() {
         this.userReqVo.stateController.switchFormType = "";
     }
 
     mounted() {
-        /*this.user = Object.assign({}, this.userReqVo.user);
-        this.depName = this.userReqVo.user.departmentName;
-        this.depId = this.userReqVo.user.departmentId;
-        //加载角色
-        this.userReqVo.user.roleNames.forEach(element => {
-            this.roleIds.push(element.roleId);
-            this.roleName.push(element.roleName);
-        });
-        this.userReqVo.userTypeArray.forEach(element => {
-            if (element.userType == this.userReqVo.user.userType) {
-                this.userType = element.userTypeName;
-                this.userTypeId = element.userType;
-            }
-        });
-        //初始化部门下的角色
-        let depInit = this.userReqVo.department.departmentArray.filter(
-            element => element.id == this.depId
-        );
-        this.$emit("changeDep", depInit[0]);*/
+
     }
 }
 </script>

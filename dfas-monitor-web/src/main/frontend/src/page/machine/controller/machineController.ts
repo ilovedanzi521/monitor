@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import machineService from "../service/MachineService";
+import MachineService from "../service/MachineService";
 import { UserReqVO } from "../vo/MachineVO";
 import AddMachine from "../view/AddMachine.vue";
 import EditMachine from "../view/EditMachine.vue";
@@ -56,7 +56,7 @@ export default class MachineController extends BaseController {
             ids.push(element.id);
           });
           const idsStr: string = ids.join(",");
-          machineService
+          MachineService
             .delBatch(idsStr)
             .then((response: WinResponseData) => {
               this.success("删除机器成功");
@@ -74,7 +74,7 @@ export default class MachineController extends BaseController {
   /** 一键同步 */
   private onKeySync() {
     console.log("onKeySync")
-    machineService
+    MachineService
       .onKeySync()
       .then((response: WinResponseData) => {
         this.success("一键同步成功");
@@ -97,7 +97,7 @@ export default class MachineController extends BaseController {
 
   /***添加机器*/
   async httpAddMachine(params) {
-    machineService
+    MachineService
       .addMachine(params)
       .then((winResponseData: WinResponseData) => {
         if (WinRspType.SUCC === winResponseData.winRspType) {
@@ -120,7 +120,7 @@ export default class MachineController extends BaseController {
       ipAddress: ipAddress,
       name: name
     };
-    machineService
+    MachineService
       .editMachine(params)
       .then((winResponseData: WinResponseData) => {
         if (WinRspType.SUCC == winResponseData.winRspType) {
@@ -146,7 +146,7 @@ export default class MachineController extends BaseController {
       ipAddress: ipAddress,
       name: name
     };
-    machineService
+    MachineService
       .deleteMachine(params)
       .then((winResponseData: WinResponseData) => {
         if (WinRspType.SUCC == winResponseData.winRspType) {
@@ -212,7 +212,7 @@ export default class MachineController extends BaseController {
 
     this.userReqVo.reqParam = params;
 
-    machineService
+    MachineService
       .getMachine(params)
       .then((winResponseData: WinResponseData) => {
         if (WinRspType.SUCC == winResponseData.winRspType) {

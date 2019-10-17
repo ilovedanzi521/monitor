@@ -18,13 +18,13 @@
   import { UserReqVO, UserClass } from "../vo/MachineVO";
   import PageVO from "../../common/vo/PageVO";
   import Monitor from "../../../components2/vue/Monitor.vue"
-  import machineService from "../service/MachineService";
+  import MachineService from "../service/MachineService";
   import { WinResponseData } from "../../common/vo/BaseVO";
 
   import AxiosFun from "../../../api/AxiosFun";
 
   @Component({components:{Monitor}})
-  export default class MachineDetailPanel extends BaseController {
+  export default class MachinePanel extends BaseController {
     machinePanelDataList = [] ;
     ws: WebSocket;
 
@@ -59,7 +59,7 @@
     /** 机器明细数据 */
     machinePanelData() {
       console.log("machinePanelData")
-      machineService
+      MachineService
         .machinePanelData()
         .then((response: WinResponseData) => {
           console.log(response.data);

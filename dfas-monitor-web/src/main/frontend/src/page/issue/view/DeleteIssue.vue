@@ -26,7 +26,7 @@ import { Component, Prop, Emit } from "vue-property-decorator";
 import { UserReqVO,MachineClass,IssueClass, UserClass } from "../vo/IssueVO";
 import BaseController from "../../common/controller/BaseController";
 @Component({})
-export default class AddUser extends BaseController {
+export default class DeleteIssue extends BaseController {
     dialogFormVisible: boolean = true;
     issue: IssueClass = new IssueClass();
     ipAddress: string = "";
@@ -41,32 +41,6 @@ export default class AddUser extends BaseController {
     @Prop()
     userReqVo: UserReqVO;
 
-    @Emit("edituser")
-    handleEditUser() {
-        let userParams = {
-            id: this.user.id, //用户ID
-            userId: this.user.userCode, //用户编吗
-            userName: this.user.userName, //用户名称
-            mailAddress: this.user.mailAddress, //邮箱地址
-            phoneNumber: this.user.phoneNumber, //角色电话
-            contactWay: this.user.contactWay, //角色联系方式
-            userType: this.userTypeId, //角色类型 1代表后台2代表普通3临时
-            departmentId: this.depId,
-            userState: 1, // 角色状态：1-代表正常
-            roleIds: this.roleIds
-        };
-        return userParams;
-    }
-
-    @Emit("editmachine")
-    handleEditMachine() {
-      let userParams = {
-        id: this.machine.id, //ID
-        ipAddress: this.machine.ipAddress, //ip
-        name: this.machine.name//机器名称
-      };
-      return userParams;
-    }
 
   @Emit("deleteissue")
   handleDeleteIssue() {
@@ -79,49 +53,13 @@ export default class AddUser extends BaseController {
     return userParams;
   }
 
-    @Emit("changeDep")
-    /**改变部门 */
-    changeDep(res) {
-        console.log(res);
-        this.roleIds = [];
-        this.depId = res.id;
-        return res;
-    }
 
-    /**改变角色状态 */
-
-    /**改变用户状态 */
-    changeUserType(res) {
-        this.userType = res.userTypeName;
-        this.userTypeId = res.userType;
-    }
     close() {
         this.userReqVo.stateController.switchFormType = "";
     }
 
     mounted() {
-        console.log("?????????????");
-        console.log(this.userReqVo.machine)
-        console.log(this.userReqVo.user);
-        this.user = Object.assign({}, this.userReqVo.user);
-        this.depName = this.userReqVo.user.departmentName;
-        this.depId = this.userReqVo.user.departmentId;
-        //加载角色
-        this.userReqVo.user.roleNames.forEach(element => {
-            this.roleIds.push(element.roleId);
-            this.roleName.push(element.roleName);
-        });
-        this.userReqVo.userTypeArray.forEach(element => {
-            if (element.userType == this.userReqVo.user.userType) {
-                this.userType = element.userTypeName;
-                this.userTypeId = element.userType;
-            }
-        });
-        //初始化部门下的角色
-        let depInit = this.userReqVo.department.departmentArray.filter(
-            element => element.id == this.depId
-        );
-        this.$emit("changeDep", depInit[0]);
+        
     }
 }
 </script>

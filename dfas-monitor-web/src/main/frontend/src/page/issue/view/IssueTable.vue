@@ -64,10 +64,6 @@ export default class IssueTable extends BaseController {
     @Prop()
     userReqVo: UserReqVO;
 
-    handleEditUser(row, column) {
-        this.userReqVo.user = row;
-        this.userReqVo.stateController.switchFormType = "EditUser";
-    }
 
   //@Emit("editMachinePage")
   handleViewIssue(row, column) {
@@ -84,17 +80,7 @@ export default class IssueTable extends BaseController {
     /*this.userReqVo.machine = row;
     this.userReqVo.stateController.switchFormType = "DeleteMachine";*/
   }
-
-    @Emit("machinePageQuery")
-    machinePageQuery(vo: PageVO) {
-      return vo;
-    }
-  @Emit("addMachinePage")
-  /**增加系 */
-  handleAddMachine() {
-    console.log("addMachinePage");
-  }
-
+  
   @Emit("delBatch")
   handledelBatch() {
     console.log("del batch");
