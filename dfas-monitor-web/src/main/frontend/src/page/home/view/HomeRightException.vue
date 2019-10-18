@@ -7,7 +7,7 @@
             <img src="../image/groupMin.png">&nbsp;&nbsp;异常
           </div>
           <div class="moreArea">
-            <a href="/#/warnList" target="_blank"><img src="../image/more.png"></a>
+            <a href="/#/issueList" target="_blank"><img src="../image/more.png"></a>
           </div>
         </div>
       </div>
