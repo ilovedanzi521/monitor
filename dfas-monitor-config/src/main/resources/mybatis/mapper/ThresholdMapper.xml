@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.win.dfas.monitor.config.mapper.ThresholdMapper">
+    
+    <resultMap type="com.win.dfas.monitor.common.entity.Threshold" id="ThresholdResult">
+        <result property="id"    column="id"    />
+        <result property="indicatorBody"    column="indicator_body"    />
+        <result property="indicatorName"    column="indicator_name"    />
+        <result property="indicatorSymbol"    column="indicator_symbol"    />
+        <result property="threshold"    column="threshold"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectThresholdVo">
+        select id, indicator_body, indicator_name, indicator_symbol, threshold, create_time, update_time from t_threshold
+    </sql>
+	
+    <select id="selectThresholdList" parameterType="com.win.dfas.monitor.common.entity.Threshold" resultMap="ThresholdResult">
+        <include refid="selectThresholdVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="indicatorBody != null  and indicatorBody != '' "> and indicator_body = #{indicatorBody}</if>
+             <if test="indicatorName != null  and indicatorName != '' "> and indicator_name = #{indicatorName}</if>
+             <if test="indicatorSymbol != null  and indicatorSymbol != '' "> and indicator_symbol = #{indicatorSymbol}</if>
+             <if test="threshold != null "> and threshold = #{threshold}</if>
+             <if test="createTime != null  and createTime != '' "> and create_time = #{createTime}</if>
+             <if test="updateTime != null  and updateTime != '' "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectThresholdById" parameterType="String" resultMap="ThresholdResult">
+        <include refid="selectThresholdVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertThreshold" parameterType="com.win.dfas.monitor.common.entity.Threshold">
+        insert into t_threshold
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="indicatorBody != null  and indicatorBody != ''  ">indicator_body,</if>
+			<if test="indicatorName != null  and indicatorName != ''  ">indicator_name,</if>
+			<if test="indicatorSymbol != null  and indicatorSymbol != ''  ">indicator_symbol,</if>
+			<if test="threshold != null  ">threshold,</if>
+			<if test="createTime != null  and createTime != ''  ">create_time,</if>
+			<if test="updateTime != null  and updateTime != ''  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="indicatorBody != null  and indicatorBody != ''  ">#{indicatorBody},</if>
+			<if test="indicatorName != null  and indicatorName != ''  ">#{indicatorName},</if>
+			<if test="indicatorSymbol != null  and indicatorSymbol != ''  ">#{indicatorSymbol},</if>
+			<if test="threshold != null  ">#{threshold},</if>
+			<if test="createTime != null  and createTime != ''  ">#{createTime},</if>
+			<if test="updateTime != null  and updateTime != ''  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateThreshold" parameterType="com.win.dfas.monitor.common.entity.Threshold">
+        update t_threshold
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="indicatorBody != null  and indicatorBody != ''  ">indicator_body = #{indicatorBody},</if>
+            <if test="indicatorName != null  and indicatorName != ''  ">indicator_name = #{indicatorName},</if>
+            <if test="indicatorSymbol != null  and indicatorSymbol != ''  ">indicator_symbol = #{indicatorSymbol},</if>
+            <if test="threshold != null  ">threshold = #{threshold},</if>
+            <if test="createTime != null  and createTime != ''  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  and updateTime != ''  ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteThresholdById" parameterType="String">
+        delete from t_threshold where id = #{id}
+    </delete>
+	
+    <delete id="deleteThresholdByIds" parameterType="String">
+        delete from t_threshold where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

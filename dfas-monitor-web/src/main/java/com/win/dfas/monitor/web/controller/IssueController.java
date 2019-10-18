@@ -22,8 +22,8 @@ import java.util.Map;
 
 /**
  * 包名称：com.win.dfas.monitor.web.controller
- * 类名称：MachineController
- * 类描述：机器控制类
+ * 类名称：IssueController
+ * 类描述：问题控制类
  * 创建人：@author lj
  * 创建时间：2019-10-10/13:31
  */
