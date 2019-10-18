@@ -16,6 +16,17 @@
         background: #0a1e46;
     }
 
+    .monitor-title {
+        padding: 5px 0;
+        font-size: 16px;
+        text-align: center;
+        color: #8AA1BE;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .monitor-wrapper:last-of-type {
         margin-bottom: 0;
     }
@@ -23,6 +34,7 @@
     .monitor-item-machine {
         position: relative;
         display: flex;
+        width: 60px;
         justify-content: center;
         align-items: center;
         padding: 20px;
@@ -40,18 +52,19 @@
             position: absolute;
             width: 25px;
             height: 25px;
-            top: 12px;
-            left: 2px;
+            top: 57%;
+            left: 20%;
         }
     }
 
     .monitor-item-service {
         position: relative;
         display: flex;
+        // width: 103px;
+        padding: 6px;
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
-        padding: 6px;
         cursor: pointer;
 
         &:hover {
@@ -64,8 +77,8 @@
             position: absolute;
             width: 25px;
             height: 25px;
-            top: -11px;
-            left: 43px;
+            top: 8%;
+            left: 63%;
         }
     }
 
@@ -73,15 +86,12 @@
         position: relative;
 
         &.img-container-machine {
-            width: 30px;
+            // width: 30px;
         }
 
-        &.img-container-machine {
-            width: 30px;
-        }
 
         &.img-container-service {
-            width: 57px;
+            // width: 57px;
         }
     }
 

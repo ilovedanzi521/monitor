@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0.0 2018-11-26
  * @since 1.0.0 2018-11-26
  */
+@EnableTransactionManagement
 @Configuration
 public class DruidConfig {
 

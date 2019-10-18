@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="machineState-container">
-        <Monitor :dataList="machineStateList" :col="7" :row="5" type="machine"></Monitor>
+        <Monitor :dataList="machineStateList" :col="5" :row="4" type="machine" minWidth="60px"></Monitor>
       </div>
     </div>
   </div>

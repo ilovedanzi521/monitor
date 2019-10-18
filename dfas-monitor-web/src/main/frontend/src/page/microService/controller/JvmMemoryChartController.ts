@@ -82,6 +82,7 @@ export default class JvmMemoryChartController extends BaseController {
   /** 页面初始化 */
   private mounted() {
     this.microServiceInfoRepVO = this.fromFatherMsg.data;
+    this.microServiceInfoReqVO.id = this.microServiceInfoRepVO.id;
     this.microServiceInfoReqVO.microServiceName = this.microServiceInfoRepVO.microServiceName;
 /*     this.renderChart(
       this.legendData,

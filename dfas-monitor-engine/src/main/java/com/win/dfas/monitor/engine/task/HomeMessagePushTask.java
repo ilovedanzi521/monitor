@@ -3,11 +3,16 @@ package com.win.dfas.monitor.engine.task;
 
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
+import com.win.dfas.monitor.common.constant.MonitorConstants;
+import com.win.dfas.monitor.common.constant.StatusEnum;
 import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
+import com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.vo.MicroServiceMachineRepVO;
+import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
+import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.EurekaService;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -38,6 +44,9 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
 
     @Autowired
     private MicroServiceMapper microServiceMapper;
+
+    @Autowired
+    private MicroServiceInstanceMapper microServiceInstanceMapper;
 
     public void push(HomeModuleEnum homeModuleEnum) {
         CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(homeModuleEnum);
@@ -76,13 +85,32 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
 
     @Scheduled(cron = "0/7 * * * * ?")
     public void pushMicroServiceStateData() {
-        List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(null);
-        List<MicroServiceReqVO> microServiceReqList = ObjectUtils.copyPropertiesList(list, MicroServiceReqVO.class);
-        Map<String, ApplicationInstance> microServiceMap = eurekaService.fetchMicroService();
-        for (MicroServiceReqVO microServiceReqVO : microServiceReqList) {
-            /*ApplicationInstance applicationInstance = microServiceMap.get(microServiceMachineRep.getInstanceId());
-            if (applicationInstance != null) {
-                microServiceReqVO.setState(applicationInstance.getStatus());
+        List<MicroServiceEntity> microServiceEntityList = microServiceMapper.selectMicroServiceList(null);
+        List<MicroServiceRepVO> microServiceRepList = ObjectUtils.copyPropertiesList(microServiceEntityList, MicroServiceRepVO.class);
+        Map<String, ApplicationInstance> microServiceInstanceMap = eurekaService.fetchMicroService();
+        Random random = new Random(System.currentTimeMillis());
+        for (MicroServiceRepVO microServiceRepVO : microServiceRepList) {
+            List<MicroServiceInstanceEntity> instanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
+            int upCount=0;
+            if(instanceList != null){
+                for(MicroServiceInstanceEntity microServiceInstanceEntity:instanceList){
+                    ApplicationInstance applicationInstance = microServiceInstanceMap.get(microServiceInstanceEntity.getIpAddr());
+                    if(applicationInstance != null){
+                        if(MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())){
+                            upCount++;
+                        }
+                    }
+                }
+            }
+
+            microServiceRepVO.setState(String.valueOf(random.nextInt(4)));
+            /*if(instanceList == null  ||  upCount ==0) {
+                microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
+            }else if(upCount  < instanceList.size()){
+                microServiceRepVO.setState(StatusEnum.EXCEPTION.getStatus());
+            }else if(upCount ==instanceList.size()){
+                microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
+                //继续判断JVM内存是否存在告警，存在，则设置为告警状态
             }*/
         }
         CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.microServiceState);
@@ -90,7 +118,7 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
             System.out.println("客户端连接个数：" + webSocketSet.size());
             for (AbstractWebSocket webSocket : webSocketSet) {
                 try {
-                    webSocket.sendMessage(JsonUtil.toJson(microServiceReqList));
+                    webSocket.sendMessage(JsonUtil.toJson(microServiceRepList));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

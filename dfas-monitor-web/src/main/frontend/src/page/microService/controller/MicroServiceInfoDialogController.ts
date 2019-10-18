@@ -38,7 +38,7 @@ export default class MicroServiceInfoDialogController extends BaseController {
     };
 
     private microServiceInfoDialogService: MicroServiceInfoDialogService = new MicroServiceInfoDialogService();
-    private MicroServiceInfoRepVO: MicroServiceInfoRepVO = new MicroServiceInfoRepVO();
+    private microServiceInfoRepVO: MicroServiceInfoRepVO = new MicroServiceInfoRepVO();
     private rivalInfoDicData: MicroServiceInfoDicDataVO = new MicroServiceInfoDicDataVO();
     private infoDialogVisible: boolean = true;
     private dialogLoading: boolean = false;
@@ -73,8 +73,8 @@ export default class MicroServiceInfoDialogController extends BaseController {
     };
     /** 页面初始化 */
     private mounted() {
-        this.MicroServiceInfoRepVO = new MicroServiceInfoRepVO();
-        this.MicroServiceInfoRepVO = this.fromFatherMsg.data;
+        this.microServiceInfoRepVO = new MicroServiceInfoRepVO();
+        this.microServiceInfoRepVO = this.fromFatherMsg.data;
         if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
             this.dialogTitle = MicroServiceInfoConst.CREATETITLE;
             this.dialogSumbitText = BaseConst.CONFIRM;
@@ -114,23 +114,23 @@ export default class MicroServiceInfoDialogController extends BaseController {
 
     /** 提交按钮 */
     private submitDialog() {
-        const MicroServiceInfo = "MicroServiceInfo";
-        const el: any = this.$refs[MicroServiceInfo];
+        const microServiceInfo = "microServiceInfo";
+        const el: any = this.$refs[microServiceInfo];
         el.validate((valid: boolean) => {
             if (valid) {
                 this.dialogLoading = true;
                 if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
-                    this.microServiceInfoDialogService.insert(this.MicroServiceInfoRepVO).then((response: WinResponseData) => {
+                    this.microServiceInfoDialogService.insert(this.microServiceInfoRepVO).then((response: WinResponseData) => {
                         this.dialogMessage(response);
                     });
                 }
                 if (this.fromFatherMsg.type === OperationTypeEnum.UPDATE) {
-                    this.microServiceInfoDialogService.update(this.MicroServiceInfoRepVO).then((response: WinResponseData) => {
+                    this.microServiceInfoDialogService.update(this.microServiceInfoRepVO).then((response: WinResponseData) => {
                         this.dialogMessage(response);
                     });
                 }
                 if (this.fromFatherMsg.type === OperationTypeEnum.DELETE) {
-                    this.microServiceInfoDialogService.del(this.MicroServiceInfoRepVO.id).then((response: WinResponseData) => {
+                    this.microServiceInfoDialogService.del(this.microServiceInfoRepVO.id).then((response: WinResponseData) => {
                         this.dialogMessage(response);
                     });
                 }

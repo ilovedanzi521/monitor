@@ -2,16 +2,20 @@
     <div>
         <ul class="monitor-container" :style="{'width':minWidth}" ref="monitor">
             <li class="monitor-wrapper" v-for="(monitor,index) in getFormatData" :key="index">
-                <div v-for="aitem in monitor" :key="aitem.id" :class="['monitor-item-js',`monitor-item-${type}`]" @click="clickItem(monitor,aitem)">
+                <div v-for="aitem in monitor" :key="aitem.id" :class="['monitor-item-js',`monitor-item-${type}`]" @click="clickItem(monitor,aitem)" :style="{'width':minWidth}">
                     <div :class="['img-container',`img-container-${type}`] ">
+                        <img src="../style.css/img/as.svg" v-if="type=='machine'" :style="{'width':parseInt(minWidth)-20+'px'}" />
+                        <img src="../style.css/img/bs.svg" v-else :style="{'width':parseInt(minWidth)-30+'px'}" />
+
                         <img src="../style.css/img/0.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==0" />
                         <img src="../style.css/img/1.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==1" />
                         <img src="../style.css/img/2.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==2" />
                         <img src="../style.css/img/3.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==3" />
-                        <img src="../style.css/img/as.svg" v-if="type=='machine'" />
-                        <img src="../style.css/img/bs.svg" v-else />
+
+                        <p class="monitor-title" :style="{'width':parseInt(minWidth)-20+'px'}" v-if="isShowTitel">{{aitem.ipAddress||aitem.microServiceName}}</p>
                     </div>
-                    <div class="tool-container" v-if="isTool">
+
+                    <!-- <div class="tool-container" v-if="isTool">
                         <p v-if="aitem.ipAddress||aitem.microServiceName">
                             <label>{{aitem.ipAddress?"ip地址:":"微服务名称:"}}</label>
                             <span>{{aitem.ipAddress||aitem.microServiceName}}</span>
@@ -40,7 +44,7 @@
                             <label>磁盘使用率：</label>
                             <span>{{aitem.diskPer}}</span>
                         </p>
-                    </div>
+                    </div> -->
                 </div>
             </li>
         </ul>
@@ -50,19 +54,12 @@
 export default {
     data() {
         return {
-            monitorList: [],
-            imgArray: [
-                "../style.css/img/0.png",
-                "../style.css/img/1.png",
-                "../style.css/img/2.png",
-                "../style.css/img/3.png"
-            ]
+            monitorList: []
         };
     },
     props: {
         minWidth: {
-            type: String,
-            default: "100%"
+            type: String
         },
         /**渲染数据 0：档机，1：危险，2：警告，3：正常 */
         dataList: {
@@ -72,6 +69,10 @@ export default {
             }
         },
         /**渲染数据类型，machine：机器，service：服务 */
+        isShowTitel: {
+            type: Boolean,
+            default: false
+        },
         type: {
             type: String,
             default: "service", //service,machine

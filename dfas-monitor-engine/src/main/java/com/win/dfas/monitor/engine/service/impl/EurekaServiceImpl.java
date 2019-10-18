@@ -36,7 +36,7 @@ public class EurekaServiceImpl implements EurekaService {
                 List<ApplicationInstance> instanceList = microServiceApplicationDTO.getInstance();
                 if (instanceList != null) {
                     for (ApplicationInstance instance : instanceList) {
-                        microServiceMap.put(instance.getInstanceId(), instance);
+                        microServiceMap.put(instance.getIpAddr(), instance);
                     }
                 }
             }

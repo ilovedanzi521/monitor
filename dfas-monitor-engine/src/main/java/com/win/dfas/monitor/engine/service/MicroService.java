@@ -21,7 +21,7 @@ public interface MicroService {
 
     void updateMicroService(MicroServiceReqVO microServiceReqVO);
 
-    void deleteMicroService(String id);
+    void deleteMicroService(Long id);
 
     void deleteMicroServiceByIds(String ids);
 

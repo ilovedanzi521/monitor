@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper">
+	
+	<resultMap type="com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity" id="MicroServiceInstanceEntityResult">
+        <result property="id"    column="id"    />
+        <result property="serviceId"    column="serviceId"    />
+        <result property="app"    column="app"    />
+        <result property="instanceId"    column="instanceId"    />
+        <result property="hostName"    column="hostName"    />
+        <result property="ipAddr"    column="ipAddr"    />
+    </resultMap>
+
+	<sql id="micro_service_instance_base_query">
+        select t.* from t_micro_service_instance t
+    </sql>
+
+    <!-- 查询报告管理信息 -->
+    <select id="selectMicroServiceInstanceList" parameterType="MicroServiceInstanceEntity" resultMap="MicroServiceInstanceEntityResult">
+        <include refid="micro_service_instance_base_query"/>
+     	<trim prefix="WHERE" prefixOverrides="AND ">
+            <if test="serviceId != null  and serviceId != ''  ">
+                serviceId  = #{serviceId}
+            </if>
+		</trim>
+    </select>
+
+
+    <select id="selectMicroServiceInstanceListByServiceId" parameterType="java.lang.Long" resultMap="MicroServiceInstanceEntityResult">
+        <include refid="micro_service_instance_base_query"/>
+        <trim prefix="WHERE" prefixOverrides="AND ">
+            <if test="serviceId != null  and serviceId != ''  ">
+                serviceId  = #{serviceId}
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertMicroServiceInstanceList"
+            parameterType="java.util.List">
+        insert into t_micro_service_instance (id, serviceId,instanceId,hostName,app,ipAddr)
+        VALUES <foreach collection="list" item="item" index="index"
+                        separator=",">
+        ( #{item.id}, #{item.serviceId}, #{item.instanceId}, #{item.hostName}, #{item.app}, #{item.ipAddr})
+    </foreach>
+    </insert>
+
+
+    <insert id="insertMicroServiceInstance"
+            parameterType="com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity">
+        insert into t_micro_service_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''  ">id,</if>
+            <if test="serviceId != null  and serviceId != ''  ">serviceId,</if>
+            <if test="app != null  and app != ''  ">app,</if>
+            <if test="instanceId != null  and instanceId != ''  ">instanceId,</if>
+            <if test="hostName != null  and hostName != ''  ">hostName,</if>
+            <if test="ipAddr != null  and ipAddr != ''  ">ipAddr,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''  ">#{id},</if>
+            <if test="serviceId != null  and serviceId != ''  ">#{serviceId},</if>
+            <if test="app != null  and app != ''  ">#{app},</if>
+            <if test="instanceId != null  and instanceId != ''  ">#{instanceId},</if>
+            <if test="hostName != null  and hostName != ''  ">#{hostName},</if>
+            <if test="ipAddr != null  and ipAddr != ''  ">#{ipAddr},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMicroServiceInstance" parameterType="com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity">
+        update t_micro_service_instance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="instanceId != null  and instanceId != ''  ">instanceId=#{instanceId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="clearMicroServiceInstance">
+        delete from t_micro_service_instance
+    </delete>
+
+    <delete id="deleteMicroServiceInstance" parameterType="java.lang.Long">
+        delete from t_micro_service_instance where id = #{id}
+    </delete>
+
+    <delete id="deleteMicroServiceInstanceByServiceId" parameterType="java.lang.Long">
+        delete from t_micro_service_instance where serviceId = #{serviceId}
+    </delete>
+
+    <delete id="deleteMicroServiceInstanceByIds" parameterType="java.util.List">
+        delete from t_micro_service_instance where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

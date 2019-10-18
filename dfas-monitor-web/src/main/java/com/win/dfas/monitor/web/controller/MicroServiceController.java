@@ -88,7 +88,7 @@ public class MicroServiceController extends BaseController {
     @MonitorMetrics
     @ApiOperation(value = "删除微服务", notes = "删除微服务")
     @DeleteMapping("/deleteMicroService/{id}")
-    public WinResponseData deleteMicroService(@PathVariable("id") String id) {
+    public WinResponseData deleteMicroService(@PathVariable("id") Long id) {
         microService.deleteMicroService(id);
         return WinResponseData.handleSuccess(ReturnMsgEnum.Remove.getMsg());
     }

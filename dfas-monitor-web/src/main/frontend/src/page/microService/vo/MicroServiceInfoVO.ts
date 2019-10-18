@@ -25,7 +25,7 @@ export class MicroServiceInfoRepVO extends BaseRepVO {
     /**
      * 对手编号
      */
-    public rivalCode: string;
+    public ipAddress: string;
 
     /**
      * 对手名称
@@ -78,7 +78,7 @@ export class MicroServiceInfoReqVO extends BaseReqVO {
     /**
      * 对手编号
      */
-    public rivalCode: string;
+    public ipAddress: string;
 
     /**
      * 对手名称

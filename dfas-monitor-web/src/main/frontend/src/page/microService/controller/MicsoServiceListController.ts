@@ -324,4 +324,12 @@ export default class MicsoServiceListController extends BaseController {
       });
     }
   }
+
+      /** 数据字典映射 */
+      private formatDic({ row, column }) {
+        alert(JSON.stringify(row));
+        alert(JSON.stringify(column));
+      }
+  
+
 }

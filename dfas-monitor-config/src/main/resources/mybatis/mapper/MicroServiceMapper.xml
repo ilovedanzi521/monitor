@@ -8,17 +8,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="microServiceName"    column="microServiceName"    />
         <result property="microServiceAlias"    column="microServiceAlias"    />
-        <result property="app"    column="app"    />
-        <result property="instanceId"    column="instanceId"    />
-        <result property="hostName"    column="hostName"    />
-        <result property="ipAddr"    column="ipAddr"    />
     </resultMap>
 
 	<sql id="micro_service_base_query">
         select t.* from t_micro_service t
     </sql>
 
-    <!-- 查询报告管理信息 -->
+    <!-- 查询微服务信息 -->
     <select id="selectMicroServiceList" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
         <include refid="micro_service_base_query"/>
      	<trim prefix="WHERE" prefixOverrides="AND ">
@@ -31,28 +27,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
     </select>
 
-    <!-- 查询报告管理信息 -->
-    <select id="searchMicroService" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
+    <!-- 查询微服务信息 -->
+    <select id="selectMicroService" parameterType="java.lang.Long" resultMap="MicroServiceEntityResult">
         <include refid="micro_service_base_query"/>
         <trim prefix="WHERE" prefixOverrides="AND ">
-            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName  like concat('', #{microServiceName},'%')</if>
-        </trim>
-    </select>
-
-    <!-- 查询报告管理信息 -->
-    <select id="microServiceMachineList" parameterType="MicroServiceEntity" resultMap="MicroServiceEntityResult">
-        <include refid="micro_service_base_query"/>
-        <trim prefix="WHERE" prefixOverrides="AND ">
-            <if test="microServiceName != null  and microServiceName != ''  ">microServiceName =  #{microServiceName}</if>
+            <if test="id != null  and id != ''  ">id =  #{id}</if>
         </trim>
     </select>
 
     <insert id="insertMicroServiceList"
             parameterType="java.util.List">
-        insert into t_micro_service (id, microServiceName,microServiceAlias,instanceId,hostName,app,ipAddr)
+        insert into t_micro_service (id, microServiceName,microServiceAlias)
         VALUES <foreach collection="list" item="item" index="index"
                         separator=",">
-        ( #{item.id}, #{item.microServiceName}, #{item.microServiceAlias}, #{item.instanceId}, #{item.hostName}, #{item.app}, #{item.ipAddr})
+        ( #{item.id}, #{item.microServiceName}, #{item.microServiceAlias})
     </foreach>
     </insert>
 
@@ -64,19 +52,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="id != null  and id != ''  ">id,</if>
             <if test="microServiceName != null  and microServiceName != ''  ">microServiceName,</if>
             <if test="microServiceAlias != null  and microServiceName != ''  ">microServiceAlias,</if>
-            <if test="app != null  and app != ''  ">app,</if>
-            <if test="instanceId != null  and instanceId != ''  ">instanceId,</if>
-            <if test="hostName != null  and hostName != ''  ">hostName,</if>
-            <if test="ipAddr != null  and ipAddr != ''  ">ipAddr,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''  ">#{id},</if>
             <if test="microServiceName != null  and microServiceName != ''  ">#{microServiceName},</if>
             <if test="microServiceAlias != null  and microServiceAlias != ''  ">#{microServiceAlias},</if>
-            <if test="app != null  and app != ''  ">#{app},</if>
-            <if test="instanceId != null  and instanceId != ''  ">#{instanceId},</if>
-            <if test="hostName != null  and hostName != ''  ">#{hostName},</if>
-            <if test="ipAddr != null  and ipAddr != ''  ">#{ipAddr},</if>
         </trim>
     </insert>
 

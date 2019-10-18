@@ -13,6 +13,7 @@ public class MicroServiceRepVO extends BaseRepVO {
 
     private String microServiceName;
     private String microServiceAlias;
+    private String ipAddress;
     private String state = MonitorConstants.DEFAULT_DISPLAY_SYMBOL;
     private String warn = MonitorConstants.DEFAULT_DISPLAY_SYMBOL;
     private String error = MonitorConstants.DEFAULT_DISPLAY_SYMBOL;

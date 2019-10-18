@@ -94,6 +94,7 @@ public class MachineTask {
     }
 
     private String getMachineStatusData() {
+        Random random = new Random(System.currentTimeMillis());
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         List<MachineStatusVO> machineStatusList = new ArrayList<>();
@@ -106,7 +107,8 @@ public class MachineTask {
             machineStatus.setDiskPer(dc.getDisk() + "%");
             machineStatus.setDiskSize(dc.getDiskSize());
             machineStatus.setMemoryPer(dc.getMemory() + "%");
-            machineStatus.setState(String.valueOf(dc.getStatus()));
+            //machineStatus.setState(String.valueOf(dc.getStatus()));
+            machineStatus.setState(random.nextInt(4)+"");
             machineStatus.setMemorySize(dc.getMemorySize());
             machineStatusList.add(machineStatus);
         }
