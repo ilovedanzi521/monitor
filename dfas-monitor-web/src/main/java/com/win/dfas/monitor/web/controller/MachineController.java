@@ -2,6 +2,7 @@ package com.win.dfas.monitor.web.controller;
 
 import com.win.dfas.monitor.common.entity.DcDevcie;
 import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
@@ -123,13 +124,13 @@ public class MachineController extends BaseController {
             MachineStatusVO machineStatus =new MachineStatusVO();
             machineStatus.setId(dc.getId());
             machineStatus.setIpAddress(dc.getIpAddress());
-            machineStatus.setCpuPer(dc.getCpu() + "%");
+            machineStatus.setCpuPer(formatValue(dc.getCpu(),"%"));
             machineStatus.setCpuNum(dc.getCpuNum());
-            machineStatus.setDiskPer(dc.getDisk() + "%");
-            machineStatus.setDiskSize(dc.getDiskSize());
-            machineStatus.setMemoryPer(dc.getMemory() + "%");
-            machineStatus.setState(String.valueOf(dc.getStatus()));
-            machineStatus.setMemorySize(dc.getMemorySize());
+            machineStatus.setDiskPer(formatValue(dc.getCpu(),"%"));
+            machineStatus.setDiskSize(formatValue(dc.getDiskSize(),""));
+            machineStatus.setMemoryPer(formatValue(dc.getMemory(),""));
+            machineStatus.setState(formatValue(String.valueOf(dc.getStatus()),""));
+            machineStatus.setMemorySize(formatValue(dc.getMemorySize(),""));
             machineStatusList.add(machineStatus);
         }
         return machineStatusList;
@@ -146,14 +147,32 @@ public class MachineController extends BaseController {
         for (DcDevcie dc : dcDevices){
             MachineVO machine = new MachineVO();
             machine.setIp(dc.getIpAddress());
-            machine.setState(String.valueOf(dc.getStatus()));
-            machine.setBalance(dc.getBalance()+ "%");
-            machine.setCpu(dc.getCpu() + "%");
-            machine.setMemory(dc.getMemory() + "%");
-            machine.setDisk(dc.getDisk() + "%");
+            machine.setState(getStatus(dc));
+            machine.setBalance(formatValue(dc.getBalance(),"%"));
+            machine.setCpu(formatValue(dc.getCpu(),"%"));
+            machine.setMemory(formatValue(dc.getMemory(),"%"));
+            machine.setDisk(formatValue(dc.getDisk(),"%"));
             machineList.add(machine);
         }
         return successData(machineList,"操作成功");
     }
+
+    private String getStatus(DcDevcie dc) {
+        String status;
+        if(null == dc.getStatus()){
+            status = "0";
+        }else{
+            status = formatValue(String.valueOf(dc.getStatus()),"");
+        }
+        return status;
+    }
+
+    private String formatValue(String val,String format){
+        if(StringUtils.isNotEmpty(val)){
+            return val + format;
+        }
+        return "-" ;
+    }
+
 
 }

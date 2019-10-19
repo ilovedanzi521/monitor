@@ -3,10 +3,7 @@ package com.win.dfas.monitor.engine.task;
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.constant.ResultTypeEnum;
 import com.win.dfas.monitor.common.entity.DcDevcie;
-import com.win.dfas.monitor.common.util.BigDecimalUtils;
-import com.win.dfas.monitor.common.util.DateUtils;
-import com.win.dfas.monitor.common.util.JsonUtil;
-import com.win.dfas.monitor.common.util.RestfulTools;
+import com.win.dfas.monitor.common.util.*;
 import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
 import com.win.dfas.monitor.common.vo.MetricsResultVO;
@@ -94,7 +91,6 @@ public class MachineTask {
     }
 
     private String getMachineStatusData() {
-        Random random = new Random(System.currentTimeMillis());
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         List<MachineStatusVO> machineStatusList = new ArrayList<>();
@@ -102,14 +98,13 @@ public class MachineTask {
             MachineStatusVO machineStatus = new MachineStatusVO();
             machineStatus.setId(dc.getId());
             machineStatus.setIpAddress(dc.getIpAddress());
-            machineStatus.setCpuPer(dc.getCpu() + "%");
+            machineStatus.setCpuPer(formatValue(dc.getCpu(),"%"));
             machineStatus.setCpuNum(dc.getCpuNum());
-            machineStatus.setDiskPer(dc.getDisk() + "%");
-            machineStatus.setDiskSize(dc.getDiskSize());
-            machineStatus.setMemoryPer(dc.getMemory() + "%");
-            //machineStatus.setState(String.valueOf(dc.getStatus()));
-            machineStatus.setState(random.nextInt(4)+"");
-            machineStatus.setMemorySize(dc.getMemorySize());
+            machineStatus.setDiskPer(formatValue(dc.getDisk(),"%"));
+            machineStatus.setDiskSize(formatValue(dc.getDiskSize(),""));
+            machineStatus.setMemoryPer(formatValue(dc.getMemory(),"%"));
+            machineStatus.setState(formatValue(String.valueOf(dc.getStatus()),""));
+            machineStatus.setMemorySize(formatValue(dc.getMemorySize(),""));
             machineStatusList.add(machineStatus);
         }
         return JsonUtil.toJson(machineStatusList);
@@ -128,11 +123,11 @@ public class MachineTask {
         for (DcDevcie dc : dcDevices) {
             MachineVO machine = new MachineVO();
             machine.setIp(dc.getIpAddress());
-            machine.setState(String.valueOf(dc.getStatus()));
-            machine.setBalance(dc.getBalance() + "%");
-            machine.setCpu(dc.getCpu() + "%");
-            machine.setMemory(dc.getMemory() + "%");
-            machine.setDisk(dc.getDisk() + "%");
+            machine.setState(getStatus(dc));
+            machine.setBalance(formatValue(dc.getBalance(),"%"));
+            machine.setCpu(formatValue(dc.getCpu(),"%"));
+            machine.setMemory(formatValue(dc.getMemory(),"%"));
+            machine.setDisk(formatValue(dc.getDisk(),"%"));
             machineList.add(machine);
         }
         return JsonUtil.toJson(machineList);
@@ -166,13 +161,13 @@ public class MachineTask {
             }
 
             //未连接状态cpu使用率、内存使用率、磁盘使用率设置为0
-            if (dc.getStatus() == 0) {
-                dc.setCpu("0");
-                dc.setMemory("0");
-                dc.setDisk("0");
+            if (dc.getStatus() == null || dc.getStatus() == 0) {
+                dc.setCpu("");
+                dc.setMemory("");
+                dc.setDisk("");
                 dc.setCpuNum(0);
-                dc.setDiskSize("0");
-                dc.setMemorySize("0");
+                dc.setDiskSize("");
+                dc.setMemorySize("");
                 //连接状态实时采集cpu使用率、内存使用率、磁盘使用率数据、CPU核数、磁盘大小、内存大小
             } else {
                 //cpu使用率
@@ -258,6 +253,12 @@ public class MachineTask {
         return hrSize;
     }
 
+    private String formatValue(String val,String format){
+        if(StringUtils.isNotEmpty(val)){
+            return val + format;
+        }
+        return "-" ;
+    }
     private List<Object> getValue(String prometheusServerUrl, Map<String, Object> parameters) {
         String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
         String result = RestfulTools.get(url, String.class, parameters);
@@ -291,5 +292,15 @@ public class MachineTask {
             }
         }
         return metricsReturnMsgVO;
+    }
+
+    private String getStatus(DcDevcie dc) {
+        String status;
+        if(null == dc.getStatus()){
+            status = "0";
+        }else{
+            status = formatValue(String.valueOf(dc.getStatus()),"");
+        }
+        return status;
     }
 }
