@@ -32,10 +32,10 @@
             <!--<win-table-column :formatter="formatRoleName" label="状态" width="200"></win-table-column>-->
             <win-table-column prop="status" label="状态" width="90">
               <template slot-scope="scope">
-                <span v-if="scope.row.status === 0">离线</span>
-                <span v-if="scope.row.status === 1">异常</span>
-                <span v-if="scope.row.status === 2">告警</span>
-                <span v-if="scope.row.status === 3">在线</span>
+                <span v-if="scope.row.status === 0" style="color: rgba(139, 162, 191, 1)">离线</span>
+                <span v-if="scope.row.status === 1" style="color: rgba(247, 42, 42, 1)">异常</span>
+                <span v-if="scope.row.status === 2" style="color: rgba(139, 162, 191, 1)">告警</span>
+                <span v-if="scope.row.status === 3" style="color: rgba(51, 204, 51, 1)">在线</span>
               </template>
             </win-table-column>
             <win-table-column prop="cpu" label="CPU使用率(%)" width="150"></win-table-column>
