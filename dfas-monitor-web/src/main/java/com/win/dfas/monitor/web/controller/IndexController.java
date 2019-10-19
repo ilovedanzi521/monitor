@@ -31,8 +31,19 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "查询平台Qps", notes = "查询平台Qps")
     @GetMapping("/httpRequestQps")
     public String httpRequestQps() {
-        return monitorService.getQps();
+        return monitorService.getQpsOriginData();
     }
+
+    /**
+     * 获取qps图表数据
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "查询平台Qps图表数据", notes = "查询平台Qps图表数据")
+    @GetMapping("/httpRequestQpsChart")
+    public String httpRequestChartQps() {
+        return monitorService.getQpsChartOriginData();
+    }
+
 
     /**
      * 查询平台当日请求数
@@ -41,7 +52,7 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "查询平台当日请求数", notes = "查询平台当日请求数")
     @GetMapping("/httpRequestTotal")
     public String httpRequestTotal() {
-        return monitorService.getHttpRequestTotal();
+        return monitorService.getHttpRequestTotalOriginData();
     }
 
     /**

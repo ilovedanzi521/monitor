@@ -60,7 +60,7 @@ public abstract class AbstractMessageBuilder {
         int hour = Integer.parseInt(DateUtils.getCurrentHour());
 
         List<String> xAxisData = new ArrayList<>();
-        List<Integer> yAxisData = new ArrayList<>();
+        List<Double> yAxisData = new ArrayList<>();
 
         String suffix = ":00";
 
@@ -70,7 +70,7 @@ public abstract class AbstractMessageBuilder {
             } else {
                 xAxisData.add(i + suffix);
             }
-            yAxisData.add(random.nextInt(1000));
+            yAxisData.add(random.nextDouble());
         }
         qps.setXAxisData(xAxisData);
         qps.setYAxisData(yAxisData);

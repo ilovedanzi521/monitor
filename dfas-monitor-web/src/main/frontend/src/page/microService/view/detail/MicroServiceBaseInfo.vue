@@ -8,7 +8,7 @@
     </div>
     <div class="outDivStyle">
       <div class="innerDivStyle">
-        <div class="title">微服务别名</div>
+        <div class="title">微服务描述</div>
         <div class="name">{{microServiceInfoRepVO.microServiceAlias}}</div>
       </div>
     </div>

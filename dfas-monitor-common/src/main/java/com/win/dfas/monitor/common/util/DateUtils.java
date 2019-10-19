@@ -78,13 +78,25 @@ public final class DateUtils {
 
 	/**
 	 * double 转  Date 时间
-	 * @param dVal
+	 * @param dDate
 	 */
 	public static String doubleToDate(double dDate) {
 		DecimalFormat df = new DecimalFormat("#.000");
 		String strDate = df.format(dDate);
 		Date date = new Date(Long.valueOf(strDate.replace(".", "")));
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return simpleDateFormat.format(date);
+	}
+
+	/**
+	 * double 转  Date 时间
+	 * @param dDate
+	 */
+	public static String doubleToDateOnlyHourMinute(double dDate) {
+		DecimalFormat df = new DecimalFormat("#.000");
+		String strDate = df.format(dDate);
+		Date date = new Date(Long.valueOf(strDate.replace(".", "")));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 		return simpleDateFormat.format(date);
 	}
 
@@ -114,7 +126,7 @@ public final class DateUtils {
 
 	public static String getStartTime() {
 		Date date = new Date();
-		date.setTime(date.getTime() - 5 * 60 * 1000);// 减去4分钟以后的时间
+		date.setTime(date.getTime() - 24 * 60 * 60 * 1000);// 减去5分钟/小时以后的时间
 		//System.out.println(sdf.format(date));// 再将该时间转换成字符串格式
 		long timeStamp = date.getTime();
 		//System.out.println(timeStamp);

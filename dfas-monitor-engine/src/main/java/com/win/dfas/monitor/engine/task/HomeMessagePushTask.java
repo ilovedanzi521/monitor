@@ -14,6 +14,7 @@ import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.EurekaService;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.PrometheusService;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,8 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
     @Autowired
     private MicroServiceInstanceMapper microServiceInstanceMapper;
 
+    @Autowired
+    private PrometheusService prometheusService;
 
     /**
      * 按照标准时间来算，每隔 5s 执行一次
@@ -58,16 +61,16 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
     public void pushPlatformOverviewData() {
         Random random = new Random(System.currentTimeMillis());
         PlatformOverviewVO platformOverview = new PlatformOverviewVO();
-        platformOverview.setQps(String.valueOf(thousandBitNumberFormat.format(random.nextInt(100) + 1)));
-        platformOverview.setTotalHttpRequest(String.valueOf(thousandBitNumberFormat.format(random.nextInt(10000) + 1)));
+        platformOverview.setQps(String.valueOf(thousandBitNumberFormat.format(prometheusService.getQps())));
+        platformOverview.setTotalHttpRequest(String.valueOf(thousandBitNumberFormat.format(prometheusService.getHttpRequestTotal())));
         platformOverview.setTotalMicroService(String.valueOf(thousandBitNumberFormat.format(microServiceMapper.getTotalMicroService())));
         platformOverview.setTotalNode(String.valueOf(thousandBitNumberFormat.format(dcDevcieService.getTotalNode())));
         push(HomeModuleEnum.platformOverview, JsonUtil.toJson(platformOverview));
     }
 
     @Scheduled(cron = "0/6 * * * * ?")
-    public void pushQpsData() throws Exception {
-        push(HomeModuleEnum.qps, getQpsData());
+    public void pushQpsData() {
+        push(HomeModuleEnum.qps, prometheusService.getQpsChart());
     }
 
     @Scheduled(cron = "0/7 * * * * ?")

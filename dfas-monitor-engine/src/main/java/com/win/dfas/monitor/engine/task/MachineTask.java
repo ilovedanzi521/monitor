@@ -166,7 +166,7 @@ public class MachineTask {
             }
 
             //未连接状态cpu使用率、内存使用率、磁盘使用率设置为0
-            if (dc.getStatus() == 0) {
+            if (dc.getStatus() == null || dc.getStatus() == 0) {
                 dc.setCpu("0");
                 dc.setMemory("0");
                 dc.setDisk("0");

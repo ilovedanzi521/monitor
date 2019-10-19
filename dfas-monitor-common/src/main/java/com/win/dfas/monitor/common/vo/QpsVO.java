@@ -14,6 +14,6 @@ public class QpsVO {
 
     private List<String> xAxisData = new ArrayList<>();
 
-    private List<Integer> yAxisData = new ArrayList<>();
+    private List<Double> yAxisData = new ArrayList<>();
 
 }
