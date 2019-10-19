@@ -15,6 +15,8 @@ public interface MicroService {
 
     List<MicroServiceRepVO> searchMicroService(MicroServiceReqVO microServiceReqVO);
 
+    List<MicroServiceRepVO> microServicePanel(MicroServiceReqVO microServiceReqVO);
+
     List<MicroServiceMachineRepVO> microServiceMachineList(MicroServiceReqVO microServiceReqVO);
 
     void insertMicroService(MicroServiceReqVO microServiceReqVO);

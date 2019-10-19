@@ -27,7 +27,7 @@ import { BaseConst } from "../../common/const/BaseConst";
 import { mapState } from "vuex";
 /**
  * 类名称：MicroServiceInfoController
- * 类描述：交易对手表 前端控制器
+ * 类描述：微服务列表 前端控制器
  * 创建人：@author wangyaoheng
  * 创建时间：2019-07-10 11:35:35
  */

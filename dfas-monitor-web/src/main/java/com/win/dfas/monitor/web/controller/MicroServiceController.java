@@ -128,6 +128,19 @@ public class MicroServiceController extends BaseController {
     }
 
     /**
+     * 微服务面板查询
+     * @return
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "微服务面板查询", notes = "微服务面板查询")
+    @PostMapping("/microServicePanel")
+    public WinResponseData microServicePanel(@RequestBody MicroServiceReqVO reqVO) {
+        return WinResponseData.handleSuccess(microService.microServicePanel(reqVO));
+    }
+
+
+
+    /**
      * 微服务机器数据查询
      * @return
      */

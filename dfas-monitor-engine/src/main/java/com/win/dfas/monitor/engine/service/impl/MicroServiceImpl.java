@@ -79,6 +79,14 @@ public class MicroServiceImpl implements MicroService {
     }
 
     @Override
+    public List<MicroServiceRepVO> microServicePanel(MicroServiceReqVO microServiceReqVO) {
+        MicroServiceEntity microServiceEntity =new MicroServiceEntity();
+        BeanUtils.copyProperties(microServiceReqVO,microServiceEntity);
+        List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(microServiceEntity);
+        return ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
+    }
+
+    @Override
     public List<MicroServiceMachineRepVO> microServiceMachineList(MicroServiceReqVO microServiceReqVO) {
         List<MicroServiceInstanceEntity> list =microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceReqVO.getId());
         List<MicroServiceMachineRepVO> microServiceMachineRepList = ObjectUtils.copyPropertiesList(list, MicroServiceMachineRepVO.class);
@@ -229,7 +237,6 @@ public class MicroServiceImpl implements MicroService {
 
     @Override
     public MicroServiceRepVO microServiceInfo(MicroServiceReqVO reqVO) {
-        MicroServiceRepVO microServiceRep = new MicroServiceRepVO();
         MicroServiceEntity microServiceEntity = microServiceMapper.selectMicroService(reqVO.getId());
         MicroServiceRepVO microServiceRepVO = new MicroServiceRepVO();
         BeanUtils.copyProperties(microServiceEntity,microServiceRepVO);
@@ -254,7 +261,7 @@ public class MicroServiceImpl implements MicroService {
             microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
             //继续判断JVM内存是否存在告警，存在，则设置为告警状态
         }
-        return microServiceRep;
+        return microServiceRepVO;
     }
 
     @Override

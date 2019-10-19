@@ -19,6 +19,7 @@
         <div v-else-if="microServiceInfoRepVO.state == '1' " class="status">异常</div>
         <div v-else-if="microServiceInfoRepVO.state == '2' " class="status">告警</div>
         <div v-else-if="microServiceInfoRepVO.state == '3' " class="status">在线</div>
+        <div v-else-if="microServiceInfoRepVO.state == '' " class="status">-</div>
         <div v-else-if="microServiceInfoRepVO.state == '-' " class="status">-</div>
       </div>
     </div>

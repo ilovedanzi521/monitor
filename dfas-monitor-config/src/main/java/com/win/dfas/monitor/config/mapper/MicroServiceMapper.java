@@ -26,4 +26,6 @@ public interface MicroServiceMapper {
 
     int insertMicroServiceList(List<MicroServiceEntity> microServiceList);
 
+    Long getTotalMicroService();
+
 }

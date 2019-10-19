@@ -1,20 +1,38 @@
 package com.win.dfas.monitor.engine.task;
 
+import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.SpringContextUtils;
 import com.win.dfas.monitor.common.vo.*;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
+import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public abstract class AbstractMessageBuilder {
 
     /** 千分位格式化 */
     protected NumberFormat thousandBitNumberFormat = NumberFormat.getNumberInstance();
+
+    public void push(HomeModuleEnum homeModuleEnum, String messageData) {
+        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(homeModuleEnum);
+        if (webSocketSet != null) {
+            System.out.println("客户端连接个数：" + webSocketSet.size());
+            for (AbstractWebSocket webSocket : webSocketSet) {
+                try {
+                    webSocket.sendMessage(messageData);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     /**
      * 构造平台概览模块数据

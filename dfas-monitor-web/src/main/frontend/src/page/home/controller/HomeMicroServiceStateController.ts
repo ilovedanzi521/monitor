@@ -28,7 +28,6 @@ export default class HomeMicroServiceStateController extends BaseController {
   private fromFatherMsg!: {
     type: OperationTypeEnum;
     data: MicroServiceInfoRepVO;
-    rivalInfoDicData: MicroServiceInfoDicDataVO;
   };
 
 
