@@ -66,5 +66,12 @@ public interface IDcDevcieService
 	 * @return 结果
 	 */
 	public int getTotalNode();
+
+	/**
+	 * 一键同步
+	 *
+	 * @return
+	 */
+	public void onKeySync();
 	
 }

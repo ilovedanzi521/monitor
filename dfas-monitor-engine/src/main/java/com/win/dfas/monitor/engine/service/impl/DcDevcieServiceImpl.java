@@ -1,12 +1,18 @@
 package com.win.dfas.monitor.engine.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.win.dfas.monitor.common.entity.DcDevcie;
 import com.win.dfas.monitor.common.util.Convert;
+import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.util.RestfulTools;
+import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.config.mapper.DcDevcieMapper;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +26,9 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 {
 	@Autowired
 	private DcDevcieMapper dcDevcieMapper;
+
+	@Value("${deployment.server.url}")
+	private String deploymentServerUrl;
 
 	/**
      * 查询机器信息
@@ -77,7 +86,9 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 	 */
 	@Override
 	public void updateBatch(List<DcDevcie> list){
-		dcDevcieMapper.updateBatch(list);
+		if(list != null && list.size() > 0){
+			dcDevcieMapper.updateBatch(list);
+		}
 	}
 
 	/**
@@ -102,5 +113,37 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 		return dcDevcieMapper.getTotalNode();
 	}
 
-	
+	/**
+	 * 判断机器IP地址是否存在
+	 *
+	 * @param ip_address 机器IP地址
+	 * @return
+	 */
+	public boolean checkIpAddressExist(String ip_address){
+		return dcDevcieMapper.checkIpAddressExist(ip_address);
+	}
+
+	/**
+	 * 一键同步
+	 *
+	 * @return
+	 */
+	@Override
+	public void onKeySync(){
+		String url = deploymentServerUrl + "/deploy/device/list";
+		String result = RestfulTools.get(url, String.class);
+		Map<String,Object> map = JsonUtil.toObject(result, Map.class);
+		List<Map<String,Object>> list = (ArrayList)map.get("data");
+		for (Map<String,Object> dc : list){
+			String ipAddress = (String)dc.get("ipAddress");
+			String name = (String)dc.get("name");
+			if(!checkIpAddressExist(ipAddress)){
+				DcDevcie dcDevcie = new DcDevcie();
+				dcDevcie.setId(IDUtils.nextId());
+				dcDevcie.setIpAddress(ipAddress);
+				dcDevcie.setName(name);
+				insertDcDevcie(dcDevcie);
+			}
+		}
+	}
 }

@@ -21,6 +21,15 @@ public interface DcDevcieMapper
      * @return 机器信息
      */
 	public DcDevcie selectDcDevcieById(String id);
+
+	/**
+	 * 判断机器IP地址是否存在
+	 *
+	 * @param ip_address 机器IP地址
+	 * @return
+	 */
+	public boolean checkIpAddressExist(String ip_address);
+
 	
 	/**
      * 查询机器列表

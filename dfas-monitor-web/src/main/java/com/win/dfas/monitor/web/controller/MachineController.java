@@ -86,12 +86,8 @@ public class MachineController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(name = "data", value = "一键同步", required = true, paramType = "body", dataType = "String")})
     @PostMapping("/onKeySync")
     public String onKeySync(@RequestBody String data) {
-        DcDevcie dcDevcie = new DcDevcie();
-        dcDevcie.setId(IDUtils.nextId());
-        dcDevcie.setIpAddress("test_onKeySync_ip");
-        dcDevcie.setName("test_onKeySync_name");
-        dcDevcieService.insertDcDevcie(dcDevcie);
-        return successData(dcDevcie.getId(),"一键同步成功");
+        dcDevcieService.onKeySync();
+        return successData("一键同步成功");
     }
 
 
@@ -103,6 +99,7 @@ public class MachineController extends BaseController {
     public String machinePage(@RequestBody String data) {
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        setDefaultSetting(dcDevices);
         Map<String,Object> result = new HashMap<>();
         result.put("total",dcDevices.size());
         result.put("list",dcDevices);
@@ -174,5 +171,22 @@ public class MachineController extends BaseController {
         return "-" ;
     }
 
+
+    private void setDefaultSetting(List<DcDevcie> dcDevices) {
+        for (DcDevcie dc : dcDevices){
+            if(null ==dc.getStatus()){
+                dc.setStatus(0);
+            }
+            if(StringUtils.isEmpty(dc.getCpu())){
+                dc.setCpu("-");
+            }
+            if(StringUtils.isEmpty(dc.getMemory())){
+                dc.setMemory("-");
+            }
+            if(StringUtils.isEmpty(dc.getDisk())){
+                dc.setDisk("-");
+            }
+        }
+    }
 
 }

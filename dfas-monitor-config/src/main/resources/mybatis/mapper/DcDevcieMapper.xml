@@ -27,7 +27,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<sql id="selectDcDevcieVo">
         select id, name, alias, ip_address, user_name, port, os_type, status, description, create_time, update_time,cpu,memory,disk,cpuNum,diskSize,memorySize,balance from dc_devcie
     </sql>
-	
+
+    <select id="checkIpAddressExist" parameterType="java.lang.String" resultType="java.lang.Boolean">
+       <![CDATA[select count(ip_address) from dc_devcie where ip_address = #{ip_address}]]>
+    </select>
+
     <select id="selectDcDevcieList" parameterType="com.win.dfas.monitor.common.entity.DcDevcie" resultMap="DcDevcieResult">
         <include refid="selectDcDevcieVo"/>
         <where>  
