@@ -4,7 +4,7 @@
             <li class="monitor-wrapper" v-for="(monitor,index) in getFormatData" :key="index">
                 <div v-for="aitem in monitor" :key="aitem.id" :class="['monitor-item-js',`monitor-item-${type}`]" @click="clickItem(monitor,aitem)" :style="{'width':minWidth}">
                     <div :class="['img-container',`img-container-${type}`] ">
-                        <img src="../style.css/img/as.svg" v-if="type=='machine'" :style="{'width':parseInt(minWidth)-20+'px'}" />
+                        <img src="../style.css/img/as.svg" v-if="type=='machine'" :style="{'width':parseInt(minWidth)-65+'px'}" />
                         <img src="../style.css/img/bs.svg" v-else :style="{'width':parseInt(minWidth)-30+'px'}" />
 
                         <img src="../style.css/img/0.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==0" />
