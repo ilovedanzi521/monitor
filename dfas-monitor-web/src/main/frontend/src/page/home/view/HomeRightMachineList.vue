@@ -23,10 +23,10 @@
 
         <div v-for="(item, index) in machineList"  :class="generateClassName(index)" >
           <div class="table-td">{{item.ip}}</div>
-          <div v-if="item.state == '0' " class="table-td-online">离线</div>
+          <div v-if="item.state == '0' " class="table-td-offline">离线</div>
           <div v-else-if="item.state == '1' " class="table-td-offline">异常</div>
           <div v-else-if="item.state == '2' " class="table-td-offline">告警</div>
-          <div v-else-if="item.state == '3' " class="table-td-offline">在线</div>
+          <div v-else-if="item.state == '3' " class="table-td-online">在线</div>
           <div v-else-if="item.state == '' " class="table-td-offline"></div>
           <div class="table-td">{{item.balance}}</div>
           <div class="table-td">{{item.cpu}}</div>
@@ -128,7 +128,7 @@
 
   .table-td-offline {
     @extend .td;
-    color: rgba(247, 42, 42, 1);
+    color: rgba(139, 162, 191, 1);
   }
 
   .rect {
