@@ -22,7 +22,7 @@ public class SwaggerConfig {
 
 	@Bean
 	public Docket createApi() {
-		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("com.win.dfas.monitor")).paths(PathSelectors.any()).build();
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("org.spring")).paths(PathSelectors.any()).build();
 	}
 
 	private ApiInfo apiInfo() {

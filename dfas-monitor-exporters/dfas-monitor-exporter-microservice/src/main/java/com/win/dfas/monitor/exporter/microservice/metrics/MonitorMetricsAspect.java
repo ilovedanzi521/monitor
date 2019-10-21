@@ -30,7 +30,7 @@ public class MonitorMetricsAspect {
 	        ("response consuming of api").register();*/
 
 	// 自定义Prometheus注解的全路径
-	@Pointcut("@annotation(" + POINT_CUT_CLASS_NAME + ")")
+	@Pointcut("@annotation(com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics)")
 	public void monitorMetricsMethod() {
 	}
 
