@@ -21,7 +21,7 @@
           <div class="table-th">磁盘</div>
         </div>
 
-        <div v-for="(item, index) in machineList"  :class="generateClassName(index)" >
+        <div v-for="(item, index) in machineList"  :class="generateClassName(index)" @click='onclick()'>
           <div class="table-td">{{item.ip}}</div>
           <div v-if="item.state == '0' " class="table-td-offline">离线</div>
           <div v-else-if="item.state == '1' " class="table-td-offline">异常</div>

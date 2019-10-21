@@ -14,12 +14,16 @@ import Tool from "../../../mixin/mm";
 import { BaseConst } from "../../common/const/BaseConst";
 import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import AxiosFun from "../../../api/AxiosFun";
+import MachineDetailDialog from "../view/MachineDetailDialog.vue";
+import { MachineInfoVO } from "../vo/MachineInfoVO";
+
 @Component({
     components: {
         AddMachine,
         EditMachine,
         DeleteMachine,
-        MachineTable
+        MachineTable,
+        MachineDetailDialog
     }
 })
 export default class MachineController extends BaseController {
@@ -29,6 +33,29 @@ export default class MachineController extends BaseController {
     filterText = "";
     userReqVo: UserReqVO = new UserReqVO();
     ws: WebSocket;
+
+  /** 子组件显示的信息 */
+  private cardNumber: {
+    type: OperationTypeEnum;
+    data: MachineInfoVO;
+  };
+
+  private machineDetailDialogVisible: boolean = false;
+
+
+  /**
+   * 子组件回调函数
+   * @param msg
+   */
+  private toFatherMsg(msg: string) {
+    this.machineDetailDialogVisible = false;
+  }
+
+  private mclick(){
+    console.log("mclick");
+    this.machineDetailDialogVisible = true;
+    console.log(this.machineDetailDialogVisible);
+  }
 
    private multipleSelection: any = [];
 
