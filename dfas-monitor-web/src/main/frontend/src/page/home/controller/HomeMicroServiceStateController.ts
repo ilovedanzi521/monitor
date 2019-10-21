@@ -1,20 +1,19 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import Monitor from "../../../components2/vue/Monitor.vue";
-import {MicroServiceStateVO} from "../vo/MicroServiceStateVO";
+import Service from "../../../components2/vue/monitor/Service.vue";
+import { MicroServiceStateVO } from "../vo/MicroServiceStateVO";
 import HomeMicroServiceStateService from "../service/HomeMicroServiceStateService";
 import AxiosFun from "../../../api/AxiosFun";
-import {MicroServiceInfoRepVO} from "../../microService/vo/MicroServiceInfoVO";
-import {OperationTypeEnum} from "../../common/enum/OperationTypeEnum";
+import { MicroServiceInfoRepVO } from "../../microService/vo/MicroServiceInfoVO";
+import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import MicroServiceInfoDicDataVO from "../../microService/vo/MicroServiceInfoDicDataVO";
 import BaseController from "../../common/controller/BaseController";
 import MicroServiceDetailDialog from "../../microService/view/MicroServiceDetailDialog.vue";
-import {Prop} from "vue-property-decorator";
-import {WinRspType} from "../../common/enum/BaseEnum";
+import { Prop } from "vue-property-decorator";
+import { WinRspType } from "../../common/enum/BaseEnum";
 
-@Component({components: {Monitor, MicroServiceDetailDialog}})
+@Component({ components: { Service, MicroServiceDetailDialog } })
 export default class HomeMicroServiceStateController extends BaseController {
-
   public $refs: {
     validate: HTMLFormElement;
   };
@@ -30,12 +29,13 @@ export default class HomeMicroServiceStateController extends BaseController {
     data: MicroServiceInfoRepVO;
   };
 
-
   ws: WebSocket;
 
   private homeMicroServiceStateService: HomeMicroServiceStateService = new HomeMicroServiceStateService();
 
-  private microServiceStateList: Array<MicroServiceStateVO> = this.homeMicroServiceStateService.initMicroServiceStateList();
+  private microServiceStateList: Array<
+    MicroServiceStateVO
+  > = this.homeMicroServiceStateService.initMicroServiceStateList();
 
   private dialogLoading: boolean = false;
   private createLoading: boolean = false;
@@ -61,7 +61,8 @@ export default class HomeMicroServiceStateController extends BaseController {
   };
 
   mounted() {
-    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/microServiceState";
+    let requestUrl =
+      AxiosFun.monitorCenterWebsocketBaseUrl + "/home/microServiceState";
     this.establishConnection(requestUrl);
   }
 
@@ -70,12 +71,12 @@ export default class HomeMicroServiceStateController extends BaseController {
    * @param row
    * @param type
    */
-  private operation({item}) {
-    console.log(item)
+  private operation({ item }) {
+    console.log(item);
     this.detailDialogVisible = true;
     this.cardNumber = {
       type: OperationTypeEnum.VIEW,
-      data: this.copy(item),
+      data: this.copy(item)
     };
   }
 
@@ -91,8 +92,13 @@ export default class HomeMicroServiceStateController extends BaseController {
     this.handleClose();
     this.ws = new WebSocket(requestUrl);
     let _ = this;
-    this.ws.onopen = function (e) {
-      _.ws.send(JSON.stringify({flag: requestUrl, data: "i am a microServiceState WebSocket!"}));
+    this.ws.onopen = function(e) {
+      _.ws.send(
+        JSON.stringify({
+          flag: requestUrl,
+          data: "i am a microServiceState WebSocket!"
+        })
+      );
     };
     this.ws.onmessage = e => this.handleWebSocketData(e);
     this.ws.onclose = () => this.handleClose();
@@ -108,8 +114,6 @@ export default class HomeMicroServiceStateController extends BaseController {
       this.ws.close();
     }
   }
-
-
 }
 
 export const MicroServiceInfoConst = {

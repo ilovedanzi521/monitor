@@ -1,0 +1,343 @@
+.monitor-container {
+  position: relative;
+  display: flex;
+  height: 100%;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: end;
+  width: 100%;
+
+  .monitor-wrapper {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: 1px solid #0b254d;
+    border-top: 1px solid #0b254d;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background: #0a1e46;
+  }
+
+  .monitor-title {
+    padding: 5px 0;
+    font-size: 16px;
+    text-align: center;
+    color: #8AA1BE;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .monitor-wrapper:last-of-type {
+    margin-bottom: 0;
+  }
+
+  /**机器*/
+
+  .monitor-item-machine {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 26px;
+    box-sizing: border-box;
+
+    &:hover {
+      background: #010826;
+
+      & .tool-container {
+        visibility: visible;
+      }
+    }
+
+    .icon-machine {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      top: 53%;
+      left: 19%;
+    }
+  }
+
+  /**服务*/
+  .monitor-item-service {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &:hover {
+      & .tool-container {
+        visibility: visible;
+      }
+    }
+
+    .icon-service {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      top: 8%;
+      left: 63%;
+    }
+  }
+
+
+  /**svg**/
+  .img-container {
+    position: relative;
+
+    &.img-container-machine {
+      width: 36px;
+      height: 36px;
+      background: url("../../style.css/img/as.svg") no-repeat center center;
+      background-size: 100%;
+
+      .icon {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 50%;
+        left: 50%;
+        margin-left: -15px;
+
+      }
+
+      .icon-0 {
+        background: url("../../style.css/img/0.png") no-repeat center;
+        background-size: 100%;
+      }
+
+      .icon-1 {
+
+        background: url("../../style.css/img/1.png") no-repeat center;
+        background-size: 100%;
+      }
+
+      .icon-2 {
+        background: url("../../style.css/img/2.png") no-repeat center;
+        background-size: 100%;
+      }
+
+      .icon-3 {
+        background: url("../../style.css/img/3.png") no-repeat center;
+        background-size: 100%;
+      }
+
+    }
+
+
+    &.img-container-service {
+      width: 90px;
+      height: 90px;
+      background: url("../../style.css/img/bs.svg") no-repeat center;
+      background-size: 100%;
+
+      .icon {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        right: 10px;
+        top: 8px;
+      }
+
+      .icon-0 {
+        background: url("../../style.css/img/0.png") no-repeat center;
+        background-size: 100%;
+      }
+
+      .icon-1 {
+
+        background: url("../../style.css/img/1.png") no-repeat center;
+        background-size: 100%;
+      }
+
+      .icon-2 {
+        background: url("../../style.css/img/2.png") no-repeat center;
+        background-size: 100%;
+      }
+
+      .icon-3 {
+        background: url("../../style.css/img/3.png") no-repeat center;
+        background-size: 100%;
+      }
+    }
+
+
+  }
+
+
+
+  img {
+    display: block;
+    width: 100%;
+  }
+
+  .tool-container {
+    position: absolute;
+    top: -41px;
+    left: 115px;
+    min-width: 248px;
+    padding: 10px 0;
+    color: #8ba2bf;
+    border: 2px solid #195091;
+    background: #0e2e5d;
+    font-size: 14px;
+    visibility: hidden;
+    border-radius: 10px;
+    z-index: 1;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: -9px;
+      width: 0;
+      height: 0;
+      border-right: 14px solid #0e2e5d;
+      border-bottom: 30px solid transparent;
+      border-top: 20px solid transparent;
+      -webkit-transform: rotate(70deg);
+    }
+
+    & p {
+      display: flex;
+      flex-wrap: nowrap;
+      min-width: 248px;
+      cursor: pointer;
+
+      & span,
+      & label {
+        display: inline-block;
+        vertical-align: middle;
+        font-weight: 400;
+      }
+
+      & label {
+        min-width: 94px;
+        margin-left: 20px;
+        text-align: right;
+      }
+
+      & span {
+        text-align: left;
+        padding: 0 16px;
+      }
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+}
+
+.noData {
+  text-align: center;
+  height: 100px;
+  line-height: 100px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #666;
+
+}
+
+
+
+
+
+
+
+.animation {
+  -webkit-animation: twinkling 2.1s infinite ease-in-out;
+  animation: twinkling 2.1s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animation2 {
+  -webkit-animation: twinkling 2.1s infinite ease-in-out;
+  animation: twinkling 2.1s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animation3 {
+  -webkit-animation: flicker 3s linear infinite;
+  animation: flicker 3s linear infinite;
+}
+
+@-webkit-keyframes twinkling {
+  0% {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    -webkit-transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    -webkit-transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes twinkling {
+  0% {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    -webkit-transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    -webkit-transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes flicker {
+
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 0.99;
+    text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.4),
+      1px -1px 0 rgba(255, 255, 255, 0.4),
+      -1px 1px 0 rgba(255, 255, 255, 0.4),
+      1px 1px 0 rgba(255, 255, 255, 0.4), 0 -2px 8px, 0 0 2px,
+      0 0 5px #ff7e00, 0 0 15px #ff4444, 0 0 2px #ff7e00, 0 2px 3px #000;
+  }
+
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+}

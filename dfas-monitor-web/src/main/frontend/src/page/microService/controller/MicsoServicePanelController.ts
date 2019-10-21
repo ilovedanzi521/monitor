@@ -10,10 +10,10 @@ import {
 import { MicroServiceStateVO } from "../../home/vo/MicroServiceStateVO";
 import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import { Prop } from "vue-property-decorator";
-import Monitor from "../../../components2/vue/Monitor.vue";
+import Service from "../../../components2/vue/monitor/Service.vue";
 import MicroServiceDetailDialog from "../view/MicroServiceDetailDialog.vue";
 
-@Component({components: {Monitor, MicroServiceDetailDialog}})
+@Component({ components: { Service, MicroServiceDetailDialog } })
 export default class MicsoServicePanelController extends BaseController {
   public $refs: {
     validate: HTMLFormElement;
@@ -46,7 +46,7 @@ export default class MicsoServicePanelController extends BaseController {
     data: MicroServiceInfoRepVO;
   };
 
-    /**
+  /**
    * 子组件回调函数
    * @param msg
    */

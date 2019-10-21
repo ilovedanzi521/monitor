@@ -5,7 +5,6 @@ import AxiosFun from "../../../api/AxiosFun";
 
 @Component({})
 export default class HomePlatformOverviewController extends Vue {
-
   private platformOverviewService: PlatformOverviewService = new PlatformOverviewService();
 
   ws: WebSocket;
@@ -19,17 +18,22 @@ export default class HomePlatformOverviewController extends Vue {
   private qps: string = "0";
 
   mounted() {
-    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/platformOverview";
+    let requestUrl =
+      AxiosFun.monitorCenterWebsocketBaseUrl + "/home/platformOverview";
     this.establishConnection(requestUrl);
   }
-
 
   establishConnection(requestUrl) {
     this.handleClose();
     this.ws = new WebSocket(requestUrl);
     let _ = this;
-    this.ws.onopen = function (e) {
-      _.ws.send(JSON.stringify({flag: requestUrl, data: "i am a PlatformOverview WebSocket!"}));
+    this.ws.onopen = function(e) {
+      _.ws.send(
+        JSON.stringify({
+          flag: requestUrl,
+          data: "i am a PlatformOverview WebSocket!"
+        })
+      );
     };
     this.ws.onmessage = e => this.handleWebSocketData(e);
     this.ws.onclose = () => this.handleClose();
@@ -48,5 +52,4 @@ export default class HomePlatformOverviewController extends Vue {
       this.ws.close();
     }
   }
-
 }

@@ -4,13 +4,13 @@
             <li class="monitor-wrapper" v-for="(monitor,index) in getFormatData" :key="index">
                 <div v-for="aitem in monitor" :key="aitem.id" :class="['monitor-item-js',`monitor-item-${type}`]" @click="clickItem(monitor,aitem)" :style="{'width':minWidth}">
                     <div :class="['img-container',`img-container-${type}`] ">
-                        <img src="../style.css/img/as.svg" v-if="type=='machine'" :style="{'width':parseInt(minWidth)-65+'px'}" />
+                        <!-- <img src="../style.css/img/as.svg" v-if="type=='machine'" :style="{'width':parseInt(minWidth)-65+'px'}" />
                         <img src="../style.css/img/bs.svg" v-else :style="{'width':parseInt(minWidth)-30+'px'}" />
 
                         <img src="../style.css/img/0.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==0" />
                         <img src="../style.css/img/1.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==1" />
                         <img src="../style.css/img/2.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==2" />
-                        <img src="../style.css/img/3.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==3" />
+                        <img src="../style.css/img/3.png" :class="[`icon-${type}`,{'animation3':animations.includes(aitem.state)}]" v-if="aitem.state==3" /> -->
 
                         <p class="monitor-title" :style="{'width':parseInt(minWidth)-20+'px'}" v-if="isShowTitel">{{aitem.ipAddress||aitem.microServiceName}}</p>
                     </div>
@@ -217,5 +217,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../style.css/monitor.scss";
+// @import "../style.css/monitor.scss";
 </style>

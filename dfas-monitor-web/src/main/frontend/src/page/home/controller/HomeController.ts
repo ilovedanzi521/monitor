@@ -2,7 +2,6 @@ import Vue from "vue";
 import Component from "vue-class-component";
 
 export default class HomeController extends Vue {
-
   ws: WebSocket;
 
   private mounted() {
@@ -13,9 +12,9 @@ export default class HomeController extends Vue {
   establishConnection(requestUrl) {
     this.ws = new WebSocket(requestUrl);
     let _ = this;
-    this.ws.onopen = function (e) {
-      console.log('建立连接');
-      _.ws.send(JSON.stringify({flag: requestUrl, data: "Hello WebSocket!"}));
+    this.ws.onopen = function(e) {
+      console.log("建立连接");
+      _.ws.send(JSON.stringify({ flag: requestUrl, data: "Hello WebSocket!" }));
     };
     this.ws.onmessage = e => this.handleWebSocketData(e);
     this.ws.onclose = () => this.handleClose();
@@ -32,5 +31,4 @@ export default class HomeController extends Vue {
       this.ws.close();
     }
   }
-
 }
