@@ -2,13 +2,11 @@ import BaseController from "../../common/controller/BaseController";
 import { Component, Prop } from "vue-property-decorator";
 import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import {
-  MachineInfoVO,
-  MicroServiceInfoReqVO
+  MachineInfoVO
 } from "../vo/MachineInfoVO";
 import echarts from "echarts";
 import CPUChartService from "../service/CPUChartService";
 import { WinResponseData } from "../../common/vo/BaseVO";
-import MachineCPUVO from "../vo/MachineCPUVO";
 
 @Component({})
 export default class CPUController extends BaseController {
@@ -27,80 +25,22 @@ export default class CPUController extends BaseController {
     data: MachineInfoVO;
   };
 
-  private microServiceInfoReqVO: MicroServiceInfoReqVO = new MicroServiceInfoReqVO();
-  private microServiceInfoRepVO: MachineInfoVO = new MachineInfoVO();
-  private jvmMemoryChartService: CPUChartService = new CPUChartService();
-  private microServiceJvmMemoryVO: MachineCPUVO = new MachineCPUVO();
-
-  private legendData: string[] = [
-    "192.168.0.55",
-    "192.168.0.56",
-    "192.168.0.57"
-  ];
-  private xAxisData: string[] = [
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00"
-  ];
-  private colorData: string[] = ["#33CC33", "#FF4D4D", "#00BAF3"];
-  private seriesData: number[][] = [
-    [220, 232, 201, 234, 290, 230, 220],
-    [120, 200, 150, 80, 70, 110, 130],
-    [320, 220, 190, 80, 170, 310, 230]
-  ];
-
-  private getSeriesAxis(legendData, colorData, seriesData) {
-    let objArr: Array<any> = [];
-    for (let i = 0; i < legendData.length; i++) {
-      let obj: any = {
-        name: legendData[i],
-        data: seriesData[i],
-        type: "line", // 类型为折线图
-        smooth: true,
-        lineStyle: {
-          // 线条样式 => 必须使用normal属性
-          normal: {
-            color: colorData[i]
-          }
-        }
-      };
-      objArr.push(obj);
-    }
-    return objArr;
-  }
-
-  private seriesAxis: any[] = this.getSeriesAxis(
-    this.legendData,
-    this.colorData,
-    this.seriesData
-  );
-
+  private machineInfoVO: MachineInfoVO = new MachineInfoVO();
+  private cpuChartService: CPUChartService = new CPUChartService();
   /** 页面初始化 */
   private mounted() {
-    this.microServiceInfoRepVO = this.fromFatherMsg.data;
-    //this.microServiceInfoReqVO.id = this.microServiceInfoRepVO.id;
-    //this.microServiceInfoReqVO.microServiceName = this.microServiceInfoRepVO.microServiceName;
-     this.renderChart(
-      this.legendData,
-      this.xAxisData,
-      this.colorData,
-      this.seriesAxis
-    );
-   /* this.$nextTick(() => {
+    this.machineInfoVO = this.fromFatherMsg.data;
+    this.$nextTick(() => {
       this.query();
-    });*/
+    });
   }
 
-  private renderChart(legendData, xAxisData, colorData, seriesAxis) {
+  private renderChart(legendData, xAxisData, colorData, seriesAxis,seriesData) {
     let boxID = document.getElementById("pie-doughnut");
     this.chartLine = echarts.init(boxID);
     // 使用刚指定的配置项和数据显示图表。
     this.chartLine.setOption(
-      this.getOption(legendData, xAxisData, colorData, seriesAxis)
+      this.getOption(legendData, xAxisData, colorData, seriesAxis,seriesData)
     );
     window.onresize = this.chartLine.resize;
   }
@@ -109,7 +49,7 @@ export default class CPUController extends BaseController {
 
   chartLine: any;
 
-  private getOption(legendData, xAxisData, colorData, seriesAxis) {
+  private getOption(legendData, xAxisData, colorData, seriesAxis,seriesData){
     let option = {
       tooltip: {
         trigger: 'item',
@@ -118,7 +58,7 @@ export default class CPUController extends BaseController {
       legend: {
         orient: 'vertical',
         x: 'left',
-        data:['已使用','未使用']
+        data:legendData
       },
       series: [
         {
@@ -144,14 +84,10 @@ export default class CPUController extends BaseController {
               show: false
             }
           },
-          data:[
-            {value:60, name:'已使用'},
-            {value:40, name:'未使用'}
-          ],
-          color:['green','blue'],
+          data:seriesData,
+          color:colorData,
           title : {
             text: 'CPU使用率',
-            //subtext: '纯属虚构',
             x:'center',
             y: 'bottom',
           },
@@ -162,32 +98,26 @@ export default class CPUController extends BaseController {
   }
 
   /**
-   * 微服务JVM使用率查询
+   * CPU使用率查询
    * @Title: query
-   * @author: wangyaoheng
+   * @author: lj
    * @Date:   2019-07-10 11:35:35
    */
   private query(): void {
-    this.jvmMemoryChartService
-      .info(this.microServiceInfoReqVO)
+    this.cpuChartService
+      .info(this.machineInfoVO)
       .then((res: WinResponseData) => {
         if (res.winRspType === "ERROR") {
           this.win_message_error(res.msg);
         }
-        this.microServiceJvmMemoryVO = res.data;
-        this.seriesAxis = this.getSeriesAxis(
-          this.microServiceJvmMemoryVO.legendData,
-          this.microServiceJvmMemoryVO.colorData,
-          this.microServiceJvmMemoryVO.seriesData
-        );
-        this.legendData = this.microServiceJvmMemoryVO.legendData;
-        this.xAxisData = this.microServiceJvmMemoryVO.xaxisData;
-        this.colorData = this.microServiceJvmMemoryVO.colorData;
+
+        let respData = res.data;
         this.renderChart(
-          this.legendData,
-          this.xAxisData,
-          this.colorData,
-          this.seriesAxis
+          respData.legendData,
+          respData.xAxisData,
+          respData.colorData,
+          respData.seriesAxis,
+          respData.seriesData
         );
       });
   }

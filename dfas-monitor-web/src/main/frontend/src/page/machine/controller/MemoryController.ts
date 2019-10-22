@@ -6,7 +6,7 @@ import {
   MicroServiceInfoReqVO
 } from "../vo/MachineInfoVO";
 import echarts from "echarts";
-import CPUChartService from "../service/CPUChartService";
+import MemoryChartService from "../service/MemoryChartService";
 import { WinResponseData } from "../../common/vo/BaseVO";
 import MachineCPUVO from "../vo/MachineCPUVO";
 
@@ -27,9 +27,8 @@ export default class MemoryController extends BaseController {
     data: MachineInfoVO;
   };
 
-  private microServiceInfoReqVO: MicroServiceInfoReqVO = new MicroServiceInfoReqVO();
-  private microServiceInfoRepVO: MachineInfoVO = new MachineInfoVO();
-  private jvmMemoryChartService: CPUChartService = new CPUChartService();
+  private machineInfoVO: MachineInfoVO = new MachineInfoVO();
+  private memoryChartService: MemoryChartService = new MemoryChartService();
   private microServiceJvmMemoryVO: MachineCPUVO = new MachineCPUVO();
 
   private legendData: string[] = [
@@ -81,21 +80,21 @@ export default class MemoryController extends BaseController {
 
   /** 页面初始化 */
   private mounted() {
-    this.microServiceInfoRepVO = this.fromFatherMsg.data;
-    //this.microServiceInfoReqVO.id = this.microServiceInfoRepVO.id;
-    //this.microServiceInfoReqVO.microServiceName = this.microServiceInfoRepVO.microServiceName;
-     this.renderChart(
+    this.machineInfoVO = this.fromFatherMsg.data;
+    console.log("memoryController>>>>mounted>>>");
+    console.log(this.machineInfoVO);
+    /* this.renderChart(
       this.legendData,
       this.xAxisData,
       this.colorData,
       this.seriesAxis
-    );
-   /* this.$nextTick(() => {
+    );*/
+   this.$nextTick(() => {
       this.query();
-    });*/
+    });
   }
 
-  private renderChart(legendData, xAxisData, colorData, seriesAxis) {
+/*  private renderChart(legendData, xAxisData, colorData, seriesAxis) {
     let boxID = document.getElementById("pie-simple");
     this.chartLine = echarts.init(boxID);
     // 使用刚指定的配置项和数据显示图表。
@@ -105,12 +104,24 @@ export default class MemoryController extends BaseController {
     window.onresize = this.chartLine.resize;
   }
 
+  name: "pie-simple";*/
+
+  private renderChart(legendData, xAxisData, colorData, seriesAxis,seriesData) {
+    let boxID = document.getElementById("pie-simple");
+    this.chartLine = echarts.init(boxID);
+    // 使用刚指定的配置项和数据显示图表。
+    this.chartLine.setOption(
+      this.getOption(legendData, xAxisData, colorData, seriesAxis,seriesData)
+    );
+    window.onresize = this.chartLine.resize;
+  }
+
   name: "pie-simple";
 
   chartLine: any;
 
-  private getOption(legendData, xAxisData, colorData, seriesAxis) {
-    let option = {
+  private getOption(legendData, xAxisData, colorData, seriesAxis,seriesData) {
+   /* let option = {
       title : {
         text: '内存使用率',
         subtext: '',
@@ -144,37 +155,64 @@ export default class MemoryController extends BaseController {
           }
         }
       ]
-    };
+    };*/
+    let option = {
+       title : {
+         text: '内存使用率',
+         subtext: '',
+         x:'center'
+       },
+       tooltip : {
+         trigger: 'item',
+         formatter: "{a} <br/>{b} : {c} ({d}%)"
+       },
+       legend: {
+         orient: 'vertical',
+         left: 'left',
+         data: legendData
+       },
+       series : [
+         {
+           name: '内存使用率',
+           type: 'pie',
+           radius : '55%',
+           center: ['50%', '60%'],
+           data:seriesData,
+           color:colorData,
+           itemStyle: {
+             emphasis: {
+               shadowBlur: 10,
+               shadowOffsetX: 0,
+               shadowColor: 'rgba(0, 0, 0, 0.5)'
+             }
+           }
+         }
+       ]
+     };
     return option;
   }
 
   /**
-   * 微服务JVM使用率查询
+   * CPU使用率查询
    * @Title: query
-   * @author: wangyaoheng
+   * @author: lj
    * @Date:   2019-07-10 11:35:35
    */
   private query(): void {
-    this.jvmMemoryChartService
-      .info(this.microServiceInfoReqVO)
+    this.memoryChartService
+      .info(this.machineInfoVO)
       .then((res: WinResponseData) => {
         if (res.winRspType === "ERROR") {
           this.win_message_error(res.msg);
         }
-        this.microServiceJvmMemoryVO = res.data;
-        this.seriesAxis = this.getSeriesAxis(
-          this.microServiceJvmMemoryVO.legendData,
-          this.microServiceJvmMemoryVO.colorData,
-          this.microServiceJvmMemoryVO.seriesData
-        );
-        this.legendData = this.microServiceJvmMemoryVO.legendData;
-        this.xAxisData = this.microServiceJvmMemoryVO.xaxisData;
-        this.colorData = this.microServiceJvmMemoryVO.colorData;
+
+        let respData = res.data;
         this.renderChart(
-          this.legendData,
-          this.xAxisData,
-          this.colorData,
-          this.seriesAxis
+          respData.legendData,
+          respData.xAxisData,
+          respData.colorData,
+          respData.seriesAxis,
+          respData.seriesData
         );
       });
   }

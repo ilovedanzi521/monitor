@@ -61,6 +61,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="selectDcDevcieByIp" parameterType="java.lang.String" resultMap="DcDevcieResult">
+        <include refid="selectDcDevcieVo"/>
+        where ip_address = #{ipAddress}
+    </select>
+
+
     <select id="getTotalNode"  resultType="java.lang.Integer">
         SELECT COUNT(*) FROM dc_devcie
     </select>

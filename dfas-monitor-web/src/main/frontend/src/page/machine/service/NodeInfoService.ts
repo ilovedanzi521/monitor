@@ -27,9 +27,9 @@ export default class NodeInfoService {
      * 交易对手表 列表查询
      * @param reqVO
      */
-    public info(reqVO: MachineInfoVO): Promise<WinResponseData> {
-        return AxiosFun.post(
-            AxiosFun.monitorCenterServiceName + "/microService/microServiceInfo",
+    public async info(reqVO: MachineInfoVO): Promise<WinResponseData> {
+        return await AxiosFun.post(
+            AxiosFun.monitorCenterServiceName + "/machineDetail/nodeBaseInfo",
             reqVO
         );
     }

@@ -19,6 +19,13 @@ public interface IDcDevcieService
      * @return 机器信息
      */
 	public DcDevcie selectDcDevcieById(String id);
+	/**
+	 * 查询机器信息
+	 *
+	 * @param ip 机器IP
+	 * @return 机器信息
+	 */
+	public DcDevcie selectDcDevcieByIp(String ip);
 	
 	/**
      * 查询机器列表

@@ -124,6 +124,17 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 	}
 
 	/**
+	 * 查询机器信息
+	 *
+	 * @param ipAddress 机器IP
+	 * @return 机器信息
+	 */
+	@Override
+	public DcDevcie selectDcDevcieByIp(String ipAddress){
+        return dcDevcieMapper.selectDcDevcieByIp(ipAddress);
+	}
+
+	/**
 	 * 一键同步
 	 *
 	 * @return

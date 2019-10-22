@@ -6,13 +6,13 @@
       <div class="outDivStyle">
         <div class="innerDivStyle">
           <div class="title">节点</div>
-          <div class="name">192.168.0.88</div>
+          <div class="name">{{machineInfoVO.ipAddress}}</div>
         </div>
       </div>
       <div class="outDivStyle">
         <div class="innerDivStyle">
           <div class="title">负载</div>
-          <div class="name">88%</div>
+          <div class="name">{{machineInfoVO.balance}}</div>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <div class="outDivStyle">
         <div class="innerDivStyle">
           <div class="title">CPU</div>
-          <div class="warn">77%</div>
+          <div class="warn">{{machineInfoVO.cpuInfo}}</div>
         </div>
       </div>
       </div>
@@ -30,13 +30,13 @@
 
         <div class="innerDivStyle">
           <div class="title">磁盘</div>
-          <div class="error">50%</div>
+          <div class="error">{{machineInfoVO.diskInfo}}</div>
         </div>
 
         <div>
           <div class="innerDivStyle">
             <div class="title">内存</div>
-            <div class="error">30%</div>
+            <div class="error">{{machineInfoVO.memoryInfo}}</div>
           </div>
         </div>
       </div>

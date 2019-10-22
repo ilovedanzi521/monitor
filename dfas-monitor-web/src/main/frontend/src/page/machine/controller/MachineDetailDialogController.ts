@@ -37,8 +37,14 @@ export default class MachineDetailDialogController extends BaseController {
     data: MachineInfoVO;
   };
 
+  /*private toChildMsg!: {
+    dialogTitle: string;
+    type: OperationTypeEnum;
+    data: MachineInfoVO;
+  };*/
+
   private microServiceInfoDialogService: MicroServiceInfoDialogService = new MicroServiceInfoDialogService();
-  private microServiceInfoRepVO: MachineInfoVO = new MachineInfoVO();
+  private machineInfoRepVO: MachineInfoVO = new MachineInfoVO();
   private detailDialogVisible: boolean = true;
   private dialogLoading: boolean = false;
   private createLoading: boolean = false;
@@ -72,7 +78,12 @@ export default class MachineDetailDialogController extends BaseController {
   };
   /** 页面初始化 */
   private mounted() {
-    this.microServiceInfoRepVO = this.fromFatherMsg.data;
+
+    this.machineInfoRepVO = this.fromFatherMsg.data;
+    console.log(">?????????????>");
+    //console.log(this.machineInfoRepVO);
+    console.log(this.fromFatherMsg.data)
+    console.log(">?????????????>");
     //alert(JSON.stringify(this.microServiceInfoRepVO));
     if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
       this.dialogTitle = MicroServiceInfoConst.CREATETITLE;
@@ -119,21 +130,21 @@ export default class MachineDetailDialogController extends BaseController {
         this.dialogLoading = true;
         if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
           this.microServiceInfoDialogService
-            .insert(this.microServiceInfoRepVO)
+            .insert(this.machineInfoRepVO)
             .then((response: WinResponseData) => {
               this.dialogMessage(response);
             });
         }
         if (this.fromFatherMsg.type === OperationTypeEnum.UPDATE) {
           this.microServiceInfoDialogService
-            .update(this.microServiceInfoRepVO)
+            .update(this.machineInfoRepVO)
             .then((response: WinResponseData) => {
               this.dialogMessage(response);
             });
         }
         if (this.fromFatherMsg.type === OperationTypeEnum.DELETE) {
           this.microServiceInfoDialogService
-            .del(this.microServiceInfoRepVO.id)
+            .del(this.machineInfoRepVO.id)
             .then((response: WinResponseData) => {
               this.dialogMessage(response);
             });

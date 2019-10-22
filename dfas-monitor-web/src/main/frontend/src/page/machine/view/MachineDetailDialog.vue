@@ -8,11 +8,11 @@
 
 
           <div class="title_cpu">CPU使用率</div>
-          <CPUChart :fromFatherMsclg="fromFatherMsg"></CPUChart>
+          <CPUChart :fromFatherMsg="fromFatherMsg"></CPUChart>
 
 
           <div class="title_mem">内存使用率</div>
-          <MemoryChart :MemoryChartfromFatherMsg="fromFatherMsg"></MemoryChart>
+          <MemoryChart :fromFatherMsg="fromFatherMsg"></MemoryChart>
 
 
         </div>

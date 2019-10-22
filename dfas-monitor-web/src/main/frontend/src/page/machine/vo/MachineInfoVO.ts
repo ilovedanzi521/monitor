@@ -61,6 +61,23 @@ export class MachineInfoVO extends BaseRepVO {
      * 备注
      */
     public remark: string;
+
+  /**
+   *
+   */
+  public balance: string;
+  /**
+   *
+   */
+  public cpuInfo: string;
+  /**
+   *
+   */
+  public diskInfo: string;
+  /**
+   *
+   */
+  public memoryInfo: string;
 }
 
 /**

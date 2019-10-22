@@ -22,15 +22,13 @@ export default class NodeInfoController extends BaseController {
     data: MachineInfoVO;
   };
 
-  private microServiceInfoRepVO: MachineInfoVO = new MachineInfoVO();
+  private machineInfoVO: MachineInfoVO = new MachineInfoVO();
   private microServiceInfoReqVO: MicroServiceInfoReqVO = new MicroServiceInfoReqVO();
-  private microServiceBaseInfoService: NodeInfoService = new NodeInfoService();
+  private nodeInfoService: NodeInfoService = new NodeInfoService();
 
   /** 页面初始化 */
   private mounted() {
-    this.microServiceInfoRepVO = this.fromFatherMsg.data;
-    this.microServiceInfoReqVO.id = this.microServiceInfoRepVO.id;
-    this.microServiceInfoReqVO.microServiceName = this.microServiceInfoRepVO.microServiceName;
+    this.machineInfoVO = this.fromFatherMsg.data;
     this.$nextTick(() => {
       this.query();
     });
@@ -43,12 +41,20 @@ export default class NodeInfoController extends BaseController {
    * @Date:   2019-07-10 11:35:35
    */
   private query(): void {
-    /*this.microServiceBaseInfoService.info(this.microServiceInfoReqVO).then((res: WinResponseData) => {
-      if (res.winRspType === "ERROR") {
-        this.win_message_error(res.msg);
-      }
-      this.microServiceInfoRepVO = res.data;
-    });*/
+      this.nodeInfoService
+        .info(this.machineInfoVO)
+        .then((res: WinResponseData) => {
+          if (res.winRspType === "ERROR") {
+            this.win_message_error(res.msg);
+          }
+          let respData = res.data;
+          this.machineInfoVO.balance = respData.balance;
+          this.machineInfoVO.cpuInfo = respData.cpuInfo;
+          this.machineInfoVO.diskInfo = respData.diskInfo;
+          this.machineInfoVO.memoryInfo = respData.memoryInfo;
+          console.log(">>>>nodeindocontroller >>> query >>>>");
+          console.log(this.machineInfoVO);
+        });
   }
 
 }

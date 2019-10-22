@@ -51,10 +51,28 @@ export default class MachineController extends BaseController {
     this.machineDetailDialogVisible = false;
   }
 
-  private mclick(){
+  /*private mclick(){
     console.log("mclick");
+    this.cardNumber = {
+      dialogTitle: BaseConst.VIEW + " " + row.code + " " + row.name,
+      type: OperationTypeEnum.VIEW,
+      data: this.copy(row),
+      stockholderDicVO: this.stockholderDicVO
+    };
+    this.dialogVisible = true;
     this.machineDetailDialogVisible = true;
     console.log(this.machineDetailDialogVisible);
+  }*/
+  /** 双击查看 */
+  private mclick({ row, rowIndex, column, columnIndex }, event: Event) {
+    this.cardNumber = {
+      type: OperationTypeEnum.VIEW,
+      data: this.copy(row),
+    };
+    this.machineDetailDialogVisible = true;
+    console.log("machinecontroller mclick >>>>start>>>>>");
+    console.log(this.cardNumber.data);
+    console.log("machinecontroller mclick >>>>end>>>>>");
   }
 
    private multipleSelection: any = [];
@@ -281,6 +299,12 @@ export default class MachineController extends BaseController {
         this.userReqVo.stateController.switchFormType = "";
         this.getCompent();
     }
+
+  private toChildMsg!: {
+    dialogTitle: string;
+    type: OperationTypeEnum;
+    data: MachineInfoVO;
+  };
 
     async mounted() {
         this.fristGetCompent();
