@@ -96,7 +96,7 @@ export default class DiskBarController extends BaseController {
   }
 
   private renderChart(legendData, xAxisData, colorData, seriesAxis) {
-    let boxID = document.getElementById("pie-doughnut");
+    let boxID = document.getElementById("pie-diskbar");
     this.chartLine = echarts.init(boxID);
     // 使用刚指定的配置项和数据显示图表。
     this.chartLine.setOption(
@@ -105,7 +105,7 @@ export default class DiskBarController extends BaseController {
     window.onresize = this.chartLine.resize;
   }
 
-  name: "pie-doughnut";
+  name: "pie-diskbar";
 
   chartLine: any;
 
