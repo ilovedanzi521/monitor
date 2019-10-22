@@ -1,5 +1,5 @@
 <template>
-    <div class="isheght100">
+    <div :class="{'isheght100':row&&col}">
         <BaseMonitor v-bind="{...$props}" @clickItem="clickItem" type="machine"></BaseMonitor>
     </div>
 </template>

@@ -1,16 +1,20 @@
 <template>
-    <div class="isheight100_contanier">
+    <div :class="['isheight100_contanier',className]">
         <ul class="monitor-container" ref="monitor">
             <li class="monitor-wrapper" v-for="(monitor,index) in getFormatData" :key="index">
                 <div v-for="aitem in monitor" :key="aitem.id" :class="['monitor-item-js',`monitor-item-${type}`]" @click="clickItem(monitor,aitem)">
                     <div :class="['img-container',`img-container-${type}`] " :style="width?{'width':width,'height':width}:''">
                         <span :class="['icon',`icon-${aitem.state}`,{'animation3':animations.includes(aitem.state)}]" />
                     </div>
-                    <p class="monitor-title" v-if="isShowTitle">{{aitem.ipAddress||aitem.microServiceName}}</p>
+                    <p class="monitor-title" v-if="isShowTitle" :style="width?{'width':width}:''">{{aitem.ipAddress||aitem.microServiceAlias||aitem.microServiceName}}</p>
                     <div class="tool-container" v-if="isTool">
                         <p v-if="aitem.ipAddress||aitem.microServiceName">
                             <label>{{aitem.ipAddress?"ip地址:":"微服务名称:"}}</label>
                             <span>{{aitem.ipAddress||aitem.microServiceName}}</span>
+                        </p>
+                        <p v-if="aitem.microServiceAlias">
+                            <label>微服务描述:"</label>
+                            <span>{{aitem.microServiceAlias}}</span>
                         </p>
                         <p v-if="aitem.cpuNum||aitem.warn">
                             <label>{{aitem.cpuNum?"cpu个数：:":"日志告警数:"}}</label>

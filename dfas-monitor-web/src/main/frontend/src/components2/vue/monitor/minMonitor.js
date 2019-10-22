@@ -51,6 +51,9 @@ export default {
         return isContainArray;
       }
     },
+    className: {
+      type: String
+    },
     /**最多显示多少行*/
     row: {
       type: Number,

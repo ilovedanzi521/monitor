@@ -4,7 +4,7 @@
             <dl>
                 <dt></dt>
             </dl>
-            <Machine :dataList="machinePanelDataList" :animations="['0','1','2','3']" :isTool="true" width="54px"></Machine>
+            <Machine :dataList="machinePanelDataList" :animations="['0','1','2','3']" :isTool="true" width="60px"></Machine>
         </dl>
     </div>
 </template>
@@ -259,6 +259,149 @@ export default class MachinePanel extends BaseController {
         },
         {
             id: "21121332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
+            state: "1",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21123321332",
             state: "1",
             ipAddress: "192.168.0.0",
             cupNum: 2,
