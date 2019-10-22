@@ -1,5 +1,11 @@
 package com.win.dfas.monitor.engine.service;
 
+import com.win.dfas.monitor.common.vo.MetricsResultVO;
+import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
+import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
+
+import java.util.List;
+
 public interface PrometheusService {
 
     Double getQps();
@@ -13,4 +19,10 @@ public interface PrometheusService {
     Long getHttpRequestTotal();
 
     String getHttpRequestTotalOriginData();
+
+    void reload();
+
+    String getJvmMemoryChartOriginData();
+
+    public List<JvmMemoryMetricsResultVO> getJvmMemoryChart(MicroServiceReqVO reqVO);
 }

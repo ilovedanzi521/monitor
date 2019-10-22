@@ -15,6 +15,6 @@ public class MicroServiceJvmMemoryVO {
     private List<String> legendData=new ArrayList<>();
     private List<String> xAxisData=new ArrayList<>();
     private List<String> colorData=new ArrayList<>();
-    private List<List<Integer>> seriesData=new ArrayList<>();
+    private List<List<Double>> seriesData=new ArrayList<>();
 
 }

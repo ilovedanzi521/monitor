@@ -17,15 +17,20 @@ import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
 import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.vo.*;
+import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
 import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.MicroService;
+import com.win.dfas.monitor.engine.service.PrometheusService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.*;
 
 @Service
@@ -37,12 +42,22 @@ public class MicroServiceImpl implements MicroService {
     @Autowired
     private MicroServiceInstanceMapper microServiceInstanceMapper;
 
+    @Autowired
+    private PrometheusService prometheusService;
+
+    @PostConstruct
+    void init() {
+        noneThousandBitNumberFormat.setGroupingUsed(false);
+    }
+/*
     @Value("${prometheus.server.url}")
-    private String prometheusServerUrl;
+    private String prometheusServerUrl;*/
 
     @Value("${registration.center.url}")
     private String registrationCenterUrl;
 
+    /** 非千分位格式化 */
+    protected NumberFormat noneThousandBitNumberFormat = NumberFormat.getNumberInstance();
 
     @Override
     public PageInfo<MicroServiceRepVO> getMicroServiceList(MicroServiceReqVO reqVO) {
@@ -72,23 +87,23 @@ public class MicroServiceImpl implements MicroService {
 
     @Override
     public List<MicroServiceRepVO> searchMicroService(MicroServiceReqVO microServiceReqVO) {
-        MicroServiceEntity microServiceEntity =new MicroServiceEntity();
-        BeanUtils.copyProperties(microServiceReqVO,microServiceEntity);
+        MicroServiceEntity microServiceEntity = new MicroServiceEntity();
+        BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
         List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(microServiceEntity);
         return ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
     }
 
     @Override
     public List<MicroServiceRepVO> microServicePanel(MicroServiceReqVO microServiceReqVO) {
-        MicroServiceEntity microServiceEntity =new MicroServiceEntity();
-        BeanUtils.copyProperties(microServiceReqVO,microServiceEntity);
+        MicroServiceEntity microServiceEntity = new MicroServiceEntity();
+        BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
         List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(microServiceEntity);
         return ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
     }
 
     @Override
     public List<MicroServiceMachineRepVO> microServiceMachineList(MicroServiceReqVO microServiceReqVO) {
-        List<MicroServiceInstanceEntity> list =microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceReqVO.getId());
+        List<MicroServiceInstanceEntity> list = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceReqVO.getId());
         List<MicroServiceMachineRepVO> microServiceMachineRepList = ObjectUtils.copyPropertiesList(list, MicroServiceMachineRepVO.class);
         Map<String, ApplicationInstance> microServiceMap = fetchMicroService();
         for (MicroServiceMachineRepVO microServiceMachineRep : microServiceMachineRepList) {
@@ -127,18 +142,18 @@ public class MicroServiceImpl implements MicroService {
             String ipAddresses[] = microServiceReqVO.getIpAddress().split(",");
             List<String> ipAddressList = new ArrayList<>(Arrays.asList(ipAddresses));
             List<MicroServiceInstanceEntity> instanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceEntity.getId());
-            List<String> existList=new ArrayList<>();
+            List<String> existList = new ArrayList<>();
             if (instanceList != null) {
                 for (MicroServiceInstanceEntity microServiceInstanceEntity : instanceList) {
-                    if (!ipAddressList.contains(microServiceInstanceEntity.getIpAddr())){
+                    if (!ipAddressList.contains(microServiceInstanceEntity.getIpAddr())) {
                         microServiceInstanceMapper.deleteMicroServiceInstance(microServiceInstanceEntity.getId());
-                    }else{
+                    } else {
                         existList.add(microServiceInstanceEntity.getIpAddr());
                     }
                 }
             }
-            for(String addr:ipAddressList){
-                if(!existList.contains(addr)){
+            for (String addr : ipAddressList) {
+                if (!existList.contains(addr)) {
                     MicroServiceInstanceEntity microServiceInstanceEntity = new MicroServiceInstanceEntity();
                     microServiceInstanceEntity.setId(PrimaryKeyUtil.generateId());
                     microServiceInstanceEntity.setServiceId(microServiceEntity.getId());
@@ -163,13 +178,13 @@ public class MicroServiceImpl implements MicroService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteMicroServiceByIds(String ids) {
-        String strIds[]=ids.split("_");
-        List<Long> longIds=new ArrayList<>();
-        for(int i=0;i<strIds.length;i++){
+        String strIds[] = ids.split("_");
+        List<Long> longIds = new ArrayList<>();
+        for (int i = 0; i < strIds.length; i++) {
             longIds.add(Long.parseLong(strIds[i]));
         }
         microServiceMapper.deleteMicroServiceByIds(longIds);
-        for(int i=0;i<longIds.size();i++){
+        for (int i = 0; i < longIds.size(); i++) {
             microServiceInstanceMapper.deleteMicroServiceInstanceByServiceId(longIds.get(i));
         }
     }
@@ -239,25 +254,25 @@ public class MicroServiceImpl implements MicroService {
     public MicroServiceRepVO microServiceInfo(MicroServiceReqVO reqVO) {
         MicroServiceEntity microServiceEntity = microServiceMapper.selectMicroService(reqVO.getId());
         MicroServiceRepVO microServiceRepVO = new MicroServiceRepVO();
-        BeanUtils.copyProperties(microServiceEntity,microServiceRepVO);
+        BeanUtils.copyProperties(microServiceEntity, microServiceRepVO);
         Map<String, ApplicationInstance> microServiceInstanceMap = fetchMicroService();
         List<MicroServiceInstanceEntity> instanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
-        int upCount=0;
-        if(instanceList != null){
-            for(MicroServiceInstanceEntity microServiceInstanceEntity:instanceList){
+        int upCount = 0;
+        if (instanceList != null) {
+            for (MicroServiceInstanceEntity microServiceInstanceEntity : instanceList) {
                 ApplicationInstance applicationInstance = microServiceInstanceMap.get(microServiceInstanceEntity.getIpAddr());
-                if(applicationInstance != null){
-                    if(MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())){
+                if (applicationInstance != null) {
+                    if (MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())) {
                         upCount++;
                     }
                 }
             }
         }
-        if(instanceList == null  ||  upCount ==0) {
+        if (instanceList == null || upCount == 0) {
             microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
-        }else if(upCount  < instanceList.size()){
+        } else if (upCount < instanceList.size()) {
             microServiceRepVO.setState(StatusEnum.EXCEPTION.getStatus());
-        }else if(upCount ==instanceList.size()){
+        } else if (upCount == instanceList.size()) {
             microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
             //继续判断JVM内存是否存在告警，存在，则设置为告警状态
         }
@@ -267,23 +282,37 @@ public class MicroServiceImpl implements MicroService {
     @Override
     public MicroServiceJvmMemoryVO jvmMemory(MicroServiceReqVO reqVO) {
         MicroServiceJvmMemoryVO microServiceJvmMemory = new MicroServiceJvmMemoryVO();
+        /*
         List<MicroServiceInstanceEntity> microServiceInstanceEntityList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(reqVO.getId());
+        */
 
+        /*
         Random random = new Random(System.currentTimeMillis());
         int hour = Integer.parseInt(DateUtils.getCurrentHour());
+        */
 
-        List<String> xAxisData = new ArrayList<>();
-        String suffix = ":00";
-        for (int i = 0; i <= hour + 1; i++) {
-            if (i < 10) {
-                xAxisData.add("0" + i + suffix);
-            } else {
-                xAxisData.add(i + suffix);
+        List<JvmMemoryMetricsResultVO> metricsResultList = prometheusService.getJvmMemoryChart(reqVO);
+        for (int i = 0; i < metricsResultList.size(); i++) {
+            JvmMemoryMetricsResultVO metricsResultVO = metricsResultList.get(i);
+            microServiceJvmMemory.setXAxisData(metricsResultVO.getAllTimesList());
+            Map<String, String> metric = metricsResultVO.getMetric();
+            microServiceJvmMemory.getLegendData().add(metric.get("instance"));
+            microServiceJvmMemory.getColorData().add(LineColorEnum.values()[i].getColor());
+            List<Double> seriesData = new ArrayList<>();
+            List<MetricValueVO> values = metricsResultVO.getMetricValueList();
+            if (values != null) {
+                for(MetricValueVO metricValueVO:values){
+                    BigDecimal value = new BigDecimal(metricValueVO.getValue()).divide(new BigDecimal(1024 * 1024)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    seriesData.add(Double.parseDouble(noneThousandBitNumberFormat.format(value)));
+                }
             }
+            microServiceJvmMemory.getSeriesData().add(seriesData);
         }
-        microServiceJvmMemory.setXAxisData(xAxisData);
-        for (int i = 0; i < microServiceInstanceEntityList.size(); i++) {
-            MicroServiceInstanceEntity microServiceInstanceEntity=microServiceInstanceEntityList.get(i);
+
+
+
+/*        for (int i = 0; i < microServiceInstanceEntityList.size(); i++) {
+            MicroServiceInstanceEntity microServiceInstanceEntity = microServiceInstanceEntityList.get(i);
             microServiceJvmMemory.getLegendData().add(microServiceInstanceEntity.getIpAddr());
             microServiceJvmMemory.getColorData().add(LineColorEnum.values()[i].getColor());
             List<Integer> seriesData = new ArrayList<>();
@@ -291,7 +320,7 @@ public class MicroServiceImpl implements MicroService {
                 seriesData.add(random.nextInt(1000));
             }
             microServiceJvmMemory.getSeriesData().add(seriesData);
-        }
+        }*/
         return microServiceJvmMemory;
     }
 
