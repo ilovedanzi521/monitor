@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="machineState-container">
-                <Machine :dataList="sa" :col="5" :row="4" width="40px"></Machine>
+                <Machine :dataList="sa" :col="5" :row="5" width="46px"></Machine>
             </div>
         </div>
     </div>
@@ -29,6 +29,83 @@ export default class HomeLeftMachineState extends HomeMachineStateController {
         {
             id: "21112",
             state: "0",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21112",
+            state: "0",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21112",
+            state: "0",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21112",
+            state: "0",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21112",
+            state: "0",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21112",
+            state: "0",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21112",
+            state: "0",
+            ipAddress: "192.168.0.0",
+            cupNum: 2,
+            memorySize: "128G",
+            diskSize: "32T",
+            cpuPer: "70%",
+            memoryPer: "30%",
+            diskPer: "60%"
+        },
+        {
+            id: "21112",
+            state: "1",
             ipAddress: "192.168.0.0",
             cupNum: 2,
             memorySize: "128G",
