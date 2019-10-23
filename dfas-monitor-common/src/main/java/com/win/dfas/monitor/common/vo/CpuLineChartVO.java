@@ -1,5 +1,6 @@
 package com.win.dfas.monitor.common.vo;
 
+import com.win.dfas.monitor.common.vo.cpu.CPUSeriesDataVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,6 +16,6 @@ public class CpuLineChartVO {
     private List<String> legendData=new ArrayList<>();
     private List<String> xAxisData=new ArrayList<>();
     private List<String> colorData=new ArrayList<>();
-    private List<List<Double>> seriesData=new ArrayList<>();
+    private List<CPUSeriesDataVO> seriesData=new ArrayList<>();
 
 }

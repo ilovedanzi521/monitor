@@ -24,9 +24,9 @@
 
 
       <div class="bottomContainer">
-        <div class="title2">CPU使用变化率</div>
+        <!--<div class="title2">CPU使用变化率</div>-->
         <CPULineChart :fromFatherMsg="fromFatherMsg"></CPULineChart>
-        <div class="title2">磁盘使用占比图</div>
+        <!--<div class="title2">磁盘使用占比图</div>-->
         <DiskBar :fromFatherMsg="fromFatherMsg"></DiskBar>
       </div>
 

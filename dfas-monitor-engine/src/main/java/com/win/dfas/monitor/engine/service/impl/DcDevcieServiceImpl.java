@@ -1,12 +1,10 @@
 package com.win.dfas.monitor.engine.service.impl;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.win.dfas.monitor.common.constant.LineColorEnum;
 import com.win.dfas.monitor.common.entity.DcDevcie;
 import com.win.dfas.monitor.common.util.Convert;
 import com.win.dfas.monitor.common.util.JsonUtil;
@@ -15,7 +13,7 @@ import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.CpuLineChartVO;
 import com.win.dfas.monitor.common.vo.MetricValueVO;
 import com.win.dfas.monitor.common.vo.cpu.CPULineChartMetricsResultVO;
-import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
+import com.win.dfas.monitor.common.vo.cpu.CPUSeriesDataVO;
 import com.win.dfas.monitor.config.mapper.DcDevcieMapper;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
@@ -180,25 +178,38 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 	@Override
 	public CpuLineChartVO getCpuLineChartData(String ipAddress){
 		CpuLineChartVO cpuLineChartVO = new CpuLineChartVO();
-		List<CPULineChartMetricsResultVO> metricsResultList = prometheusService.getCPULineChart(ipAddress,"system");
-		cpuLineChartVO.getLegendData().add("System");
+		setData(ipAddress,cpuLineChartVO,"system","System");
+		setData(ipAddress,cpuLineChartVO,"user","User");
+		setData(ipAddress,cpuLineChartVO,"idle","Idel");
+		setData(ipAddress,cpuLineChartVO,"iowait","Iowait");
+		return cpuLineChartVO;
+	}
+
+	private void setData(String ipAddress, CpuLineChartVO cpuLineChartVO,String type,String lengData) {
+		List<CPULineChartMetricsResultVO> metricsResultList = prometheusService.getCPULineChart(ipAddress,type);
+		cpuLineChartVO.getLegendData().add(lengData);
+		CPUSeriesDataVO cpuSeriesDataVO = new CPUSeriesDataVO();
+		cpuSeriesDataVO.setName(lengData);
+		cpuSeriesDataVO.setType("line");
+		cpuSeriesDataVO.setStack("总量");
+		List<Double> seriesData = new ArrayList<>();
 		for (int i = 0; i < metricsResultList.size(); i++) {
 			CPULineChartMetricsResultVO metricsResultVO = metricsResultList.get(i);
 			cpuLineChartVO.setXAxisData(metricsResultVO.getAllTimesList());
 			Map<String, String> metric = metricsResultVO.getMetric();
 			//cpuLineChartVO.getLegendData().add(metric.get("instance"));
 			//cpuLineChartVO.getColorData().add(LineColorEnum.values()[i].getColor());
-			List<Double> seriesData = new ArrayList<>();
 			List<MetricValueVO> values = metricsResultVO.getMetricValueList();
 			if (values != null) {
 				for(MetricValueVO metricValueVO:values){
-					BigDecimal value = new BigDecimal(metricValueVO.getValue()).divide(new BigDecimal(1024 * 1024)).setScale(2, BigDecimal.ROUND_HALF_UP);
-					seriesData.add(Double.parseDouble(noneThousandBitNumberFormat.format(value)));
+					//BigDecimal value = new BigDecimal(metricValueVO.getValue()).divide(new BigDecimal(1024 * 1024)).setScale(2, BigDecimal.ROUND_HALF_UP);
+					//seriesData.add(Double.parseDouble(noneThousandBitNumberFormat.format(value)));
+					seriesData.add(Double.parseDouble(metricValueVO.getValue()) * 100);
 				}
 			}
-			cpuLineChartVO.getSeriesData().add(seriesData);
 		}
-		return cpuLineChartVO;
+		cpuSeriesDataVO.setData(seriesData);
+		cpuLineChartVO.getSeriesData().add(cpuSeriesDataVO);
 	}
 
 }
