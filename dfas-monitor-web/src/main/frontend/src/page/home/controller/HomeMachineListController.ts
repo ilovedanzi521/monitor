@@ -72,10 +72,10 @@ export default class HomeMachineListController extends Vue {
     let machineInfoVo = {
       ipAddress : row.ip ,
       balance : row.balance ,
-      cpuInfo : row.cpu ,
-      diskInfo : row.disk ,
-      memoryInfo : row.memory ,
-      balanceInfo : row.balance
+      cpuInfo : row.cpuInfo ,
+      diskInfo : row.diskInfo ,
+      memoryInfo : row.memoryInfo ,
+      balanceInfo : row.balanceInfo
     } ;
     return JSON.parse(JSON.stringify(machineInfoVo));
   }

@@ -128,6 +128,11 @@ public class MachineTask {
             machine.setCpu(formatValue(dc.getCpu(),"%"));
             machine.setMemory(formatValue(dc.getMemory(),"%"));
             machine.setDisk(formatValue(dc.getDisk(),"%"));
+            String cpuInfo = "核数：" + dc.getCpuCore() + " 使用率：" + dc.getCpu() + "%" ;
+            machine.setCpuInfo(cpuInfo);
+            machine.setDiskInfo(dc.getDisk()+ "%");
+            machine.setMemoryInfo(dc.getMemory()+ "%");
+            machine.setBalanceInfo(dc.getBalance()+ "%");
             machineList.add(machine);
         }
         return JsonUtil.toJson(machineList);
