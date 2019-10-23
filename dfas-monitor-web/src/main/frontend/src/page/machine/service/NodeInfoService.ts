@@ -15,9 +15,9 @@ import { WinResponseData } from "../../common/vo/BaseVO";
 import { MachineInfoVO } from "../vo/MachineInfoVO";
 
 /**
- * 类名称：MicroServiceInfoService
- * 类描述：微服务基本信息 服务类
- * 创建人：@author wangyaoheng
+ * 类名称：NodeInfoService
+ * 类描述：节点基本信息 服务类
+ * 创建人：@author lj
  * 创建时间：2019-07-10 11:35:35
  */
 export default class NodeInfoService {

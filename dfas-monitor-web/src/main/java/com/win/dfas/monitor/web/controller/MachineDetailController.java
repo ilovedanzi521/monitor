@@ -1,24 +1,15 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.win.dfas.common.vo.WinResponseData;
 import com.win.dfas.monitor.common.constant.LineColorEnum;
-import com.win.dfas.monitor.common.constant.ReturnMsgEnum;
 import com.win.dfas.monitor.common.entity.DcDevcie;
 import com.win.dfas.monitor.common.util.JsonUtil;
-import com.win.dfas.monitor.common.vo.CpuLineChartVO;
-import com.win.dfas.monitor.common.vo.MachineCPUUsageVO;
-import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
-import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
+import com.win.dfas.monitor.common.vo.*;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
-import com.win.dfas.monitor.engine.service.MicroService;
-import com.win.dfas.monitor.engine.service.PrometheusService;
-import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,9 +29,6 @@ public class MachineDetailController extends BaseController {
 
     @Autowired
     private IDcDevcieService devcieService;
-
-    @Autowired
-    private PrometheusService prometheusService;
 
     /**
      * 查询cpu使用率
@@ -90,6 +78,17 @@ public class MachineDetailController extends BaseController {
         return WinResponseData.handleSuccess(cpuLineChartVO);
     }
 
+    /**
+     * 磁盘使用占比
+     */
+    @ApiOperation(value = "磁盘使用占比", notes = "磁盘使用占比")
+    @PostMapping("/diskUsage")
+    public WinResponseData diskUsage(@RequestBody String data) {
+        Map<String,String> map = JsonUtil.toObject(data, Map.class);
+        String ipAddress = map.get("ipAddress");
+        DiskBarChartVO diskBarChartVO = devcieService.getDiskBarChartData(ipAddress);
+        return WinResponseData.handleSuccess(diskBarChartVO);
+    }
 
 
     private Map<String,String> getNodeBaseInfoData(DcDevcie dcDevcie) {

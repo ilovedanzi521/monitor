@@ -36,9 +36,9 @@ export default class NodeInfoController extends BaseController {
   }
 
     /**
-   * 微服务基本信息查询
+   * 节点基本信息查询
    * @Title: query
-   * @author: wangyaoheng
+   * @author: lj
    * @Date:   2019-07-10 11:35:35
    */
   private  query(): void {

@@ -6,7 +6,7 @@ import {
   MicroServiceInfoReqVO
 } from "../vo/MachineInfoVO";
 import echarts from "echarts";
-import CPUChartService from "../service/CPUChartService";
+import BarChartService from "../service/BarChartService";
 import { WinResponseData } from "../../common/vo/BaseVO";
 import MachineCPUVO from "../vo/MachineCPUVO";
 
@@ -27,10 +27,8 @@ export default class DiskBarController extends BaseController {
     data: MachineInfoVO;
   };
 
-  private microServiceInfoReqVO: MicroServiceInfoReqVO = new MicroServiceInfoReqVO();
-  private microServiceInfoRepVO: MachineInfoVO = new MachineInfoVO();
-  private jvmMemoryChartService: CPUChartService = new CPUChartService();
-  private microServiceJvmMemoryVO: MachineCPUVO = new MachineCPUVO();
+  private machineInfoVO: MachineInfoVO = new MachineInfoVO();
+  private barChartService: BarChartService = new BarChartService();
 
   private legendData: string[] = [
     "192.168.0.55",
@@ -81,26 +79,26 @@ export default class DiskBarController extends BaseController {
 
   /** 页面初始化 */
   private mounted() {
-    this.microServiceInfoRepVO = this.fromFatherMsg.data;
+    this.machineInfoVO = this.fromFatherMsg.data;
     //this.microServiceInfoReqVO.id = this.microServiceInfoRepVO.id;
     //this.microServiceInfoReqVO.microServiceName = this.microServiceInfoRepVO.microServiceName;
-     this.renderChart(
+    /* this.renderChart(
       this.legendData,
       this.xAxisData,
       this.colorData,
       this.seriesAxis
-    );
-   /* this.$nextTick(() => {
+    );*/
+    this.$nextTick(() => {
       this.query();
-    });*/
+    });
   }
 
-  private renderChart(legendData, xAxisData, colorData, seriesAxis) {
+  private renderChart(legendData, xAxisData,yAxisData, colorData, seriesAxis,seriesData) {
     let boxID = document.getElementById("pie-diskbar");
     this.chartLine = echarts.init(boxID);
     // 使用刚指定的配置项和数据显示图表。
     this.chartLine.setOption(
-      this.getOption(legendData, xAxisData, colorData, seriesAxis)
+      this.getOption(legendData, xAxisData,yAxisData, colorData, seriesAxis,seriesData)
     );
     window.onresize = this.chartLine.resize;
   }
@@ -109,10 +107,10 @@ export default class DiskBarController extends BaseController {
 
   chartLine: any;
 
-  private getOption(legendData, xAxisData, colorData, seriesAxis) {
+  private getOption(legendData, xAxisData,yAxisData, colorData, seriesAxis,seriesData) {
 
 
-    let option = {
+   /* let option = {
       title: {
         text: '磁盘使用占比图',
         //subtext: '数据来自网络'
@@ -152,38 +150,63 @@ export default class DiskBarController extends BaseController {
           data: [19325, 23438, 31000]
         }
       ]
+    };*/
+
+    let option = {
+      title: {
+        text: '磁盘使用占比图',
+        //subtext: '数据来自网络'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {
+        data: legendData
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+      },
+      yAxis: {
+        type: 'category',
+        data: yAxisData
+      },
+      series: seriesData
     };
 
     return option;
   }
 
   /**
-   * 微服务JVM使用率查询
+   * 磁盘使用占比查询
    * @Title: query
-   * @author: wangyaoheng
+   * @author: lj
    * @Date:   2019-07-10 11:35:35
    */
   private query(): void {
-    this.jvmMemoryChartService
-      .info(this.microServiceInfoReqVO)
+    this.barChartService
+      .info(this.machineInfoVO)
       .then((res: WinResponseData) => {
         if (res.winRspType === "ERROR") {
           this.win_message_error(res.msg);
         }
-        this.microServiceJvmMemoryVO = res.data;
-        this.seriesAxis = this.getSeriesAxis(
-          this.microServiceJvmMemoryVO.legendData,
-          this.microServiceJvmMemoryVO.colorData,
-          this.microServiceJvmMemoryVO.seriesData
-        );
-        this.legendData = this.microServiceJvmMemoryVO.legendData;
-        this.xAxisData = this.microServiceJvmMemoryVO.xaxisData;
-        this.colorData = this.microServiceJvmMemoryVO.colorData;
+        let respData = res.data;
         this.renderChart(
-          this.legendData,
-          this.xAxisData,
-          this.colorData,
-          this.seriesAxis
+          respData.legendData,
+          respData.xAxisData,
+          respData.yAxisData,
+          respData.colorData,
+          respData.seriesAxis,
+          respData.seriesData
         );
       });
   }

@@ -1,5 +1,6 @@
 package com.win.dfas.monitor.engine.service.impl;
 
+import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.constant.ResultTypeEnum;
 import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
@@ -7,6 +8,8 @@ import com.win.dfas.monitor.common.util.RestfulTools;
 import com.win.dfas.monitor.common.vo.*;
 import com.win.dfas.monitor.common.vo.cpu.CPULineChartMetricsResultVO;
 import com.win.dfas.monitor.common.vo.cpu.CPULineChartMetricsReturnMsgVO;
+import com.win.dfas.monitor.common.vo.disk.DiskBarChartMetricsResultVO;
+import com.win.dfas.monitor.common.vo.disk.DiskBarChartMetricsReturnMsgVO;
 import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
 import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsReturnMsgVO;
 import com.win.dfas.monitor.engine.service.PrometheusService;
@@ -79,6 +82,25 @@ public class PrometheusServiceImpl implements PrometheusService {
     }
 
     @Override
+    public List<DiskBarChartMetricsResultVO> getDiskBarChart(String ipAddress, String type){
+        Map<String, Object> parameters = new HashMap<>();
+        if(MonitorConstants.DISK_USED.equals(type)){
+            parameters.put("queryParam", "node_filesystem_size_bytes{instance='expoter_"+ipAddress+"',device!~'rootfs'} - node_filesystem_avail_bytes{instance='expoter_"+ipAddress+"',device!~'rootfs'}");
+        }else if(MonitorConstants.DISK_FREE.equals(type)){
+            parameters.put("queryParam","node_filesystem_avail_bytes{instance='expoter_"+ipAddress+"',device!~'rootfs'}");
+        }
+        String url = null;
+        try {
+            url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
+            String result = RestfulTools.get(url, String.class, parameters);
+            return convertDiskBarChartData(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public String getJvmMemoryChartOriginData() {
         //String url = prometheusServerUrl + "/api/v1/query_range?query=jvm_memory_used_bytes&start=1571612606.68&end=1571655806.68&step=172";
         //  String queryParam = "sum(jvm_memory_used_bytes{area='heap'})";
@@ -132,7 +154,13 @@ public class PrometheusServiceImpl implements PrometheusService {
         RestfulTools.post(url, String.class);
     }
 
-    public List<CPULineChartMetricsResultVO> convertCPULineChartData(String result){
+    private List<DiskBarChartMetricsResultVO> convertDiskBarChartData(String result){
+        DiskBarChartMetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, DiskBarChartMetricsReturnMsgVO.class);
+        List<DiskBarChartMetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
+        return metricsResultList;
+    }
+
+    private List<CPULineChartMetricsResultVO> convertCPULineChartData(String result){
         CPULineChartMetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, CPULineChartMetricsReturnMsgVO.class);
         List<CPULineChartMetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
         if (metricsResultList != null) {
@@ -181,7 +209,6 @@ public class PrometheusServiceImpl implements PrometheusService {
         }
         return metricsResultList;
     }
-
 
     private String convertVectorData(String result) {
         MetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, MetricsReturnMsgVO.class);

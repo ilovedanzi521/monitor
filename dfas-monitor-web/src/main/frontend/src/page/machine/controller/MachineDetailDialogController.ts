@@ -37,12 +37,6 @@ export default class MachineDetailDialogController extends BaseController {
     data: MachineInfoVO;
   };
 
-  /*private toChildMsg!: {
-    dialogTitle: string;
-    type: OperationTypeEnum;
-    data: MachineInfoVO;
-  };*/
-
   private microServiceInfoDialogService: MicroServiceInfoDialogService = new MicroServiceInfoDialogService();
   private machineInfoRepVO: MachineInfoVO = new MachineInfoVO();
   private detailDialogVisible: boolean = true;

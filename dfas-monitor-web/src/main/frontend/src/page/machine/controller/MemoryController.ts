@@ -193,7 +193,7 @@ export default class MemoryController extends BaseController {
   }
 
   /**
-   * CPU使用率查询
+   * 内存使用率查询
    * @Title: query
    * @author: lj
    * @Date:   2019-07-10 11:35:35

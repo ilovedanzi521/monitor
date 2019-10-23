@@ -202,9 +202,9 @@ export default class CPULineController extends BaseController {
   }
 
   /**
-   * 微服务JVM使用率查询
+   * CPU使用变化率查询
    * @Title: query
-   * @author: wangyaoheng
+   * @author: lj
    * @Date:   2019-07-10 11:35:35
    */
   private query(): void {

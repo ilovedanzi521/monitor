@@ -2,6 +2,7 @@ package com.win.dfas.monitor.engine.service;
 
 import com.win.dfas.monitor.common.entity.DcDevcie;
 import com.win.dfas.monitor.common.vo.CpuLineChartVO;
+import com.win.dfas.monitor.common.vo.DiskBarChartVO;
 
 import java.util.List;
 
@@ -87,5 +88,11 @@ public interface IDcDevcieService
 	 * @return
 	 */
 	public CpuLineChartVO getCpuLineChartData(String ipAddress);
+	/**
+	 * 获取磁盘使用占比图数据
+	 *
+	 * @return
+	 */
+	public DiskBarChartVO getDiskBarChartData(String ipAddress);
 	
 }
