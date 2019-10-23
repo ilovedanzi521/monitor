@@ -12,9 +12,9 @@ import java.util.Map;
 @ToString
 public class MetricsResultVO {
 
-    private Map<String, String> metric;
+    protected Map<String, String> metric;
 
-    private List<Object> values;
+    protected List<Object> values;
 
-    private List<Object> value;
+    protected List<Object> value;
 }

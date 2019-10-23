@@ -128,6 +128,11 @@ public class MachineTask {
             machine.setCpu(formatValue(dc.getCpu(),"%"));
             machine.setMemory(formatValue(dc.getMemory(),"%"));
             machine.setDisk(formatValue(dc.getDisk(),"%"));
+            String cpuInfo = "核数：" + dc.getCpuCore() + " 使用率：" + dc.getCpu() + "%" ;
+            machine.setCpuInfo(cpuInfo);
+            machine.setDiskInfo(dc.getDisk()+ "%");
+            machine.setMemoryInfo(dc.getMemory()+ "%");
+            machine.setBalanceInfo(dc.getBalance()+ "%");
             machineList.add(machine);
         }
         return JsonUtil.toJson(machineList);
@@ -225,6 +230,14 @@ public class MachineTask {
                 if (value != null && value.size() > 0) {
                     String balance = value.get(1).toString();
                     dc.setBalance(balance);
+                }
+
+                //cpu核数
+                parameters.put("queryParam", " count(count(node_cpu_seconds_total{instance='expoter_"+ip+"', mode='system'}) by (cpu))");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
+                    String cpuCore = value.get(1).toString();
+                    dc.setCpuCore(cpuCore);
                 }
             }
         }

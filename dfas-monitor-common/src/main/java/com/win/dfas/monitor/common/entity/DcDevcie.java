@@ -43,6 +43,9 @@ public class DcDevcie
 	/** cpu使用率 */
 	private String cpu;
 
+	/** cpu核数 */
+	private String cpuCore;
+
 	/** 内存使用率 */
 	private String memory;
 
@@ -57,4 +60,14 @@ public class DcDevcie
 	private String memorySize;
 	/** 负载 */
 	private  String balance;
+
+	/** 资源明细页显示CPU信息 */
+	private  String cpuInfo;
+	/** 资源明细页显示磁盘信息 */
+	private  String diskInfo;
+	/** 资源明细页显示内存信息 */
+	private  String memoryInfo;
+	/** 资源明细页显示负载信息 */
+	private  String balanceInfo;
+
 }

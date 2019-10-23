@@ -25,7 +25,7 @@
         </div>
         <div class="test"></div>
       </div>
-       <win-table ref="multipleTable" style="width: 100%" :data="userReqVo.userArray" :showSelection="true" @select-change="tableSelectionChange" @select-all="tableSelectionChange"  max-height="600">
+       <win-table ref="multipleTable" style="width: 100%" @cell-dblclick="mclick" :data="userReqVo.userArray" :showSelection="true" @select-change="tableSelectionChange" @select-all="tableSelectionChange"  max-height="600">
 
             <win-table-column prop="ipAddress" label="IP" width="150"></win-table-column>
             <win-table-column prop="name" label="主机名" width="150"></win-table-column>
@@ -53,7 +53,10 @@
             </win-table-column>
         </win-table>
         <win-pagination name="machine" v-bind:childMsg="userReqVo.userPageVO" @callFather="machinePageQuery"></win-pagination>
+      <MachineDetailDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="machineDetailDialogVisible">
+      </MachineDetailDialog>
     </div>
+
 </template>
 
 <script lang="ts">
@@ -65,8 +68,10 @@ import Component from "vue-class-component";
 import { debuglog } from "util";
 import { UserReqVO, UserClass } from "../vo/MachineVO";
 import PageVO from "../../common/vo/PageVO";
-@Component({})
+
+@Component()
 export default class MachineTable extends MachineController {
+
     @Prop()
     userReqVo: UserReqVO;
 

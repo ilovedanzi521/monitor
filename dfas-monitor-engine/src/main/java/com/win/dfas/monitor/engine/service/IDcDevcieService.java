@@ -1,6 +1,8 @@
 package com.win.dfas.monitor.engine.service;
 
 import com.win.dfas.monitor.common.entity.DcDevcie;
+import com.win.dfas.monitor.common.vo.CpuLineChartVO;
+import com.win.dfas.monitor.common.vo.DiskBarChartVO;
 
 import java.util.List;
 
@@ -19,6 +21,13 @@ public interface IDcDevcieService
      * @return 机器信息
      */
 	public DcDevcie selectDcDevcieById(String id);
+	/**
+	 * 查询机器信息
+	 *
+	 * @param ip 机器IP
+	 * @return 机器信息
+	 */
+	public DcDevcie selectDcDevcieByIp(String ip);
 	
 	/**
      * 查询机器列表
@@ -73,5 +82,17 @@ public interface IDcDevcieService
 	 * @return
 	 */
 	public void onKeySync();
+	/**
+	 * 获取变化率折线图数据
+	 *
+	 * @return
+	 */
+	public CpuLineChartVO getCpuLineChartData(String ipAddress);
+	/**
+	 * 获取磁盘使用占比图数据
+	 *
+	 * @return
+	 */
+	public DiskBarChartVO getDiskBarChartData(String ipAddress);
 	
 }

@@ -7,6 +7,7 @@ import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.PrometheusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,6 +34,8 @@ public class MachineController extends BaseController {
 
     @Autowired
     private IDcDevcieService dcDevcieService;
+    @Autowired
+    private PrometheusService prometheusService;
 
     /** 新增机器 */
     @ApiOperation(value = "新增机器", notes = "新增机器")
@@ -100,6 +103,7 @@ public class MachineController extends BaseController {
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         setDefaultSetting(dcDevices);
+        setMachineDetailNodeBaseInfo(dcDevices);
         Map<String,Object> result = new HashMap<>();
         result.put("total",dcDevices.size());
         result.put("list",dcDevices);
@@ -113,6 +117,35 @@ public class MachineController extends BaseController {
     public String machinePanelData(@RequestBody String data) {
         return successData(machinePanelData(),"操作成功");
     }
+
+    /** 首页前5条机器数据 */
+    @ApiOperation(value = "首页前5条机器数据", notes = "首页前5条机器数据")
+    @ApiImplicitParams({@ApiImplicitParam(name = "data", value = "首页前5条机器数据", required = true, paramType = "body", dataType = "String")})
+    @PostMapping("/homePageMachineTop5")
+    public String HomePageMachineTop5(@RequestBody String data) {
+        List<MachineVO> machineList = new ArrayList<>();
+        DcDevcie dcDevcie = new DcDevcie();
+        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        for (DcDevcie dc : dcDevices){
+            MachineVO machine = new MachineVO();
+            machine.setIp(dc.getIpAddress());
+            machine.setState(getStatus(dc));
+            machine.setBalance(formatValue(dc.getBalance(),"%"));
+            machine.setCpu(formatValue(dc.getCpu(),"%"));
+            machine.setMemory(formatValue(dc.getMemory(),"%"));
+            machine.setDisk(formatValue(dc.getDisk(),"%"));
+
+            String cpuInfo = "核数：" + dc.getCpuCore() + " 使用率：" + dc.getCpu() + "%" ;
+            machine.setCpuInfo(cpuInfo);
+            machine.setDiskInfo(dc.getDisk()+ "%");
+            machine.setMemoryInfo(dc.getMemory()+ "%");
+            machine.setBalanceInfo(dc.getBalance()+ "%");
+
+            machineList.add(machine);
+        }
+        return successData(machineList,"操作成功");
+    }
+
     private List<MachineStatusVO> machinePanelData() {
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
@@ -133,26 +166,17 @@ public class MachineController extends BaseController {
         return machineStatusList;
     }
 
-    /** 首页前5条机器数据 */
-    @ApiOperation(value = "首页前5条机器数据", notes = "首页前5条机器数据")
-    @ApiImplicitParams({@ApiImplicitParam(name = "data", value = "首页前5条机器数据", required = true, paramType = "body", dataType = "String")})
-    @PostMapping("/homePageMachineTop5")
-    public String HomePageMachineTop5(@RequestBody String data) {
-        List<MachineVO> machineList = new ArrayList<>();
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+
+    private void setMachineDetailNodeBaseInfo(List<DcDevcie> dcDevices) {
         for (DcDevcie dc : dcDevices){
-            MachineVO machine = new MachineVO();
-            machine.setIp(dc.getIpAddress());
-            machine.setState(getStatus(dc));
-            machine.setBalance(formatValue(dc.getBalance(),"%"));
-            machine.setCpu(formatValue(dc.getCpu(),"%"));
-            machine.setMemory(formatValue(dc.getMemory(),"%"));
-            machine.setDisk(formatValue(dc.getDisk(),"%"));
-            machineList.add(machine);
+            String cpuInfo = "核数：" + dc.getCpuCore() + " 使用率：" + dc.getCpu() + "%" ;
+            dc.setCpuInfo(cpuInfo);
+            dc.setDiskInfo(dc.getDisk()+ "%");
+            dc.setMemoryInfo(dc.getMemory()+ "%");
+            dc.setBalanceInfo(dc.getBalance()+ "%");
         }
-        return successData(machineList,"操作成功");
     }
+
 
     private String getStatus(DcDevcie dc) {
         String status;

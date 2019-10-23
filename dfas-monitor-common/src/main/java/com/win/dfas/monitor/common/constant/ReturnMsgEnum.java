@@ -12,6 +12,7 @@ public enum ReturnMsgEnum {
 	Reset("重置成功!"),
 	Upload("上传成功!"),
 	ServerError("服务器异常!"),
+	Reload("重新加载成功!"),
 	Syn("同步成功!");
 	
 	ReturnMsgEnum(String msg) {

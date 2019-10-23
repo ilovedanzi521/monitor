@@ -22,10 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="diskSize"    column="diskSize"    />
         <result property="memorySize"    column="memorySize"    />
         <result property="balance"    column="balance"    />
+        <result property="cpuCore"    column="cpuCore"    />
     </resultMap>
 	
 	<sql id="selectDcDevcieVo">
-        select id, name, alias, ip_address, user_name, port, os_type, status, description, create_time, update_time,cpu,memory,disk,cpuNum,diskSize,memorySize,balance from dc_devcie
+        select id, name, alias, ip_address, user_name, port, os_type, status, description, create_time, update_time,cpu,memory,disk,cpuNum,diskSize,memorySize,balance,cpuCore from dc_devcie
     </sql>
 
     <select id="checkIpAddressExist" parameterType="java.lang.String" resultType="java.lang.Boolean">
@@ -53,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="diskSize != null  and diskSize != '' "> and disk = #{diskSize}</if>
             <if test="memorySize != null  and disk != '' "> and disk = #{memorySize}</if>
             <if test="balance != null  and balance != '' "> and balance = #{balance}</if>
+            <if test="cpuCore != null  and cpuCore != '' "> and cpuCore = #{cpuCore}</if>
          </where>
     </select>
     
@@ -60,6 +62,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDcDevcieVo"/>
         where id = #{id}
     </select>
+
+    <select id="selectDcDevcieByIp" parameterType="java.lang.String" resultMap="DcDevcieResult">
+        <include refid="selectDcDevcieVo"/>
+        where ip_address = #{ipAddress}
+    </select>
+
 
     <select id="getTotalNode"  resultType="java.lang.Integer">
         SELECT COUNT(*) FROM dc_devcie
@@ -86,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="diskSize != null  and diskSize != ''  ">diskSize,</if>
             <if test="memorySize != null  and memorySize != ''  ">memorySize,</if>
             <if test="balance != null  and balance != ''  ">balance,</if>
+            <if test="cpuCore != null  and cpuCore != ''  ">cpuCore,</if>
 
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -107,6 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="diskSize != null  and diskSize != ''  ">#{diskSize},</if>
             <if test="memorySize != null  and memorySize != ''  ">#{memorySize},</if>
             <if test="balance != null  and balance != ''  ">#{balance},</if>
+            <if test="cpuCore != null  and balance != ''  ">#{cpuCore},</if>
 
          </trim>
     </insert>
@@ -131,6 +141,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="diskSize != null  and diskSize != ''  ">diskSize = #{diskSize},</if>
             <if test="memorySize != null  and memorySize != ''  ">memorySize = #{memorySize},</if>
             <if test="balance != null  and balance != ''  ">balance = #{balance},</if>
+            <if test="cpuCore != null  and balance != ''  ">cpuCore = #{cpuCore},</if>
 
         </trim>
         where id = #{id}
@@ -195,6 +206,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                     </if>
                 </foreach>
             </trim>
+            <trim prefix="cpuCore =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.cpuCore !=null and item.cpuCore != '' ">
+                        when id=#{item.id} then #{item.cpuCore}
+                    </if>
+                </foreach>
+            </trim>
+
 
         </trim>
         where id in

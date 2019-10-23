@@ -4,6 +4,7 @@ package com.win.dfas.monitor.engine.task;
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
+import com.win.dfas.monitor.common.constant.StatusEnum;
 import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity;
@@ -93,15 +94,15 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
                 }
             }
 
-            microServiceRepVO.setState(String.valueOf(random.nextInt(4)));
-            /*if(instanceList == null  ||  upCount ==0) {
+            //microServiceRepVO.setState(String.valueOf(random.nextInt(4)));
+            if(instanceList == null  ||  upCount ==0) {
                 microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
             }else if(upCount  < instanceList.size()){
                 microServiceRepVO.setState(StatusEnum.EXCEPTION.getStatus());
             }else if(upCount ==instanceList.size()){
                 microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
                 //继续判断JVM内存是否存在告警，存在，则设置为告警状态
-            }*/
+            }
         }
         CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.microServiceState);
         if (webSocketSet != null) {
@@ -120,5 +121,7 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
     public void pushExceptionData() throws Exception {
         push(HomeModuleEnum.exception, getExceptionData());
     }
+
+
 
 }

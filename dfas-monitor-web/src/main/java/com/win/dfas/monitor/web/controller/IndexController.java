@@ -1,5 +1,7 @@
 package com.win.dfas.monitor.web.controller;
 
+import com.win.dfas.common.vo.WinResponseData;
+import com.win.dfas.monitor.common.constant.ReturnMsgEnum;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController extends BaseController {
 
     @Autowired
-    private PrometheusService monitorService;
+    private PrometheusService prometheusService;
 
     /**
      * 获取qps
@@ -31,7 +33,7 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "查询平台Qps", notes = "查询平台Qps")
     @GetMapping("/httpRequestQps")
     public String httpRequestQps() {
-        return monitorService.getQpsOriginData();
+        return prometheusService.getQpsOriginData();
     }
 
     /**
@@ -41,7 +43,7 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "查询平台Qps图表数据", notes = "查询平台Qps图表数据")
     @GetMapping("/httpRequestQpsChart")
     public String httpRequestChartQps() {
-        return monitorService.getQpsChartOriginData();
+        return prometheusService.getQpsChartOriginData();
     }
 
 
@@ -52,7 +54,7 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "查询平台当日请求数", notes = "查询平台当日请求数")
     @GetMapping("/httpRequestTotal")
     public String httpRequestTotal() {
-        return monitorService.getHttpRequestTotalOriginData();
+        return prometheusService.getHttpRequestTotalOriginData();
     }
 
     /**
@@ -64,6 +66,30 @@ public class IndexController extends BaseController {
     @GetMapping("/getMicroServiceList")
     public String getMicroServiceList() {
         return "";
+    }
+
+
+    /**
+     * 重新加载prometheus配置
+     * @return
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "重新加载prometheus配置", notes = "重新加载prometheus配置")
+    @GetMapping("/reload")
+    public WinResponseData reload() {
+        prometheusService.reload();
+        return WinResponseData.handleSuccess(ReturnMsgEnum.Reload.getMsg());
+    }
+
+    /**
+     * JVM内存
+     * @return
+     */
+    @MonitorMetrics
+    @ApiOperation(value = "JVM内存", notes = "JVM内存")
+    @GetMapping("/getJvmMemoryChartOriginData")
+    public String getJvmMemoryChartOriginData(){
+        return prometheusService.getJvmMemoryChartOriginData();
     }
 
 }

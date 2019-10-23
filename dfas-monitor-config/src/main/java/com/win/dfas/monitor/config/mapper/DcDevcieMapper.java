@@ -23,6 +23,14 @@ public interface DcDevcieMapper
 	public DcDevcie selectDcDevcieById(String id);
 
 	/**
+	 * 查询机器信息
+	 *
+	 * @param ipAddress 机器IP
+	 * @return 机器信息
+	 */
+	public DcDevcie selectDcDevcieByIp(String ipAddress);
+
+	/**
 	 * 判断机器IP地址是否存在
 	 *
 	 * @param ip_address 机器IP地址
