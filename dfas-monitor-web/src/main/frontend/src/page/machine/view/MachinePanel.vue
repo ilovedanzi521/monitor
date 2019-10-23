@@ -1651,8 +1651,8 @@ export default class MachinePanel extends BaseController {
         MachineService.machinePanelData()
             .then((response: WinResponseData) => {
                 console.log(response.data);
-                //let object = JSON.parse(response.data);
-                // this.machinePanelDataList = response.data;
+                 let object = JSON.parse(response.data);
+                 this.machinePanelDataList = response.data;
             })
             .catch((ex: any) => {});
     }

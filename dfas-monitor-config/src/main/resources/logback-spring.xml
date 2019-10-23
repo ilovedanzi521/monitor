@@ -3,6 +3,25 @@
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
+
+    <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
+            <layout class="net.logstash.logback.layout.LogstashLayout" >
+                <includeContext>false</includeContext>
+                <includeCallerData>true</includeCallerData>
+                <customFields>{"system":"dfas-monitor-center"}</customFields>
+                <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>
+            </layout>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--kafka topic 需要与配置文件里面的topic一致 否则kafka会沉默并鄙视你-->
+        <topic>monitor</topic>
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy" />
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+        <producerConfig>bootstrap.servers=192.168.0.56:9092</producerConfig>
+
+    </appender>
+
     <!-- 文件输出 -->
     <appender name="LOGFILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">   
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -23,7 +42,8 @@
     <appender name="asyncFileAppender" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>0</discardingThreshold>
         <queueSize>500</queueSize>
-        <appender-ref ref="LOGFILE"/>
+        <!-- <appender-ref ref="LOGFILE"/> -->
+        <appender-ref ref="kafkaAppender" />
     </appender>
     
     <!-- 控制台输出 -->
@@ -35,13 +55,15 @@
     </appender>
     
 	<logger name="org.springframework.web" level="INFO" />
-	
+
+
 	<!-- 开发环境 -->
 	<springProfile name="dev">
-		<logger name="com.win" level="DEBUG">
+<!--		<logger name="com.win" level="DEBUG">
 			<appender-ref ref="LOGCONSOLE" />
 			<appender-ref ref="asyncFileAppender" />
-		</logger>
+			
+		</logger>-->
 		<root level="DEBUG">
             <appender-ref ref="LOGCONSOLE" />
             <appender-ref ref="asyncFileAppender" />

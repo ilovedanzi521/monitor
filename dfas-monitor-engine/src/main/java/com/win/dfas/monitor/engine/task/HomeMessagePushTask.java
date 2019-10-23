@@ -1,6 +1,17 @@
 package com.win.dfas.monitor.engine.task;
 
 
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
@@ -18,15 +29,8 @@ import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.CopyOnWriteArraySet;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 发送通知消息线程
@@ -40,6 +44,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 public class HomeMessagePushTask extends AbstractMessageBuilder {
 
+    static Logger log = LoggerFactory.getLogger(HomeMessagePushTask.class);
+	
     @Autowired
     private EurekaService eurekaService;
 
@@ -60,6 +66,7 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
      */
     @Scheduled(cron = "0/5 * * * * ?")
     public void pushPlatformOverviewData() {
+    	log.debug("pushPlatformOverviewData");
         Random random = new Random(System.currentTimeMillis());
         PlatformOverviewVO platformOverview = new PlatformOverviewVO();
         platformOverview.setQps(String.valueOf(thousandBitNumberFormat.format(prometheusService.getQps())));
@@ -76,6 +83,7 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
 
     @Scheduled(cron = "0/7 * * * * ?")
     public void pushMicroServiceStateData() {
+    	
         List<MicroServiceEntity> microServiceEntityList = microServiceMapper.selectMicroServiceList(null);
         List<MicroServiceRepVO> microServiceRepList = ObjectUtils.copyPropertiesList(microServiceEntityList, MicroServiceRepVO.class);
         Map<String, ApplicationInstance> microServiceInstanceMap = eurekaService.fetchMicroService();

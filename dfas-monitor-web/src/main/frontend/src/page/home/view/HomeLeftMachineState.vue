@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="machineState-container">
-                <Machine :dataList="sa" :col="5" :row="5" width="46px"></Machine>
+                <Machine :dataList="machineList" :col="5" :row="5" width="46px"></Machine>
             </div>
         </div>
     </div>

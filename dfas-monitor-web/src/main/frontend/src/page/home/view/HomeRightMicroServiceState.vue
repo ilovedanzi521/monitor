@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="microServiceState-container">
-                <Service :dataList="sa" :animations="['1','2']" :col="10" :row="4" @clickItem="operation" width="98px"></Service>
+                <Service :dataList="microServiceStateList" :animations="['1','2']" :col="10" :row="4" @clickItem="operation" width="98px"></Service>
             </div>
             <MicroServiceDetailDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="detailDialogVisible">
             </MicroServiceDetailDialog>

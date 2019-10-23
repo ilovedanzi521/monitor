@@ -33,10 +33,11 @@ export default class HomeMicroServiceStateController extends BaseController {
 
   private homeMicroServiceStateService: HomeMicroServiceStateService = new HomeMicroServiceStateService();
 
+  /**  this.homeMicroServiceStateService.initMicroServiceStateList() */
   private microServiceStateList: Array<
     MicroServiceStateVO
-  > = this.homeMicroServiceStateService.initMicroServiceStateList();
-
+  > =[];
+  
   private dialogLoading: boolean = false;
   private createLoading: boolean = false;
   private formDisabled: boolean = false;

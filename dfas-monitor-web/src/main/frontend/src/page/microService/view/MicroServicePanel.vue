@@ -1,6 +1,6 @@
 <template>
     <div class="microServiceStatus-container">
-        <Service :dataList="sa" :animations="['1','2']" @clickItem="operation" width="99px" :isShowTitle="true"></Service>
+        <Service :dataList="microServiceStateList" :animations="['1','2']" @clickItem="operation" width="99px" :isShowTitle="true"></Service>
         <MicroServiceDetailDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="detailDialogVisible"></MicroServiceDetailDialog>
     </div>
 </template>
