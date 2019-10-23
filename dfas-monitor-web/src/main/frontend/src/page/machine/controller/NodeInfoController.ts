@@ -4,6 +4,7 @@ import {OperationTypeEnum} from "../../common/enum/OperationTypeEnum";
 import {MachineInfoVO, MicroServiceInfoReqVO} from "../vo/MachineInfoVO";
 import NodeInfoService from "../service/NodeInfoService";
 import { WinResponseData } from "../../common/vo/BaseVO";
+import AxiosFun from "../../../api/AxiosFun";
 
 @Component({})
 export default class NodeInfoController extends BaseController {
@@ -29,9 +30,9 @@ export default class NodeInfoController extends BaseController {
   /** 页面初始化 */
   private mounted() {
     this.machineInfoVO = this.fromFatherMsg.data;
-    this.$nextTick(() => {
+    /*this.$nextTick(() => {
       this.query();
-    });
+    });*/
   }
 
     /**
@@ -40,7 +41,7 @@ export default class NodeInfoController extends BaseController {
    * @author: wangyaoheng
    * @Date:   2019-07-10 11:35:35
    */
-  private query(): void {
+  private  query(): void {
       this.nodeInfoService
         .info(this.machineInfoVO)
         .then((res: WinResponseData) => {
@@ -55,6 +56,7 @@ export default class NodeInfoController extends BaseController {
           console.log(">>>>nodeindocontroller >>> query >>>>");
           console.log(this.machineInfoVO);
         });
+
   }
 
 }

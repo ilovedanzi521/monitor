@@ -12,7 +12,7 @@
       <div class="outDivStyle">
         <div class="innerDivStyle">
           <div class="title">负载</div>
-          <div class="name">{{machineInfoVO.balance}}</div>
+          <div class="name">{{machineInfoVO.balanceInfo}}</div>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <div class="outDivStyle">
         <div class="innerDivStyle">
           <div class="title">CPU</div>
-          <div class="warn">{{machineInfoVO.cpuInfo}}</div>
+          <div class="name">{{machineInfoVO.cpuInfo}}</div>
         </div>
       </div>
       </div>
@@ -30,13 +30,13 @@
 
         <div class="innerDivStyle">
           <div class="title">磁盘</div>
-          <div class="error">{{machineInfoVO.diskInfo}}</div>
+          <div class="name">{{machineInfoVO.diskInfo}}</div>
         </div>
 
         <div>
           <div class="innerDivStyle">
             <div class="title">内存</div>
-            <div class="error">{{machineInfoVO.memoryInfo}}</div>
+            <div class="name">{{machineInfoVO.memoryInfo}}</div>
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.PrometheusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,6 +34,8 @@ public class MachineController extends BaseController {
 
     @Autowired
     private IDcDevcieService dcDevcieService;
+    @Autowired
+    private PrometheusService prometheusService;
 
     /** 新增机器 */
     @ApiOperation(value = "新增机器", notes = "新增机器")
@@ -100,6 +103,7 @@ public class MachineController extends BaseController {
         DcDevcie dcDevcie = new DcDevcie();
         List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         setDefaultSetting(dcDevices);
+        setMachineDetailNodeBaseInfo(dcDevices);
         Map<String,Object> result = new HashMap<>();
         result.put("total",dcDevices.size());
         result.put("list",dcDevices);
@@ -112,25 +116,6 @@ public class MachineController extends BaseController {
     @PostMapping("/machinePanelData")
     public String machinePanelData(@RequestBody String data) {
         return successData(machinePanelData(),"操作成功");
-    }
-    private List<MachineStatusVO> machinePanelData() {
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
-        List<MachineStatusVO> machineStatusList=new ArrayList<>();
-        for (DcDevcie dc : dcDevices) {
-            MachineStatusVO machineStatus =new MachineStatusVO();
-            machineStatus.setId(dc.getId());
-            machineStatus.setIpAddress(dc.getIpAddress());
-            machineStatus.setCpuPer(formatValue(dc.getCpu(),"%"));
-            machineStatus.setCpuNum(dc.getCpuNum());
-            machineStatus.setDiskPer(formatValue(dc.getCpu(),"%"));
-            machineStatus.setDiskSize(formatValue(dc.getDiskSize(),""));
-            machineStatus.setMemoryPer(formatValue(dc.getMemory(),""));
-            machineStatus.setState(formatValue(String.valueOf(dc.getStatus()),""));
-            machineStatus.setMemorySize(formatValue(dc.getMemorySize(),""));
-            machineStatusList.add(machineStatus);
-        }
-        return machineStatusList;
     }
 
     /** 首页前5条机器数据 */
@@ -153,6 +138,38 @@ public class MachineController extends BaseController {
         }
         return successData(machineList,"操作成功");
     }
+
+    private List<MachineStatusVO> machinePanelData() {
+        DcDevcie dcDevcie = new DcDevcie();
+        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        List<MachineStatusVO> machineStatusList=new ArrayList<>();
+        for (DcDevcie dc : dcDevices) {
+            MachineStatusVO machineStatus =new MachineStatusVO();
+            machineStatus.setId(dc.getId());
+            machineStatus.setIpAddress(dc.getIpAddress());
+            machineStatus.setCpuPer(formatValue(dc.getCpu(),"%"));
+            machineStatus.setCpuNum(dc.getCpuNum());
+            machineStatus.setDiskPer(formatValue(dc.getCpu(),"%"));
+            machineStatus.setDiskSize(formatValue(dc.getDiskSize(),""));
+            machineStatus.setMemoryPer(formatValue(dc.getMemory(),""));
+            machineStatus.setState(formatValue(String.valueOf(dc.getStatus()),""));
+            machineStatus.setMemorySize(formatValue(dc.getMemorySize(),""));
+            machineStatusList.add(machineStatus);
+        }
+        return machineStatusList;
+    }
+
+
+    private void setMachineDetailNodeBaseInfo(List<DcDevcie> dcDevices) {
+        for (DcDevcie dc : dcDevices){
+            String cpuInfo = "核数：" + dc.getCpuCore() + " 使用率：" + dc.getCpu() + "%" ;
+            dc.setCpuInfo(cpuInfo);
+            dc.setDiskInfo(dc.getDisk()+ "%");
+            dc.setMemoryInfo(dc.getMemory()+ "%");
+            dc.setBalanceInfo(dc.getBalance()+ "%");
+        }
+    }
+
 
     private String getStatus(DcDevcie dc) {
         String status;

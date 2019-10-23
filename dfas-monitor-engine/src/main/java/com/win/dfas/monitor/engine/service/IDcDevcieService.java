@@ -1,6 +1,7 @@
 package com.win.dfas.monitor.engine.service;
 
 import com.win.dfas.monitor.common.entity.DcDevcie;
+import com.win.dfas.monitor.common.vo.CpuLineChartVO;
 
 import java.util.List;
 
@@ -80,5 +81,11 @@ public interface IDcDevcieService
 	 * @return
 	 */
 	public void onKeySync();
+	/**
+	 * 获取变化率折线图数据
+	 *
+	 * @return
+	 */
+	public CpuLineChartVO getCpuLineChartData(String ipAddress);
 	
 }

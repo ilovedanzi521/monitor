@@ -5,6 +5,8 @@ import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
 import com.win.dfas.monitor.common.vo.*;
+import com.win.dfas.monitor.common.vo.cpu.CPULineChartMetricsResultVO;
+import com.win.dfas.monitor.common.vo.cpu.CPULineChartMetricsReturnMsgVO;
 import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
 import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsReturnMsgVO;
 import com.win.dfas.monitor.engine.service.PrometheusService;
@@ -55,6 +57,21 @@ public class PrometheusServiceImpl implements PrometheusService {
             url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
             String result = RestfulTools.get(url, String.class, parameters);
             return convertJvmMemoryData(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<CPULineChartMetricsResultVO> getCPULineChart(String ipAddress,String type){
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("queryParam", "avg(irate(node_cpu_seconds_total{instance='expoter_"+ipAddress+"',mode='"+type+"'}[1m])) by (instance)");
+        String url = null;
+        try {
+            url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
+            String result = RestfulTools.get(url, String.class, parameters);
+            return convertCPULineChartData(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,6 +130,56 @@ public class PrometheusServiceImpl implements PrometheusService {
     public void reload() {
         String url = prometheusServerUrl + "/-/reload";
         RestfulTools.post(url, String.class);
+    }
+
+    public List<CPULineChartMetricsResultVO> convertCPULineChartData(String result){
+        CPULineChartMetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, CPULineChartMetricsReturnMsgVO.class);
+        List<CPULineChartMetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
+        if (metricsResultList != null) {
+            List<String> allTimeList = new ArrayList<>();
+            for (CPULineChartMetricsResultVO metricsResultVO : metricsResultList) {
+                List<Object> valueList = metricsResultVO.getValues();
+                List<String> strTimeList = new ArrayList<>();
+                if (valueList != null) {
+                    for (Object object : valueList) {
+                        List values = (ArrayList) object;
+                        values.add(DateUtils.doubleToDate((double) values.get(0)));
+                        if (!strTimeList.contains(values.get(2))) {
+                            strTimeList.add(String.valueOf(values.get(2)));
+                        }
+                        if (!allTimeList.contains(values.get(2))) {
+                            allTimeList.add(String.valueOf(values.get(2)));
+                        }
+                    }
+                }
+                metricsResultVO.setExistTimesList(strTimeList);
+            }
+            Collections.sort(allTimeList);
+            for (CPULineChartMetricsResultVO metricsResultVO : metricsResultList) {
+                List<Object> valueList = metricsResultVO.getValues();
+                metricsResultVO.setAllTimesList(allTimeList);
+                List<MetricValueVO> metricValueList = new ArrayList<>();
+                for (Object object : valueList) {
+                    MetricValueVO metricValueVO = new MetricValueVO();
+                    List values = (ArrayList) object;
+                    values.add(DateUtils.doubleToDate((double) values.get(0)));
+                    metricValueVO.setValue((String) values.get(1));
+                    metricValueVO.setStrTime(DateUtils.doubleToDate((double) values.get(0)));
+                    metricValueList.add(metricValueVO);
+                }
+                for (String time : allTimeList) {
+                    if(!metricsResultVO.getExistTimesList().contains(time)){
+                        MetricValueVO metricValueVO = new MetricValueVO();
+                        metricValueVO.setValue("0");
+                        metricValueVO.setStrTime(time);
+                        metricValueList.add(metricValueVO);
+                    }
+                }
+                Collections.sort(metricValueList);
+                metricsResultVO.setMetricValueList(metricValueList);
+            }
+        }
+        return metricsResultList;
     }
 
 

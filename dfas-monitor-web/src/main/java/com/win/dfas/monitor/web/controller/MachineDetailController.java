@@ -6,11 +6,13 @@ import com.win.dfas.monitor.common.constant.LineColorEnum;
 import com.win.dfas.monitor.common.constant.ReturnMsgEnum;
 import com.win.dfas.monitor.common.entity.DcDevcie;
 import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.vo.CpuLineChartVO;
 import com.win.dfas.monitor.common.vo.MachineCPUUsageVO;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.service.MicroService;
+import com.win.dfas.monitor.engine.service.PrometheusService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +38,9 @@ public class MachineDetailController extends BaseController {
 
     @Autowired
     private IDcDevcieService devcieService;
+
+    @Autowired
+    private PrometheusService prometheusService;
 
     /**
      * 查询cpu使用率
@@ -72,6 +77,20 @@ public class MachineDetailController extends BaseController {
         Map<String,String> m = getNodeBaseInfoData(dcDevcie);
         return WinResponseData.handleSuccess(m);
     }
+
+    /**
+     * cpu使用变化率
+     */
+    @ApiOperation(value = "cpu使用变化率", notes = "cpu使用变化率")
+    @PostMapping("/cpuLineUsage")
+    public WinResponseData cpuLineUsage(@RequestBody String data) {
+        Map<String,String> map = JsonUtil.toObject(data, Map.class);
+        String ipAddress = map.get("ipAddress");
+        CpuLineChartVO cpuLineChartVO = devcieService.getCpuLineChartData(ipAddress);
+        return WinResponseData.handleSuccess(cpuLineChartVO);
+    }
+
+
 
     private Map<String,String> getNodeBaseInfoData(DcDevcie dcDevcie) {
         Map<String,String> nodeBaseInfo = new HashMap<>();

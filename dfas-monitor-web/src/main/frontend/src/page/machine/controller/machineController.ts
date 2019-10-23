@@ -70,6 +70,10 @@ export default class MachineController extends BaseController {
       data: this.copy(row),
     };
     this.machineDetailDialogVisible = true;
+    console.log("machinecontroller mclick >>>>row-start>>>>>");
+    console.log(row);
+    console.log("machinecontroller mclick >>>>row-end>>>>>");
+
     console.log("machinecontroller mclick >>>>start>>>>>");
     console.log(this.cardNumber.data);
     console.log("machinecontroller mclick >>>>end>>>>>");
@@ -276,7 +280,11 @@ export default class MachineController extends BaseController {
               updateTime: item.updateTime,
               cpu : item.cpu,
               memory : item.memory,
-              disk : item.disk
+              disk : item.disk,
+              cpuInfo : item.cpuInfo,
+              diskInfo : item.diskInfo,
+              memoryInfo : item.memoryInfo,
+              balanceInfo : item.balanceInfo
             };
           });
           this.userReqVo.userPageVO = winResponseData.data;

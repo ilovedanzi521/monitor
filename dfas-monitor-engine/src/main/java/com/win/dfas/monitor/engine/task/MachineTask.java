@@ -226,6 +226,14 @@ public class MachineTask {
                     String balance = value.get(1).toString();
                     dc.setBalance(balance);
                 }
+
+                //cpu核数
+                parameters.put("queryParam", " count(count(node_cpu_seconds_total{instance='expoter_"+ip+"', mode='system'}) by (cpu))");
+                value = getValue(prometheusServerUrl, parameters);
+                if (value != null && value.size() > 0) {
+                    String cpuCore = value.get(1).toString();
+                    dc.setCpuCore(cpuCore);
+                }
             }
         }
     }

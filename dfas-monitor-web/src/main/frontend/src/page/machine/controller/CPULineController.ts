@@ -6,7 +6,7 @@ import {
   MicroServiceInfoReqVO
 } from "../vo/MachineInfoVO";
 import echarts from "echarts";
-import CPUChartService from "../service/CPUChartService";
+import CPULineChartService from "../service/CPULineChartService";
 import { WinResponseData } from "../../common/vo/BaseVO";
 import MachineCPUVO from "../vo/MachineCPUVO";
 
@@ -28,8 +28,8 @@ export default class CPULineController extends BaseController {
   };
 
   private microServiceInfoReqVO: MicroServiceInfoReqVO = new MicroServiceInfoReqVO();
-  private microServiceInfoRepVO: MachineInfoVO = new MachineInfoVO();
-  private jvmMemoryChartService: CPUChartService = new CPUChartService();
+  private machineInfoVO: MachineInfoVO = new MachineInfoVO();
+  private cpuLineChartService: CPULineChartService = new CPULineChartService();
   private microServiceJvmMemoryVO: MachineCPUVO = new MachineCPUVO();
 
   private legendData: string[] = [
@@ -81,26 +81,25 @@ export default class CPULineController extends BaseController {
 
   /** 页面初始化 */
   private mounted() {
-    this.microServiceInfoRepVO = this.fromFatherMsg.data;
-    //this.microServiceInfoReqVO.id = this.microServiceInfoRepVO.id;
-    //this.microServiceInfoReqVO.microServiceName = this.microServiceInfoRepVO.microServiceName;
-     this.renderChart(
+    this.machineInfoVO = this.fromFatherMsg.data;
+     /*this.renderChart(
       this.legendData,
       this.xAxisData,
       this.colorData,
-      this.seriesAxis
-    );
-   /* this.$nextTick(() => {
+      this.seriesAxis,
+      this.seriesData
+    );*/
+    this.$nextTick(() => {
       this.query();
-    });*/
+    });
   }
 
-  private renderChart(legendData, xAxisData, colorData, seriesAxis) {
+  private renderChart(legendData, xAxisData, colorData, seriesAxis,seriesData) {
     let boxID = document.getElementById("cpu-linechart");
     this.chartLine = echarts.init(boxID);
     // 使用刚指定的配置项和数据显示图表。
     this.chartLine.setOption(
-      this.getOption(legendData, xAxisData, colorData, seriesAxis)
+      this.getOption(legendData, xAxisData, colorData, seriesAxis,seriesData)
     );
     window.onresize = this.chartLine.resize;
   }
@@ -109,8 +108,8 @@ export default class CPULineController extends BaseController {
 
   chartLine: any;
 
-  private getOption(legendData, xAxisData, colorData, seriesAxis) {
-    let option = {
+  private getOption(legendData, xAxisData, colorData, seriesAxis,seriesData) {
+   /* let option = {
       title: {
         text: 'CPU使用变化率'
       },
@@ -118,7 +117,7 @@ export default class CPULineController extends BaseController {
         trigger: 'axis'
       },
       legend: {
-        data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+        data:['System','User','Idel','Iowait']
       },
       grid: {
         left: '3%',
@@ -141,36 +140,61 @@ export default class CPULineController extends BaseController {
       },
       series: [
         {
-          name:'邮件营销',
+          name:'System',
           type:'line',
           stack: '总量',
           data:[120, 132, 101, 134, 90, 230, 210]
         },
         {
-          name:'联盟广告',
+          name:'User',
           type:'line',
           stack: '总量',
           data:[220, 182, 191, 234, 290, 330, 310]
         },
         {
-          name:'视频广告',
+          name:'Idel',
           type:'line',
           stack: '总量',
           data:[150, 232, 201, 154, 190, 330, 410]
         },
         {
-          name:'直接访问',
+          name:'Iowait',
           type:'line',
           stack: '总量',
           data:[320, 332, 301, 334, 390, 330, 320]
-        },
-        {
-          name:'搜索引擎',
-          type:'line',
-          stack: '总量',
-          data:[820, 932, 901, 934, 1290, 1330, 1320]
         }
       ]
+    };*/
+    let option = {
+      title: {
+        text: 'CPU使用变化率'
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      legend: {
+        data:legendData
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      toolbox: {
+        feature: {
+          saveAsImage: {}
+        }
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: xAxisData
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: seriesData
     };
 
 
@@ -184,26 +208,19 @@ export default class CPULineController extends BaseController {
    * @Date:   2019-07-10 11:35:35
    */
   private query(): void {
-    this.jvmMemoryChartService
-      .info(this.microServiceInfoReqVO)
+    this.cpuLineChartService
+      .info(this.machineInfoVO)
       .then((res: WinResponseData) => {
         if (res.winRspType === "ERROR") {
           this.win_message_error(res.msg);
         }
-        this.microServiceJvmMemoryVO = res.data;
-        this.seriesAxis = this.getSeriesAxis(
-          this.microServiceJvmMemoryVO.legendData,
-          this.microServiceJvmMemoryVO.colorData,
-          this.microServiceJvmMemoryVO.seriesData
-        );
-        this.legendData = this.microServiceJvmMemoryVO.legendData;
-        this.xAxisData = this.microServiceJvmMemoryVO.xaxisData;
-        this.colorData = this.microServiceJvmMemoryVO.colorData;
+        let respData = res.data;
         this.renderChart(
-          this.legendData,
-          this.xAxisData,
-          this.colorData,
-          this.seriesAxis
+          respData.legendData,
+          respData.xAxisData,
+          respData.colorData,
+          respData.seriesAxis,
+          respData.seriesData
         );
       });
   }

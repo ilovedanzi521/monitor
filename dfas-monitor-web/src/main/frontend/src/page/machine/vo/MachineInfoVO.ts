@@ -28,6 +28,33 @@ export class MachineInfoVO extends BaseRepVO {
     public ipAddress: string;
 
     /**
+     * 对手编号
+     */
+    public balance: string;
+
+    /**
+     * 对手编号
+     */
+    public cpuInfo: string;
+
+
+    /**
+     * 对手编号
+     */
+    public diskInfo: string;
+
+
+    /**
+     * 对手编号
+     */
+    public memoryInfo: string;
+
+    /**
+     * 对手编号
+     */
+    public balanceInfo: string;
+
+    /**
      * 对手名称
      */
     public microServiceName: string;
@@ -62,22 +89,6 @@ export class MachineInfoVO extends BaseRepVO {
      */
     public remark: string;
 
-  /**
-   *
-   */
-  public balance: string;
-  /**
-   *
-   */
-  public cpuInfo: string;
-  /**
-   *
-   */
-  public diskInfo: string;
-  /**
-   *
-   */
-  public memoryInfo: string;
 }
 
 /**
