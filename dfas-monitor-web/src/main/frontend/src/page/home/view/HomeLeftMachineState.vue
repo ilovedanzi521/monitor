@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="machineState-container">
-                <Machine :dataList="machineStateList" :col="5" :row="5" width="46px"></Machine>
+                <Machine :dataList="machineStateList" :col="5" :row="5" width="46px" @clickItem="operation"></Machine>
             </div>
         </div>
     </div>
@@ -25,6 +25,9 @@
 import HomeMachineStateController from "../controller/HomeMachineStateController";
 
 export default class HomeLeftMachineState extends HomeMachineStateController {
+    operation({ item }) {
+        console.log(item);
+    }
     sa = [
         {
             id: "21112",

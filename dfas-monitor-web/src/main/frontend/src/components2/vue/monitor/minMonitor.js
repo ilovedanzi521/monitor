@@ -86,10 +86,10 @@ export default {
     }
   },
   methods: {
-    clickItem(monitor, item) {
+    clickItem(monitor, aitem) {
       this.$emit("clickItem", {
         ParentItem: monitor,
-        item
+        item: aitem
       });
     },
     /****渲染多少行多少列 */

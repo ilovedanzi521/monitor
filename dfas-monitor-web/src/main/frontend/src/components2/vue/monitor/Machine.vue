@@ -8,7 +8,15 @@ import BaseMonitor from "./BaseMonitor";
 import baseMinxs from "./minMonitor";
 export default {
     mixins: [baseMinxs],
-    components: { BaseMonitor }
+    components: { BaseMonitor },
+    methods: {
+        clickItem({ ParentItem, item }) {
+            this.$emit("clickItem", {
+                ParentItem: ParentItem,
+                item: item
+            });
+        }
+    }
 };
 </script>
 
