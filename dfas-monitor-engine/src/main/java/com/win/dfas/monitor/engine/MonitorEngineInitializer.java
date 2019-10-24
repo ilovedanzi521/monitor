@@ -13,12 +13,14 @@
 package com.win.dfas.monitor.engine;
 
 
-import com.win.dfas.monitor.common.util.DateUtils;
-import com.win.dfas.monitor.engine.pool.ScheduledThreadPool;
-import com.win.dfas.monitor.engine.task.HomeMessagePushTask;
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
+
+import com.win.dfas.monitor.config.elasticsearch.ESClient;
 
 /**
  * 交易类接口应用初始化
@@ -36,6 +38,9 @@ public class MonitorEngineInitializer implements SmartLifecycle {
 
     public static final String userDir = System.getProperty("user.dir");
 
+    @Autowired
+    private ESClient esClient;
+    
     @Override
     public void start() {
         try {
@@ -66,6 +71,13 @@ public class MonitorEngineInitializer implements SmartLifecycle {
         // 系统清理工作
         if (isRunning) {
             isRunning = false;
+            try {
+            	if(esClient != null) {
+            		esClient.getRestHighLevelClient().close();
+            	}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
 
     }

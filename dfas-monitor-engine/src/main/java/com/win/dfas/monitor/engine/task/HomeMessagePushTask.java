@@ -16,14 +16,18 @@ import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.constant.StatusEnum;
+import com.win.dfas.monitor.common.dto.BucketDTO;
 import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity;
 import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.util.StringUtils;
+import com.win.dfas.monitor.common.vo.ExceptionVO;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.PlatformOverviewVO;
 import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
+import com.win.dfas.monitor.engine.service.ElasticsearchService;
 import com.win.dfas.monitor.engine.service.EurekaService;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
@@ -60,6 +64,9 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
 
     @Autowired
     private PrometheusService prometheusService;
+    
+    @Autowired
+    private ElasticsearchService elasticsearchService;
 
     /**
      * 按照标准时间来算，每隔 5s 执行一次
@@ -127,7 +134,40 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
 
     @Scheduled(cron = "0/8 * * * * ?")
     public void pushExceptionData() throws Exception {
-        push(HomeModuleEnum.exception, getExceptionData());
+        Map<String,Long> bucketMap=elasticsearchService.getLogTotalCount();
+    	Random random = new Random(System.currentTimeMillis());
+        ExceptionVO exception = new ExceptionVO();
+        exception.setMachineCpu(String.valueOf(thousandBitNumberFormat.format(random.nextInt(100))));
+        exception.setMachineMemory(String.valueOf(thousandBitNumberFormat.format(random.nextInt(10000))));
+        exception.setMachineDisk(String.valueOf(thousandBitNumberFormat.format(random.nextInt(1000))));
+        exception.setMicroServiceMemory(String.valueOf(thousandBitNumberFormat.format(random.nextInt(10))));
+       long warnCount=0;
+        if(bucketMap.get("WARN") != null){
+            warnCount = bucketMap.get("WARN");
+        }
+        long errorCount=0;
+        if(bucketMap.get("ERROR") != null){
+            errorCount = bucketMap.get("ERROR");
+        }
+        exception.setMicroServiceWarnLog(String.valueOf(thousandBitNumberFormat.format(warnCount)));
+        exception.setMicroServiceErrorLog(String.valueOf(thousandBitNumberFormat.format(errorCount)));
+    	
+        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.exception);
+        if (webSocketSet != null) {
+            System.out.println("客户端连接个数：" + webSocketSet.size());
+            for (AbstractWebSocket webSocket : webSocketSet) {
+                try {
+                    webSocket.sendMessage(JsonUtil.toJson(exception));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        
+
+        
+        
     }
 
 
