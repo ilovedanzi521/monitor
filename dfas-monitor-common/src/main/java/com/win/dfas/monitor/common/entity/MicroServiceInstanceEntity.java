@@ -15,5 +15,6 @@ public class MicroServiceInstanceEntity {
     private String hostName;
     private String app;
     private String ipAddr;
+    private String port;
 
 }

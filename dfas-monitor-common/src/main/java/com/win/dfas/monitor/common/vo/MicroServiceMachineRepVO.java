@@ -18,31 +18,36 @@ public class MicroServiceMachineRepVO extends BaseRepVO {
     /**
      * IP地址
      */
-    public String ipAddr;
+    private String ipAddr;
+
+    /**
+     * 端口
+     */
+    private String port;
 
     /**
      * 状态
      */
-    public String state="DOWN";
+    private String state="DOWN";
 
     /**
      * 负载
      */
-    public String balance="-";
+    private String balance="-";
 
     /**
      * jvm
      */
-    public String jvm="-";
+    private String jvm="-";
 
     /**
      * 告警数
      */
-    public String warn="-";
+    private String warn="-";
 
     /**
      * 错误数
      */
-    public String error="-";
+    private String error="-";
 
 }

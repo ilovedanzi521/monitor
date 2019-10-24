@@ -4,8 +4,10 @@ import java.util.Map;
 
 public interface ElasticsearchService {
 
-	Map<String,Long> getLogTotalCount() throws Exception ;
+    Map<String, Long> getLogTotalCount() throws Exception;
 
-	Map<String,Long> getLogTotalCountByMicroService(String microServiceName) throws Exception ;
-	
+    Map<String, Long> getLogTotalCountByMicroService(String microServiceName) throws Exception;
+
+    Map<String, Long> getLogTotalCountByMicroService(String microServiceName, String ip, String port) throws Exception;
+
 }

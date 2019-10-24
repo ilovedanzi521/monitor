@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="instanceId"    column="instanceId"    />
         <result property="hostName"    column="hostName"    />
         <result property="ipAddr"    column="ipAddr"    />
+        <result property="port"    column="port"    />
     </resultMap>
 
 	<sql id="micro_service_instance_base_query">
@@ -39,10 +40,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <insert id="insertMicroServiceInstanceList"
             parameterType="java.util.List">
-        insert into t_micro_service_instance (id, serviceId,instanceId,hostName,app,ipAddr)
+        insert into t_micro_service_instance (id, serviceId,instanceId,hostName,app,ipAddr,port)
         VALUES <foreach collection="list" item="item" index="index"
                         separator=",">
-        ( #{item.id}, #{item.serviceId}, #{item.instanceId}, #{item.hostName}, #{item.app}, #{item.ipAddr})
+        ( #{item.id}, #{item.serviceId}, #{item.instanceId}, #{item.hostName}, #{item.app}, #{item.ipAddr}, #{item.port})
     </foreach>
     </insert>
 
@@ -57,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="instanceId != null  and instanceId != ''  ">instanceId,</if>
             <if test="hostName != null  and hostName != ''  ">hostName,</if>
             <if test="ipAddr != null  and ipAddr != ''  ">ipAddr,</if>
+            <if test="port != null  and port != ''  ">port,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''  ">#{id},</if>
@@ -65,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="instanceId != null  and instanceId != ''  ">#{instanceId},</if>
             <if test="hostName != null  and hostName != ''  ">#{hostName},</if>
             <if test="ipAddr != null  and ipAddr != ''  ">#{ipAddr},</if>
+            <if test="port != null  and port != ''  ">#{port},</if>
         </trim>
     </insert>
 

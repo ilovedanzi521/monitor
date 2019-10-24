@@ -12,7 +12,6 @@ import com.win.dfas.monitor.common.dto.MicroServiceDTO;
 import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity;
-import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
 import com.win.dfas.monitor.common.util.StringUtils;
@@ -111,7 +110,21 @@ public class MicroServiceImpl implements MicroService {
         Map<String, ApplicationInstance> microServiceMap = fetchMicroService();
         for (MicroServiceMachineRepVO microServiceMachineRep : microServiceMachineRepList) {
             //设置机器状态、JVM内存
-
+            try {
+                Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceReqVO.getMicroServiceName(), microServiceMachineRep.getIpAddr(), microServiceMachineRep.getPort());
+                long warnCount = 0;
+                if (bucketMap.get("WARN") != null) {
+                    warnCount = bucketMap.get("WARN");
+                }
+                long errorCount = 0;
+                if (bucketMap.get("ERROR") != null) {
+                    errorCount = bucketMap.get("ERROR");
+                }
+                microServiceMachineRep.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
+                microServiceMachineRep.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return microServiceMachineRepList;
     }
@@ -240,6 +253,9 @@ public class MicroServiceImpl implements MicroService {
                         microServiceInstanceEntity.setHostName(instance.getHostName());
                         microServiceInstanceEntity.setApp(instance.getApp());
                         microServiceInstanceEntity.setIpAddr(instance.getIpAddr());
+                        Object object = instance.getPort();
+                        Map<String,Integer> map=(LinkedHashMap)object;
+                        microServiceInstanceEntity.setPort(String.valueOf(map.get("$")));
                         microServiceInstanceEntityList.add(microServiceInstanceEntity);
                     }
                 }
@@ -281,13 +297,13 @@ public class MicroServiceImpl implements MicroService {
         }
 
         try {
-            Map<String,Long> bucketMap=elasticsearchService.getLogTotalCountByMicroService(reqVO.getMicroServiceName());
-            long warnCount=0;
-            if(bucketMap.get("WARN") != null){
+            Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(reqVO.getMicroServiceName());
+            long warnCount = 0;
+            if (bucketMap.get("WARN") != null) {
                 warnCount = bucketMap.get("WARN");
             }
-            long errorCount=0;
-            if(bucketMap.get("ERROR") != null){
+            long errorCount = 0;
+            if (bucketMap.get("ERROR") != null) {
                 errorCount = bucketMap.get("ERROR");
             }
             microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
@@ -321,7 +337,7 @@ public class MicroServiceImpl implements MicroService {
             List<Double> seriesData = new ArrayList<>();
             List<MetricValueVO> values = metricsResultVO.getMetricValueList();
             if (values != null) {
-                for(MetricValueVO metricValueVO:values){
+                for (MetricValueVO metricValueVO : values) {
                     BigDecimal value = new BigDecimal(metricValueVO.getValue()).divide(new BigDecimal(1024 * 1024)).setScale(2, BigDecimal.ROUND_HALF_UP);
                     seriesData.add(Double.parseDouble(noneThousandBitNumberFormat.format(value)));
                 }
@@ -342,25 +358,6 @@ public class MicroServiceImpl implements MicroService {
             microServiceJvmMemory.getSeriesData().add(seriesData);
         }*/
         return microServiceJvmMemory;
-    }
-
-
-    public Map<String, Object> getMicroServiceList3() {
-        Random random = new Random(System.currentTimeMillis());
-        List<MicroServiceStateVO> microServiceStatusList = new ArrayList<>();
-        int count = 70 + random.nextInt(10);
-        for (int i = 0; i < count; i++) {
-            MicroServiceStateVO microServiceStatus = new MicroServiceStateVO();
-            microServiceStatus.setId(String.valueOf(i));
-            microServiceStatus.setMicroServiceName("订单服务" + i);
-            microServiceStatus.setWarn(random.nextInt(500));
-            microServiceStatus.setError(random.nextInt(5000));
-            microServiceStatus.setState(String.valueOf(random.nextInt(3) + 1));
-            microServiceStatusList.add(microServiceStatus);
-        }
-        Map<String, Object> retList = new HashMap<>();
-        retList.put("list", microServiceStatusList);
-        return retList;
     }
 
 

@@ -16,7 +16,6 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -67,7 +66,7 @@ public Map<String, Long> getLogTotalCount() throws Exception {
 
     @Override
     public Map<String, Long> getLogTotalCount() throws Exception {
-       // 1、创建search请求
+        // 1、创建search请求
         SearchRequest searchRequest = new SearchRequest("monitor");
 
         // 2、用SearchSourceBuilder来构造查询请求体
@@ -87,7 +86,7 @@ public Map<String, Long> getLogTotalCount() throws Exception {
 
 
         //3、发送请求
-        SearchResponse searchResponse = esClient.getRestHighLevelClient().search(searchRequest,RequestOptions.DEFAULT);
+        SearchResponse searchResponse = esClient.getRestHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
 
         //4、处理响应
         //搜索结果状态信息
@@ -110,10 +109,10 @@ public Map<String, Long> getLogTotalCount() throws Exception {
         // 2、用SearchSourceBuilder来构造查询请求体
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(QueryBuilders.boolQuery()
-        .must(
-                QueryBuilders.termQuery("index.date", DateUtils.dateTime())
-        ).must(
-                QueryBuilders.termQuery("springAppName", microServiceName.toLowerCase()))
+                .must(
+                        QueryBuilders.termQuery("index.date", DateUtils.dateTime())
+                ).must(
+                        QueryBuilders.termQuery("springAppName", microServiceName.toLowerCase()))
         );
         sourceBuilder.from(0);
         sourceBuilder.size(10);
@@ -129,7 +128,53 @@ public Map<String, Long> getLogTotalCount() throws Exception {
 
 
         //3、发送请求
-        SearchResponse searchResponse = esClient.getRestHighLevelClient().search(searchRequest,RequestOptions.DEFAULT);
+        SearchResponse searchResponse = esClient.getRestHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
+
+        //4、处理响应
+        //搜索结果状态信息
+        Aggregations aggregations = searchResponse.getAggregations();
+        Terms logCountAggregation = aggregations.get("log_count");
+        Map<String, Long> bucketMap = new HashMap<>();
+        for (Terms.Bucket buck : logCountAggregation.getBuckets()) {
+            logger.info("key: " + buck.getKeyAsString());
+            logger.info("docCount: " + buck.getDocCount());
+            bucketMap.put(buck.getKeyAsString(), buck.getDocCount());
+        }
+        return bucketMap;
+    }
+
+    @Override
+    public Map<String, Long> getLogTotalCountByMicroService(String microServiceName, String ip, String port) throws Exception {
+        // 1、创建search请求
+        SearchRequest searchRequest = new SearchRequest("monitor");
+
+        // 2、用SearchSourceBuilder来构造查询请求体
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(QueryBuilders.boolQuery()
+                .must(
+                        QueryBuilders.termQuery("index.date", DateUtils.dateTime())
+                ).must(
+                        QueryBuilders.termQuery("springAppName", microServiceName.toLowerCase())
+                ).must(
+                        QueryBuilders.termQuery("ip", ip)
+                ).must(
+                        QueryBuilders.termQuery("port", port)
+                ));
+        sourceBuilder.from(0);
+        sourceBuilder.size(10);
+        sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+
+        //加入聚合
+        TermsAggregationBuilder aggregation = AggregationBuilders.terms("log_count")
+                .field("level.keyword");
+        sourceBuilder.aggregation(aggregation);
+
+        //将请求体加入到请求中
+        searchRequest.source(sourceBuilder);
+
+
+        //3、发送请求
+        SearchResponse searchResponse = esClient.getRestHighLevelClient().search(searchRequest, RequestOptions.DEFAULT);
 
         //4、处理响应
         //搜索结果状态信息

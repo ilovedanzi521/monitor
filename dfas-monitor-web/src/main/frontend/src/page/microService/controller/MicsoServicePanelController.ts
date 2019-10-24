@@ -89,7 +89,7 @@ export default class MicsoServicePanelController extends BaseController {
    * @param type
    */
   private operation({ item }) {
-    console.log(item)
+    //console.log(item)
     this.detailDialogVisible = true;
     // alert(JSON.stringify(item));
     this.cardNumber = {
