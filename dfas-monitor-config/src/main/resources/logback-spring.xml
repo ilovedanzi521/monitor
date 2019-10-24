@@ -3,13 +3,17 @@
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
+    <springProperty scope="context" name="ip" source="server.address" />
+
+    <springProperty scope="context" name="port" source="server.port" />
 
     <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
             <layout class="net.logstash.logback.layout.LogstashLayout" >
-                <includeContext>false</includeContext>
+                <includeContext>true</includeContext>
                 <includeCallerData>true</includeCallerData>
-                <customFields>{"system":"dfas-monitor-center"}</customFields>
+                <includeMdc>true</includeMdc>
+              <!--  <customFields>{"microServiceName":${springAppName}}</customFields>-->
                 <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>
             </layout>
             <charset>UTF-8</charset>

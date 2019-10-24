@@ -77,7 +77,7 @@ export default class MicroServiceDetailDialogController extends BaseController {
   /** 页面初始化 */
   private mounted() {
     this.microServiceInfoRepVO = this.fromFatherMsg.data;
-    //alert(JSON.stringify(this.microServiceInfoRepVO));
+    alert(JSON.stringify(this.microServiceInfoRepVO));
     if (this.fromFatherMsg.type === OperationTypeEnum.ADD) {
       this.dialogTitle = MicroServiceInfoConst.CREATETITLE;
       this.dialogSumbitText = BaseConst.CONFIRM;

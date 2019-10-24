@@ -20,6 +20,7 @@ import com.win.dfas.monitor.common.vo.*;
 import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
 import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
+import com.win.dfas.monitor.engine.service.ElasticsearchService;
 import com.win.dfas.monitor.engine.service.MicroService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import org.springframework.beans.BeanUtils;
@@ -49,15 +50,17 @@ public class MicroServiceImpl implements MicroService {
     void init() {
         noneThousandBitNumberFormat.setGroupingUsed(false);
     }
-/*
-    @Value("${prometheus.server.url}")
-    private String prometheusServerUrl;*/
 
     @Value("${registration.center.url}")
     private String registrationCenterUrl;
 
+    @Autowired
+    private ElasticsearchService elasticsearchService;
+
     /** 非千分位格式化 */
     protected NumberFormat noneThousandBitNumberFormat = NumberFormat.getNumberInstance();
+
+    protected NumberFormat thousandBitNumberFormat = NumberFormat.getNumberInstance();
 
     @Override
     public PageInfo<MicroServiceRepVO> getMicroServiceList(MicroServiceReqVO reqVO) {
@@ -276,6 +279,23 @@ public class MicroServiceImpl implements MicroService {
             microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
             //继续判断JVM内存是否存在告警，存在，则设置为告警状态
         }
+
+        try {
+            Map<String,Long> bucketMap=elasticsearchService.getLogTotalCountByMicroService(reqVO.getMicroServiceName());
+            long warnCount=0;
+            if(bucketMap.get("WARN") != null){
+                warnCount = bucketMap.get("WARN");
+            }
+            long errorCount=0;
+            if(bucketMap.get("ERROR") != null){
+                errorCount = bucketMap.get("ERROR");
+            }
+            microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
+            microServiceRepVO.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return microServiceRepVO;
     }
 
