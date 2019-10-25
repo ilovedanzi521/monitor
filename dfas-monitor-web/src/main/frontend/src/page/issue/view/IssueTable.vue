@@ -19,6 +19,7 @@
       </div>
        <win-table ref="multipleTable" style="width: 100%" :data="userReqVo.userArray" :showSelection="true" @select-change="tableSelectionChange" @select-all="tableSelectionChange"  max-height="600">
             <win-table-column prop="ipAddress" label="节点" width="150"></win-table-column>
+            <win-table-column prop="issueType" label="问题类型" width="150"></win-table-column>
             <win-table-column prop="issueDesc" label="问题描述" width="150"></win-table-column>
             <!--<win-table-column :formatter="formatRoleName" label="状态" width="200"></win-table-column>-->
             <win-table-column prop="warnLevel" label="告警级别" width="90">
@@ -153,6 +154,7 @@ export default class IssueTable extends BaseController {
             return {
               id: item.id,
               ipAddress: item.ipAddress,
+              issueType: item.issueType,
               issueDesc: item.issueDesc,
               warnLevel: item.warnLevel,
               createTime: item.createTime,

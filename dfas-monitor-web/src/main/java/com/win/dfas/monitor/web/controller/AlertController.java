@@ -2,6 +2,7 @@ package com.win.dfas.monitor.web.controller;
 
 import com.win.dfas.monitor.common.entity.Issue;
 import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.alert.AlertMsgVO;
 import com.win.dfas.monitor.common.vo.alert.AlertVO;
@@ -49,12 +50,14 @@ public class AlertController extends BaseController {
         AlertVO alertVO = alertMsgVO.getAlerts().get(0);
         LabelVO labels = alertVO.getLabels();
         AnnotationVO annotationVO = alertVO.getAnnotations();
-        String warnLevel = labels.getSeverity();
+        String warnType = StringUtils.split(labels.getSeverity(),"_")[0];
+        String warnLevel = StringUtils.split(labels.getSeverity(),"_")[1];
         String description = annotationVO.getDescription();
         String ipAddress = getIP(description);
         String issueDesc = getIssueDesc(ipAddress,description);
         issue.setId(IDUtils.nextId());
         issue.setIpAddress(ipAddress);
+        issue.setIssueType(warnType);
         issue.setIssueDesc(issueDesc);
         issue.setWarnLevel(warnLevel);
         return issue;

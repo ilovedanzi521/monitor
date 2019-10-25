@@ -23,6 +23,8 @@ public class Issue
 	/**  */
 	private String warnLevel;
 	/**  */
+	private String issueType;
+	/**  */
 	private String createTime;
 	/**  */
 	private String updateTime;

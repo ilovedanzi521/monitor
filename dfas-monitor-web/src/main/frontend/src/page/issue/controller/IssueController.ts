@@ -182,6 +182,7 @@ export default class IssueController extends BaseController {
             return {
               id: item.id,
               ipAddress: item.ipAddress,
+              issueType: item.issueType,
               issueDesc: item.issueDesc,
               warnLevel: item.warnLevel,
               createTime: item.createTime,
