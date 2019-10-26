@@ -73,7 +73,7 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
      */
     @Scheduled(cron = "0/5 * * * * ?")
     public void pushPlatformOverviewData() {
-    	log.debug("pushPlatformOverviewData");
+    	log.warn("pushPlatformOverviewData");
         Random random = new Random(System.currentTimeMillis());
         PlatformOverviewVO platformOverview = new PlatformOverviewVO();
         platformOverview.setQps(String.valueOf(thousandBitNumberFormat.format(prometheusService.getQps())));

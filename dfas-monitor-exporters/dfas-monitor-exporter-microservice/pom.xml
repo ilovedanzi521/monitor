@@ -79,6 +79,11 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.danielwegener</groupId>
+			<artifactId>logback-kafka-appender</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

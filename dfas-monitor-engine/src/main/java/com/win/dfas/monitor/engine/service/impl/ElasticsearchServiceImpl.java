@@ -16,6 +16,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -29,6 +30,9 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
 
     @Autowired
     private ESClient esClient;
+
+    @Value("${spring.elasticsearch.index}")
+    private String elasticsearchIndex;
 
 /*    @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;*/
@@ -110,9 +114,9 @@ public Map<String, Long> getLogTotalCount() throws Exception {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(QueryBuilders.boolQuery()
                 .must(
-                        QueryBuilders.termQuery("index.date", DateUtils.dateTime())
+                        QueryBuilders.matchPhraseQuery("index.date", DateUtils.dateTime())
                 ).must(
-                        QueryBuilders.termQuery("springAppName", microServiceName.toLowerCase()))
+                        QueryBuilders.matchPhraseQuery("springAppName", microServiceName.toLowerCase()))
         );
         sourceBuilder.from(0);
         sourceBuilder.size(10);
@@ -152,14 +156,14 @@ public Map<String, Long> getLogTotalCount() throws Exception {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(QueryBuilders.boolQuery()
                 .must(
-                        QueryBuilders.termQuery("index.date", DateUtils.dateTime())
+                        QueryBuilders.matchPhraseQuery("index.date", DateUtils.dateTime())
                 ).must(
-                        QueryBuilders.termQuery("springAppName", microServiceName.toLowerCase())
+                        QueryBuilders.matchPhraseQuery("springAppName", microServiceName.toLowerCase())
                 ).must(
-                        QueryBuilders.termQuery("ip", ip)
-                ).must(
-                        QueryBuilders.termQuery("port", port)
-                ));
+                        QueryBuilders.matchPhraseQuery("ip", ip)
+                )/*.must(
+                        QueryBuilders.matchPhraseQuery("port", port)
+                )*/);
         sourceBuilder.from(0);
         sourceBuilder.size(10);
         sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));

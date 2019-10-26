@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.common.util.PrimaryKeyUtil;
 import com.win.dfas.monitor.common.constant.LineColorEnum;
+import com.win.dfas.monitor.common.constant.LogLevelEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.constant.StatusEnum;
 import com.win.dfas.monitor.common.dto.MicroServiceApplicationDTO;
@@ -77,9 +78,9 @@ public class MicroServiceImpl implements MicroService {
             for (int i = 0; i < size; i++) {
                 MicroServiceInstanceEntity microServiceInstanceEntity = microServiceInstanceList.get(i);
                 if (i == (size - 1)) {
-                    sb.append(microServiceInstanceEntity.getIpAddr());
+                    sb.append(microServiceInstanceEntity.getIpAddr() );
                 } else {
-                    sb.append(microServiceInstanceEntity.getIpAddr() + ",");
+                    sb.append(microServiceInstanceEntity.getIpAddr() );
                 }
             }
             microServiceRepVO.setIpAddress(sb.toString());
@@ -113,12 +114,12 @@ public class MicroServiceImpl implements MicroService {
             try {
                 Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceReqVO.getMicroServiceName(), microServiceMachineRep.getIpAddr(), microServiceMachineRep.getPort());
                 long warnCount = 0;
-                if (bucketMap.get("WARN") != null) {
-                    warnCount = bucketMap.get("WARN");
+                if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
+                    warnCount = bucketMap.get(LogLevelEnum.WARN.name());
                 }
                 long errorCount = 0;
-                if (bucketMap.get("ERROR") != null) {
-                    errorCount = bucketMap.get("ERROR");
+                if (bucketMap.get(LogLevelEnum.ERROR.name()) != null) {
+                    errorCount = bucketMap.get(LogLevelEnum.ERROR.name());
                 }
                 microServiceMachineRep.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
                 microServiceMachineRep.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
@@ -136,12 +137,18 @@ public class MicroServiceImpl implements MicroService {
         BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
         microServiceEntity.setId(PrimaryKeyUtil.generateId());
         if (StringUtils.isNotEmpty(microServiceReqVO.getIpAddress())) {
-            String ipAddrs[] = microServiceReqVO.getIpAddress().split(",");
+            String ipAddrs[] = microServiceReqVO.getIpAddress().split(";");
             for (String ipAddr : ipAddrs) {
                 MicroServiceInstanceEntity microServiceInstanceEntity = new MicroServiceInstanceEntity();
                 microServiceInstanceEntity.setId(PrimaryKeyUtil.generateId());
                 microServiceInstanceEntity.setServiceId(microServiceEntity.getId());
-                microServiceInstanceEntity.setIpAddr(ipAddr);
+                String ips[] = ipAddr.split(":");
+                if (ips.length > 0) {
+                    microServiceInstanceEntity.setIpAddr(ips[0]);
+                }
+                if (ips.length > 1) {
+                    microServiceInstanceEntity.setPort(ips[1]);
+                }
                 microServiceInstanceMapper.insertMicroServiceInstance(microServiceInstanceEntity);
             }
         }
@@ -155,26 +162,41 @@ public class MicroServiceImpl implements MicroService {
         MicroServiceEntity microServiceEntity = new MicroServiceEntity();
         BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
         if (StringUtils.isNotEmpty(microServiceReqVO.getIpAddress())) {
-            String ipAddresses[] = microServiceReqVO.getIpAddress().split(",");
-            List<String> ipAddressList = new ArrayList<>(Arrays.asList(ipAddresses));
+            String ipAddresses[] = microServiceReqVO.getIpAddress().split(";");
+            List<String> ipAddressList = new ArrayList<>();
+            List<String> portList = new ArrayList<>();
+            for (String addr : ipAddresses) {
+                String ips[] = addr.split(":");
+                ipAddressList.add(ips[0]);
+                if (ips.length > 1) {
+                    portList.add(ips[1]);
+                }
+            }
             List<MicroServiceInstanceEntity> instanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceEntity.getId());
             List<String> existList = new ArrayList<>();
             if (instanceList != null) {
                 for (MicroServiceInstanceEntity microServiceInstanceEntity : instanceList) {
                     if (!ipAddressList.contains(microServiceInstanceEntity.getIpAddr())) {
                         microServiceInstanceMapper.deleteMicroServiceInstance(microServiceInstanceEntity.getId());
+                    } else if (!portList.contains(microServiceInstanceEntity.getPort())) {
+                        //microServiceInstanceMapper.deleteMicroServiceInstance(microServiceInstanceEntity.getId());
                     } else {
-                        existList.add(microServiceInstanceEntity.getIpAddr());
+                        //existList.add(microServiceInstanceEntity.getIpAddr() + ":" + microServiceInstanceEntity.getPort());
+                        existList.add(microServiceInstanceEntity.getIpAddr() );
                     }
                 }
             }
-            for (String addr : ipAddressList) {
+            for (String addr : ipAddresses) {
+                String ips[] = addr.split(":");
                 if (!existList.contains(addr)) {
                     MicroServiceInstanceEntity microServiceInstanceEntity = new MicroServiceInstanceEntity();
                     microServiceInstanceEntity.setId(PrimaryKeyUtil.generateId());
                     microServiceInstanceEntity.setServiceId(microServiceEntity.getId());
                     microServiceInstanceEntity.setApp(microServiceEntity.getMicroServiceName());
-                    microServiceInstanceEntity.setIpAddr(addr);
+                    microServiceInstanceEntity.setIpAddr(ips[0]);
+                    if (ips.length > 1) {
+                        microServiceInstanceEntity.setPort(ips[1]);
+                    }
                     microServiceInstanceMapper.insertMicroServiceInstance(microServiceInstanceEntity);
                 }
             }
@@ -254,7 +276,7 @@ public class MicroServiceImpl implements MicroService {
                         microServiceInstanceEntity.setApp(instance.getApp());
                         microServiceInstanceEntity.setIpAddr(instance.getIpAddr());
                         Object object = instance.getPort();
-                        Map<String,Integer> map=(LinkedHashMap)object;
+                        Map<String, Integer> map = (LinkedHashMap) object;
                         microServiceInstanceEntity.setPort(String.valueOf(map.get("$")));
                         microServiceInstanceEntityList.add(microServiceInstanceEntity);
                     }
@@ -299,12 +321,12 @@ public class MicroServiceImpl implements MicroService {
         try {
             Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(reqVO.getMicroServiceName());
             long warnCount = 0;
-            if (bucketMap.get("WARN") != null) {
-                warnCount = bucketMap.get("WARN");
+            if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
+                warnCount = bucketMap.get(LogLevelEnum.WARN.name());
             }
             long errorCount = 0;
-            if (bucketMap.get("ERROR") != null) {
-                errorCount = bucketMap.get("ERROR");
+            if (bucketMap.get(LogLevelEnum.ERROR.name()) != null) {
+                errorCount = bucketMap.get(LogLevelEnum.ERROR.name());
             }
             microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
             microServiceRepVO.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
@@ -318,15 +340,6 @@ public class MicroServiceImpl implements MicroService {
     @Override
     public MicroServiceJvmMemoryVO jvmMemory(MicroServiceReqVO reqVO) {
         MicroServiceJvmMemoryVO microServiceJvmMemory = new MicroServiceJvmMemoryVO();
-        /*
-        List<MicroServiceInstanceEntity> microServiceInstanceEntityList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(reqVO.getId());
-        */
-
-        /*
-        Random random = new Random(System.currentTimeMillis());
-        int hour = Integer.parseInt(DateUtils.getCurrentHour());
-        */
-
         List<JvmMemoryMetricsResultVO> metricsResultList = prometheusService.getJvmMemoryChart(reqVO);
         for (int i = 0; i < metricsResultList.size(); i++) {
             JvmMemoryMetricsResultVO metricsResultVO = metricsResultList.get(i);
@@ -345,18 +358,6 @@ public class MicroServiceImpl implements MicroService {
             microServiceJvmMemory.getSeriesData().add(seriesData);
         }
 
-
-
-/*        for (int i = 0; i < microServiceInstanceEntityList.size(); i++) {
-            MicroServiceInstanceEntity microServiceInstanceEntity = microServiceInstanceEntityList.get(i);
-            microServiceJvmMemory.getLegendData().add(microServiceInstanceEntity.getIpAddr());
-            microServiceJvmMemory.getColorData().add(LineColorEnum.values()[i].getColor());
-            List<Integer> seriesData = new ArrayList<>();
-            for (int j = 0; j <= hour + 1; j++) {
-                seriesData.add(random.nextInt(1000));
-            }
-            microServiceJvmMemory.getSeriesData().add(seriesData);
-        }*/
         return microServiceJvmMemory;
     }
 

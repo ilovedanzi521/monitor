@@ -6,9 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetricsAspect;
-import org.springframework.context.annotation.Import;
-
 /**
  * 配置启用注解
  *

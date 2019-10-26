@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from t_micro_service
     </delete>
 
-    <delete id="deleteMicroService" parameterType="String">
+    <delete id="deleteMicroService" parameterType="java.lang.Long">
         delete from t_micro_service where id = #{id}
     </delete>
 

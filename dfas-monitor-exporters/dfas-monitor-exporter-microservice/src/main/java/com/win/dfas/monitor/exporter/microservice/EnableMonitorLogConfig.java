@@ -1,6 +1,6 @@
 package com.win.dfas.monitor.exporter.microservice;
 
-import com.win.dfas.monitor.exporter.microservice.mdc.MonitorLogMdc;
+import com.win.dfas.monitor.exporter.microservice.log.LogCustomField;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetricsAspect;
 import org.springframework.context.annotation.Import;
 
@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ MonitorLogMdc.class })
+@Import({ LogCustomField.class })
 public @interface EnableMonitorLogConfig {
 
 }
