@@ -5,17 +5,20 @@
         <el-row>
           <el-col :span="spanWidth">
             <el-form-item label="微服务名称" prop="microServiceName">
-              <win-input v-model="microServiceInfoRepVO.microServiceName" clearable></win-input>
+              <win-input  placeholder="请填写微服务名称" v-model="microServiceInfoRepVO.microServiceName" clearable></win-input>
             </el-form-item>
           </el-col>
            <el-col :span="spanWidth">
             <el-form-item label="微服务描述" prop="microServiceAlias">
-              <el-input v-model="microServiceInfoRepVO.microServiceAlias" clearable></el-input>
+              <el-input placeholder="请填写微服务描述" v-model="microServiceInfoRepVO.microServiceAlias" clearable></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="24">
             <el-form-item label="微服务节点" prop="ipAddress">
-              <el-input  type="textarea" v-model="microServiceInfoRepVO.ipAddress" :rows="2" clearable></el-input><span :style="{'paddingLeft':'10px','position':'absolute','marginTop':'10px','width':'307px'}">（提示：多个IP之间请用","分开）</span>
+              <el-input  placeholder="请填写微服务节点[如192.168.0.1;192.168.0.2;多个IP地址之间请用;分开]"  type="textarea" v-model="microServiceInfoRepVO.ipAddress" :rows="3"  clearable></el-input>
+              <!-- <span :style="{'paddingLeft':'10px','position':'absolute','marginTop':'10px','width':'307px'}">（提示：格式如127.0.0.1:8080；多个IP地址之间请用;分开）</span> -->
             </el-form-item> 
+            </el-col>
         </el-row>
       </div>
     </el-form>

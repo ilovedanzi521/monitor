@@ -141,6 +141,7 @@ export default class MicroServiceInfoDialogController extends BaseController {
     private dialogMessage(response: WinResponseData) {
         this.dialogLoading = false;
         if (response.winRspType === WinRspType.ERROR) {
+            alert("this");
             this.win_message_error(response.msg);
         } else {
             this.win_message_success(response.msg);

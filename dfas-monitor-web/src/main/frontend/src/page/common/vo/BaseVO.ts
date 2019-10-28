@@ -10,7 +10,7 @@ export class BaseReqVO {
     hostName: string;
     reqMenuId: number;
     reqPageNum: number = 1;
-    reqPageSize: number = 10;
+    reqPageSize: number = 1;
     reqSource: string; // 请求源
     reqSequence: string; // 请求序列
 }

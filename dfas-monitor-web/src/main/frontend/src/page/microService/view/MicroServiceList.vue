@@ -4,27 +4,14 @@
     <div class="formInline" style="width:100%;height:50px;margin-top:5px;">
       <win-form v-model="reqVO" :inline="true" v-testName="{'TEST_NAME':'microServiceInfo'}">
         <win-row>
-          <win-col :span="3">
-            <div style="margin-top: 5px;">
-              <el-button-group>
-                <win-button type="info" icon="el-icon-plus" @click="operation('','ADD')" round>新增</win-button>
-              </el-button-group>
-            </div>
-          </win-col>
-          <win-col :span="3">
-            <div style="margin-top: 5px;">
-              <el-button-group>
-                <win-button type="info" icon="el-icon-delete" :disabled="multipleSelection.length == 0" @click="delBatch" round>删除</win-button>
-              </el-button-group>
-            </div>
-          </win-col>
-          <win-col :span="3">
-            <div style="margin-top: 5px;">
-              <el-button-group>
-                <win-button type="info" icon="win win-rizhichaxun" @click="synchronize" round>一键同步</win-button>
-              </el-button-group>
-            </div>
-          </win-col>
+          <win-col :span="5">
+                <win-button-group>
+                <win-button type="info" icon="win win-add" permit-ref="ADD" @click="operation('','ADD')" round>新增</win-button>
+                <win-button type="info" icon="win win-del" :disabled="multipleSelection.length == 0" @click="delBatch" round>删除</win-button>
+                <win-button type="info" icon="win win-shougongjiaoyichuli" @click="synchronize" round>一键同步</win-button>
+                </win-button-group>
+          </win-col> 
+
           <win-col :span="5">
             <win-form-item label="微服务名称">
               <el-autocomplete v-model="reqVO.microServiceName" :fetch-suggestions="microServiceNameSelect" clearable placeholder="请输入内容">
@@ -46,12 +33,11 @@
     <div class="microServiceDataTable">
       <win-table :height="tableHeight" :data="pageVO.list" ref="microServiceInfoTable" @cell-dblclick="dblclick" @select-change="tableSelectionChange" @select-all="tableSelectionChange" @cell-click="handleCurrentChange">
         <win-table-column prop="microServiceName" label="微服务名称"></win-table-column>
-        <win-table-column prop="microServiceAlias" label="微服务描述" >
-        </win-table-column>
+        <win-table-column prop="microServiceAlias" label="微服务描述" > </win-table-column> 
         <win-table-column prop="state" label="状态"></win-table-column>
         <win-table-column prop="warn" label="告警数"></win-table-column>
         <win-table-column prop="error" label="错误数"></win-table-column>
-        <win-table-column label="操作" width="200">
+        <win-table-column prop="operation" align="center" fixed="right" label="操作" width="480">
           <template slot-scope="scope">
             <win-button type="text" size="small" icon="el-icon-edit-outline" @click="operation(scope.row,'UPDATE')">修改</win-button>
             <win-button type="text" size="small" icon="el-icon-view" @click="operation(scope.row,'VIEW')">查看</win-button>
@@ -60,6 +46,7 @@
         </win-table-column>
       </win-table>
       <!-- 分页组件 -->
+    <!--   <win-pagination name="microService" v-bind:childMsg="pageVO" @callFather="pageQuery"></win-pagination> -->
       <win-pagination v-bind:pageInfo="pageVO" @pageInfoChange="pageQuery"></win-pagination>
       <!-- 创建/修改/删除 dialog -->
       <MicroServiceInfoDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="infoDialogVisible">

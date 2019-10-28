@@ -9,7 +9,7 @@ export default class AxiosFun extends Vue {
 
   private static httpProtocol = "http://";
 
-  public static monitorCenterHostAddress = "192.168.6.69:8080";
+  public static monitorCenterHostAddress = "localhost:8080";
 
   public static basicParameterServiceName = "/dfbp-common-basicparameter";
 
