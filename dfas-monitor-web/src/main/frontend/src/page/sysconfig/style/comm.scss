@@ -1,0 +1,134 @@
+.el-dialog {
+    background: #090F26FF !important;
+    border-radius: 12px !important;
+}
+
+.el-dialog__header {
+    padding: 12px 34px !important;
+    border-bottom: 1px solid #6b7286;
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+.el-dialog__title {
+    font-size: 14px !important;
+    color: #fff;
+    font-weight: bolder !important;
+}
+
+.el-dialog__body {
+    padding: 0 36px !important;
+    max-height: 546px !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+
+    &::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 16px;
+        height: 1px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        box-sizing: border-box;
+    }
+
+    &::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        width: 6px !important;
+        background: #323952FF
+    }
+
+    &::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 36%;
+        background: linear-gradient(to right, transparent 0, transparent 10%, transparent 20%, #090F26FF 30%, #090F26FF 40%, #090F26FF 50%, #090F26FF 60%, #090F26FF 70%, transparent 80%, transparent 90%, transparent 100%)
+    }
+}
+
+.el-icon-close:before {
+    position: relative;
+    color: #fff;
+    top: -5px;
+}
+
+//el-form--inline儿子
+.el-form--inline>div {
+    overflow: hidden;
+    margin-top: 16px;
+    border-bottom: 1px solid #6B7286FF;
+
+    &:last-of-type {
+        border-bottom: 1px solid transparent;
+    }
+}
+
+.input-unit {
+    position: absolute;
+    left: 96%;
+    margin-left: 6px !important;
+}
+
+.from-panel {
+    overflow: hidden;
+    margin-top: 16px;
+    border-bottom: 1px solid#6B7286FF;
+
+    &:last-of-type {
+        border-bottom: 1px solid transparent;
+    }
+}
+
+.el-form-item {
+    margin-bottom: 16px !important;
+}
+
+.el-form-item__content {
+    line-height: 28px !important;
+}
+
+.el-form-item__label {
+    line-height: 1;
+    color: #ADB5BBFF !important;
+    vertical-align: middle;
+
+    &::before {
+        margin-right: 1px !important;
+    }
+}
+
+.el-form-item__error {
+    top: 92% !important;
+    left: 8px !important;
+}
+
+.el-form-item__content {
+    line-height: 28px !important;
+    vertical-align: middle !important;
+}
+
+.el-input {
+    width: 200px !important;
+
+}
+
+.el-input .el-input__inner {
+    height: 28px;
+    padding: 0 7px !important;
+    // border: 1px solid #575F76FF;
+
+    &:hover {
+
+        border: 1px solid #fff !important;
+    }
+}
+
+
+
+.el-dialog__footer {
+    padding: 16px 0 !important;
+    width: 100% !important;
+}
+
+.el-button {
+    padding: 0 32px;
+    height: 28px;
+    // line-height: 28px;
+}

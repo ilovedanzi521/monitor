@@ -10,6 +10,7 @@ import MachineList from "@/page/machine/view/machineList.vue";
 import MachinePanel from "@/page/machine/view/machinePanel.vue";
 import ThresholdList from "@/page/threshold/view/ThresholdList.vue";
 import IssueList from "@/page/issue/view/issueList.vue";
+import SysConfig from "@/page/sysconfig/view/SysConfig.vue";
 
 const routers = [
   {
@@ -83,6 +84,12 @@ const routerChildren = [
       name: "issueList",
       component: IssueList
     }
+  ,
+  {
+    path: "/sysconfig",
+    name: "sysconfig",
+    component: SysConfig
+  }
   ]
 ;
 
