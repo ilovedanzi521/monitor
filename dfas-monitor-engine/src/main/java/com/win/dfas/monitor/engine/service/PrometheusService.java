@@ -13,25 +13,17 @@ public interface PrometheusService {
 
     Double getQps();
 
-    String getQpsOriginData();
-
     QpsVO getQpsChart();
-
-    String getQpsChartOriginData();
 
     Long getHttpRequestTotal();
 
-    String getHttpRequestTotalOriginData();
-
     void reload();
 
-    String getJvmMemoryChartOriginData();
+    List<JvmMemoryMetricsResultVO> getJvmMemoryChart(MicroServiceReqVO reqVO);
 
-    public List<JvmMemoryMetricsResultVO> getJvmMemoryChart(MicroServiceReqVO reqVO);
+    List<CPULineChartMetricsResultVO> getCPULineChart(String ipAddress, String type);
 
-    public List<CPULineChartMetricsResultVO> getCPULineChart(String ipAddress,String type);
+    List<DiskBarChartMetricsResultVO> getDiskBarChart(String ipAddress, String type);
 
-    public List<DiskBarChartMetricsResultVO> getDiskBarChart(String ipAddress, String type);
-
-    List<MetricsResultVO>  getJvmMemory(MicroServiceReqVO reqVO);
+    List<MetricsResultVO> getJvmMemory(MicroServiceReqVO reqVO);
 }

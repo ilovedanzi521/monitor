@@ -33,33 +33,21 @@ public class PrometheusServiceImpl implements PrometheusService {
 
     @Override
     public QpsVO getQpsChart() {
-        // String url = prometheusServerUrl + "/api/v1/query_range?query=increase(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=60";
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("queryParam", "rate(http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}[1h])");
+        parameters.put("queryParam", "rate(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1h])");
         String url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=3600";
         String result = RestfulTools.get(url, String.class, parameters);
         return convertQpsChartMatrixData(result);
     }
 
-    @Override
-    public String getQpsChartOriginData() {
-        //String url = prometheusServerUrl + "/api/v1/query_range?query=increase(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=60";
-        String url = prometheusServerUrl + "/api/v1/query_range?query=rate(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1h])&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=3600";
-        String result = RestfulTools.get(url, String.class);
-        return convert(result);
-    }
+
 
     @Override
     public List<MetricsResultVO>  getJvmMemory(MicroServiceReqVO reqVO) {
-        //String url = prometheusServerUrl + "/api/v1/query_range?query=jvm_memory_used_bytes&start=1571612606.68&end=1571655806.68&step=172";
-        //  String queryParam = "sum(jvm_memory_used_bytes{area='heap'})";
         Map<String, Object> parameters = new HashMap<>();
-        //parameters.put("queryParam", "sum(jvm_memory_used_bytes{area='heap'})");
         parameters.put("queryParam", "sum(jvm_memory_used_bytes{application='" + reqVO.getMicroServiceName().toLowerCase() + "',area='heap'}) by (instance)");
-        String url = null;
         try {
-            //url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=1571612606.68&end=1571655806.68&step=172";
-            url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
+            String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
             String result = RestfulTools.get(url, String.class, parameters);
             return convertJvmMemoryMomentData(result);
         } catch (Exception e) {
@@ -87,15 +75,10 @@ public class PrometheusServiceImpl implements PrometheusService {
 
     @Override
     public List<JvmMemoryMetricsResultVO> getJvmMemoryChart(MicroServiceReqVO reqVO) {
-        //String url = prometheusServerUrl + "/api/v1/query_range?query=jvm_memory_used_bytes&start=1571612606.68&end=1571655806.68&step=172";
-        //  String queryParam = "sum(jvm_memory_used_bytes{area='heap'})";
         Map<String, Object> parameters = new HashMap<>();
-        //parameters.put("queryParam", "sum(jvm_memory_used_bytes{area='heap'})");
         parameters.put("queryParam", "sum(jvm_memory_used_bytes{application='" + reqVO.getMicroServiceName().toLowerCase() + "',area='heap'}) by (instance)");
-        String url = null;
         try {
-            //url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=1571612606.68&end=1571655806.68&step=172";
-            url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
+            String url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
             String result = RestfulTools.get(url, String.class, parameters);
             return convertJvmMemoryData(result);
         } catch (Exception e) {
@@ -108,9 +91,8 @@ public class PrometheusServiceImpl implements PrometheusService {
     public List<CPULineChartMetricsResultVO> getCPULineChart(String ipAddress, String type) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("queryParam", "avg(irate(node_cpu_seconds_total{instance='expoter_" + ipAddress + "',mode='" + type + "'}[1m])) by (instance)");
-        String url = null;
         try {
-            url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
+            String  url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
             String result = RestfulTools.get(url, String.class, parameters);
             return convertCPULineChartData(result);
         } catch (Exception e) {
@@ -127,9 +109,8 @@ public class PrometheusServiceImpl implements PrometheusService {
         } else if (MonitorConstants.DISK_FREE.equals(type)) {
             parameters.put("queryParam", "node_filesystem_avail_bytes{instance='expoter_" + ipAddress + "',device!~'rootfs'}");
         }
-        String url = null;
         try {
-            url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
+            String  url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
             String result = RestfulTools.get(url, String.class, parameters);
             return convertDiskBarChartData(result);
         } catch (Exception e) {
@@ -139,56 +120,23 @@ public class PrometheusServiceImpl implements PrometheusService {
     }
 
     @Override
-    public String getJvmMemoryChartOriginData() {
-        //String url = prometheusServerUrl + "/api/v1/query_range?query=jvm_memory_used_bytes&start=1571612606.68&end=1571655806.68&step=172";
-        //  String queryParam = "sum(jvm_memory_used_bytes{area='heap'})";
-        Map<String, Object> parameters = new HashMap<>();
-        //parameters.put("queryParam", "sum(jvm_memory_used_bytes{area='heap'})");
-        parameters.put("queryParam", "sum(jvm_memory_used_bytes{area='heap'}) by (instance)");
-        String url = null;
-        try {
-            //url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=1571612606.68&end=1571655806.68&step=172";
-            url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
-            String result = RestfulTools.get(url, String.class, parameters);
-            return convert(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public Double getQps() {
-        //String url = prometheusServerUrl + "/api/v1/query?query=increase(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])";
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("queryParam", "rate(http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}[1m])");
+        parameters.put("queryParam", "rate(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])");
         String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
         String result = RestfulTools.get(url, String.class, parameters);
         return Double.valueOf(convertQpsVectorData(result));
     }
 
     @Override
-    public String getQpsOriginData() {
-        String url = prometheusServerUrl + "/api/v1/query?query=increase(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])";
-        String result = RestfulTools.get(url, String.class);
-        return convert(result);
-    }
-
-    @Override
     public Long getHttpRequestTotal() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("queryParam", "http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}");
+        parameters.put("queryParam", "http_requests_total_" + DateUtils.getCurrentDateByStringFormat());
         String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
         String result = RestfulTools.get(url, String.class, parameters);
         return Long.parseLong(convertQpsVectorData(result));
     }
 
-    @Override
-    public String getHttpRequestTotalOriginData() {
-        String url = prometheusServerUrl + "/api/v1/query?query=sum(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + ")";
-        String result = RestfulTools.get(url, String.class);
-        return convert(result);
-    }
 
     @Override
     public void reload() {

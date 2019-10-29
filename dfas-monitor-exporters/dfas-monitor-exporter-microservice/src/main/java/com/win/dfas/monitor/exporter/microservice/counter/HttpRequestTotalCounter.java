@@ -31,9 +31,7 @@ public class HttpRequestTotalCounter {
 	@Autowired
 	private PushGateway pushGateway;
 
-	private static Counter requests = Counter.build().name("http_requests_total")
-			//标签名
-			.labelNames("currentDate", "hour").help("请求数").register();
+	private static Counter requests = Counter.build().name("http_requests_total_"+DateUtils.getCurrentDateByStringFormat()).help("请求数").register();
 	
 	private volatile boolean hasInit = false;
 
@@ -41,7 +39,7 @@ public class HttpRequestTotalCounter {
 		if (!hasInit) {
 			try {
 				long number = getHttpRequestTotal()+1;
-				requests.labels(DateUtils.getCurrentDateByStringFormat(), DateUtils.getCurrentHour()).inc(number);
+				requests.inc(number);
 				pushGateway.push(requests, "pushgateway-microservice");
 				hasInit = true;
 			} catch (IOException e) {
@@ -54,7 +52,7 @@ public class HttpRequestTotalCounter {
 
 	private void execute() {
 		try {
-			requests.labels(DateUtils.getCurrentDateByStringFormat(), DateUtils.getCurrentHour()).inc();
+			requests.inc();
 			pushGateway.push(requests, "pushgateway-microservice");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -72,7 +70,7 @@ public class HttpRequestTotalCounter {
 
     public Long getHttpRequestTotal() {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("queryParam", "http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}");
+        parameters.put("queryParam", "http_requests_total_" + DateUtils.getCurrentDateByStringFormat());
         String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
         String result = RestfulTools.get(url, String.class, parameters);
         return Long.parseLong(convertVectorData(result));
