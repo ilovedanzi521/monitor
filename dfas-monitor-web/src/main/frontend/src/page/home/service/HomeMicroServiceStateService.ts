@@ -8,7 +8,7 @@ export default class HomeMicroServiceStateService {
 
   public microServiceState(): Promise<WinResponseData> {
     return AxiosFun.post(
-      AxiosFun.monitorCenterWebsocketBaseUrl + "/home/microServiceState",
+      AxiosFun.monitorCenterServiceName + "/home/microServiceState",
       {}
     );
   }

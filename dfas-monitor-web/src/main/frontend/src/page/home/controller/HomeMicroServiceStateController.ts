@@ -11,6 +11,7 @@ import BaseController from "../../common/controller/BaseController";
 import MicroServiceDetailDialog from "../../microService/view/MicroServiceDetailDialog.vue";
 import { Prop } from "vue-property-decorator";
 import { WinRspType } from "../../common/enum/BaseEnum";
+import { WinResponseData } from "../../common/vo/BaseVO";
 
 @Component({ components: { Service, MicroServiceDetailDialog } })
 export default class HomeMicroServiceStateController extends BaseController {
@@ -61,7 +62,46 @@ export default class HomeMicroServiceStateController extends BaseController {
     data: MicroServiceInfoRepVO;
   };
 
+  intervalId: NodeJS.Timer | null;
+
+  constructor() {
+    super();
+    this.intervalId = null;
+  }
+
+  setCountDown() {
+    this.intervalId = setInterval(() => {
+      this.query();
+    }, 20000);
+  }
+
+  resetCountDown() {
+    clearInterval(this.intervalId);
+    this.intervalId = null;
+  }
+
   mounted() {
+    this.$nextTick(() => {
+      this.query();
+      this.setCountDown();
+    });
+  }
+
+  
+
+  private query(): void {
+    this.homeMicroServiceStateService
+      .microServiceState()
+      .then((res: WinResponseData) => {
+        if (res.winRspType === "ERROR") {
+          this.win_message_error(res.msg);
+        }else{
+          this.microServiceStateList = res.data;
+        }
+      });
+  }
+
+  webSocketOpen() {
     let requestUrl =
       AxiosFun.monitorCenterWebsocketBaseUrl + "/home/microServiceState";
     this.establishConnection(requestUrl);

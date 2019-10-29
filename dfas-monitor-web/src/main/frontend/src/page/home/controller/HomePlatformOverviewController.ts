@@ -3,8 +3,8 @@ import Component from "vue-class-component";
 import PlatformOverviewService from "../service/HomePlatformOverviewService";
 import AxiosFun from "../../../api/AxiosFun";
 import { WinResponseData } from "../../common/vo/BaseVO";
-import HomePlatformOverviewVO from "../../microService/vo/HomePlatformOverviewVO";
 import BaseController from "../../common/controller/BaseController";
+import HomePlatformOverviewVO from "../vo/HomePlatformOverviewVO";
 
 @Component({})
 export default class HomePlatformOverviewController extends BaseController {
@@ -25,7 +25,7 @@ export default class HomePlatformOverviewController extends BaseController {
   setCountDown() {
     this.intervalId = setInterval(() => {
       this.query();
-    }, 1000);
+    }, 5000);
   }
 
   resetCountDown() {
@@ -50,6 +50,7 @@ export default class HomePlatformOverviewController extends BaseController {
           this.win_message_error(res.msg);
         }else{
           this.homePlatformOverviewVO = res.data;
+          //console.log(JSON.stringify(this.homePlatformOverviewVO));
         }
       });
   }

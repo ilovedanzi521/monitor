@@ -19,9 +19,9 @@
             <li>机器磁盘告警数</li>
           </ul>
           <ul class="machineNumber">
-            <li>{{machineCpu}}</li>
-            <li>{{machineMemory}}</li>
-            <li>{{machineDisk}}</li>
+            <li>{{homeExceptionVO.machineCpu}}</li>
+            <li>{{homeExceptionVO.machineMemory}}</li>
+            <li>{{homeExceptionVO.machineDisk}}</li>
           </ul>
         </div>
         <div class="microServiceException">
@@ -31,9 +31,9 @@
             <li>微服务日志错误数</li>
           </ul>
           <ul class="microServiceNumber">
-            <li>{{microServiceMemory}}</li>
-            <li>{{microServiceWarnLog}}</li>
-            <li>{{microServiceErrorLog}}</li>
+            <li>{{homeExceptionVO.microServiceMemory}}</li>
+            <li>{{homeExceptionVO.microServiceWarnLog}}</li>
+            <li>{{homeExceptionVO.microServiceErrorLog}}</li>
           </ul>
         </div>
       </div>

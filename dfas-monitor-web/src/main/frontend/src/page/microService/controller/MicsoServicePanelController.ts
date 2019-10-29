@@ -80,6 +80,7 @@ export default class MicsoServicePanelController extends BaseController {
           this.win_message_error(res.msg);
         }
         this.microServiceStateList = res.data;
+        console.log(JSON.stringify(this.microServiceStateList));
       });
   }
 

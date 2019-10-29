@@ -5,8 +5,8 @@ export default class HomeController extends Vue {
   ws: WebSocket;
 
   private mounted() {
-    let requestUrl = "ws://localhost:8080/monitor/home/qps";
-    this.establishConnection(requestUrl);
+/*     let requestUrl = "ws://localhost:8080/monitor/home/qps";
+    this.establishConnection(requestUrl); */
   }
 
   establishConnection(requestUrl) {

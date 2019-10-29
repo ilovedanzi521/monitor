@@ -32,13 +32,13 @@ public class PrometheusServiceImpl implements PrometheusService {
     protected NumberFormat noneThousandBitNumberFormat = NumberFormat.getNumberInstance();
 
     @Override
-    public String getQpsChart() {
+    public QpsVO getQpsChart() {
         // String url = prometheusServerUrl + "/api/v1/query_range?query=increase(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=60";
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("queryParam", "rate(http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}[1h])");
         String url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=3600";
         String result = RestfulTools.get(url, String.class, parameters);
-        return convertMatrixData(result);
+        return convertQpsChartMatrixData(result);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PrometheusServiceImpl implements PrometheusService {
     }
 
     @Override
-    public String  getJvmMemory(MicroServiceReqVO reqVO) {
+    public List<MetricsResultVO>  getJvmMemory(MicroServiceReqVO reqVO) {
         //String url = prometheusServerUrl + "/api/v1/query_range?query=jvm_memory_used_bytes&start=1571612606.68&end=1571655806.68&step=172";
         //  String queryParam = "sum(jvm_memory_used_bytes{area='heap'})";
         Map<String, Object> parameters = new HashMap<>();
@@ -61,11 +61,28 @@ public class PrometheusServiceImpl implements PrometheusService {
             //url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=1571612606.68&end=1571655806.68&step=172";
             url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
             String result = RestfulTools.get(url, String.class, parameters);
-            return result;
+            return convertJvmMemoryMomentData(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private List<MetricsResultVO> convertJvmMemoryMomentData(String result) {
+       MetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, MetricsReturnMsgVO.class);
+        List<MetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
+        if (metricsResultList != null) {
+            for (MetricsResultVO metricsResultVO : metricsResultList) {
+                List<Object> valueList = metricsResultVO.getValues();
+                if (valueList != null) {
+                    for (Object object : valueList) {
+                        List values = (ArrayList) object;
+                        values.add(DateUtils.doubleToDate((double) values.get(0)));
+                    }
+                }
+            }
+        }
+        return metricsResultList;
     }
 
     @Override
@@ -147,7 +164,7 @@ public class PrometheusServiceImpl implements PrometheusService {
         parameters.put("queryParam", "rate(http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}[1m])");
         String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
         String result = RestfulTools.get(url, String.class, parameters);
-        return Double.valueOf(convertVectorData(result));
+        return Double.valueOf(convertQpsVectorData(result));
     }
 
     @Override
@@ -163,7 +180,7 @@ public class PrometheusServiceImpl implements PrometheusService {
         parameters.put("queryParam", "http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}");
         String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
         String result = RestfulTools.get(url, String.class, parameters);
-        return Long.parseLong(convertVectorData(result));
+        return Long.parseLong(convertQpsVectorData(result));
     }
 
     @Override
@@ -235,7 +252,7 @@ public class PrometheusServiceImpl implements PrometheusService {
         return metricsResultList;
     }
 
-    private String convertVectorData(String result) {
+    private String convertQpsVectorData(String result) {
         MetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, MetricsReturnMsgVO.class);
         List<MetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
         if (metricsResultList != null) {
@@ -247,7 +264,7 @@ public class PrometheusServiceImpl implements PrometheusService {
         return "0";
     }
 
-    private String convertMatrixData(String result) {
+    private QpsVO convertQpsChartMatrixData(String result) {
         MetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, MetricsReturnMsgVO.class);
         List<MetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
         QpsVO qps = new QpsVO();
@@ -271,7 +288,7 @@ public class PrometheusServiceImpl implements PrometheusService {
                 }
             }
         }
-        return JsonUtil.toJson(qps);
+        return qps;
     }
 
     private List<JvmMemoryMetricsResultVO> convertJvmMemoryData(String result) {

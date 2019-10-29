@@ -2,6 +2,7 @@ package com.win.dfas.monitor.engine.service;
 
 import com.win.dfas.monitor.common.vo.MetricsResultVO;
 import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
+import com.win.dfas.monitor.common.vo.QpsVO;
 import com.win.dfas.monitor.common.vo.cpu.CPULineChartMetricsResultVO;
 import com.win.dfas.monitor.common.vo.disk.DiskBarChartMetricsResultVO;
 import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
@@ -14,7 +15,7 @@ public interface PrometheusService {
 
     String getQpsOriginData();
 
-    String getQpsChart();
+    QpsVO getQpsChart();
 
     String getQpsChartOriginData();
 
@@ -32,5 +33,5 @@ public interface PrometheusService {
 
     public List<DiskBarChartMetricsResultVO> getDiskBarChart(String ipAddress, String type);
 
-    public String  getJvmMemory(MicroServiceReqVO reqVO);
+    List<MetricsResultVO>  getJvmMemory(MicroServiceReqVO reqVO);
 }

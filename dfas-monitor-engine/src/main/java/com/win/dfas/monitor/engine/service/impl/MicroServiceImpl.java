@@ -75,10 +75,15 @@ public class MicroServiceImpl implements MicroService {
         PageInfo<MicroServiceEntity> info = new PageInfo<>(microServiceEntityList);
         PageInfo<MicroServiceRepVO> pageList = ObjectUtils.copyPageInfo(info, MicroServiceRepVO.class);
         List<MicroServiceRepVO> microServiceRepList = pageList.getList();
+        for (MicroServiceRepVO microServiceRepVO : microServiceRepList) {
+            setMicroServiceInfo(microServiceRepVO);
+        }
+        return pageList;
+    }
 
+    private void setMicroServiceInfo(MicroServiceRepVO microServiceRepVO ){
         Map<String, ApplicationInstance> microServiceInstanceMap = eurekaService.fetchMicroService();
 
-        for (MicroServiceRepVO microServiceRepVO : microServiceRepList) {
             List<MicroServiceInstanceEntity> microServiceInstanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
             StringBuilder sb = new StringBuilder();
             int size = microServiceInstanceList.size();
@@ -88,7 +93,7 @@ public class MicroServiceImpl implements MicroService {
                 if (i == (size - 1)) {
                     sb.append(microServiceInstanceEntity.getIpAddr() );
                 } else {
-                    sb.append(microServiceInstanceEntity.getIpAddr() );
+                    sb.append(microServiceInstanceEntity.getIpAddr() +";");
                 }
 
                 ApplicationInstance applicationInstance = microServiceInstanceMap.get(microServiceInstanceEntity.getIpAddr());
@@ -97,7 +102,6 @@ public class MicroServiceImpl implements MicroService {
                         upCount++;
                     }
                 }
-
             }
             microServiceRepVO.setIpAddress(sb.toString());
 
@@ -125,9 +129,6 @@ public class MicroServiceImpl implements MicroService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-        }
-        return pageList;
     }
 
     @Override
@@ -143,18 +144,31 @@ public class MicroServiceImpl implements MicroService {
         MicroServiceEntity microServiceEntity = new MicroServiceEntity();
         BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
         List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(microServiceEntity);
-        return ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
+        List<MicroServiceRepVO> microServiceRepList= ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
+        for (MicroServiceRepVO microServiceRepVO : microServiceRepList) {
+            setMicroServiceInfo(microServiceRepVO);
+        }
+        return microServiceRepList;
     }
 
     @Override
     public List<MicroServiceMachineRepVO> microServiceMachineList(MicroServiceReqVO microServiceReqVO) {
         List<MicroServiceInstanceEntity> list = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceReqVO.getId());
         List<MicroServiceMachineRepVO> microServiceMachineRepList = ObjectUtils.copyPropertiesList(list, MicroServiceMachineRepVO.class);
-        Map<String, ApplicationInstance> microServiceMap = fetchMicroService();
+        List<MetricsResultVO> metricsResultList= prometheusService.getJvmMemory(microServiceReqVO);
         for (MicroServiceMachineRepVO microServiceMachineRep : microServiceMachineRepList) {
-            //设置机器状态、JVM内存
+            //设置机器状态
             try {
-               String result= prometheusService.getJvmMemory(microServiceReqVO);
+                if(metricsResultList != null){
+                    for(MetricsResultVO metricsResultVO:metricsResultList){
+                        Map<String,String> metricMap = metricsResultVO.getMetric();
+                        if(metricMap.get("instance").contains(microServiceMachineRep.getIpAddr())){
+                            Double value=Double.parseDouble(String.valueOf(metricsResultVO.getValue().get(1)));
+                            BigDecimal bigDecimal = new BigDecimal(value).divide(new BigDecimal(1024 * 1024)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                            microServiceMachineRep.setJvm(noneThousandBitNumberFormat.format(bigDecimal));
+                        }
+                    }
+                }
 
                 Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceReqVO.getMicroServiceName(), microServiceMachineRep.getIpAddr(), microServiceMachineRep.getPort());
                 long warnCount = 0;
@@ -197,7 +211,6 @@ public class MicroServiceImpl implements MicroService {
             }
         }
         microServiceMapper.insertMicroService(microServiceEntity);
-
     }
 
     @Override
@@ -269,26 +282,15 @@ public class MicroServiceImpl implements MicroService {
     }
 
     private List<MicroServiceApplicationDTO> getApplicationList() {
-        String url = registrationCenterUrl + "/eureka/apps";
-        String result = RestfulTools.get(url, String.class);
+        StringBuilder url=new StringBuilder();
+        if(registrationCenterUrl.endsWith("/")){
+            url.append(registrationCenterUrl + "eureka/apps");
+        }else{
+            url.append(registrationCenterUrl + "/eureka/apps");
+        }
+        String result = RestfulTools.get(url.toString(), String.class);
         MicroServiceDTO microService = JsonUtil.toObject(result, MicroServiceDTO.class);
         return microService.getApplications().getApplication();
-    }
-
-    private Map<String, ApplicationInstance> fetchMicroService() {
-        Map<String, ApplicationInstance> microServiceMap = new HashMap<>();
-        List<MicroServiceApplicationDTO> applicationList = getApplicationList();
-        if (applicationList != null) {
-            for (MicroServiceApplicationDTO microServiceApplicationDTO : applicationList) {
-                List<ApplicationInstance> instanceList = microServiceApplicationDTO.getInstance();
-                if (instanceList != null) {
-                    for (ApplicationInstance instance : instanceList) {
-                        microServiceMap.put(instance.getInstanceId(), instance);
-                    }
-                }
-            }
-        }
-        return microServiceMap;
     }
 
     @Override
@@ -338,44 +340,7 @@ public class MicroServiceImpl implements MicroService {
         MicroServiceEntity microServiceEntity = microServiceMapper.selectMicroService(reqVO.getId());
         MicroServiceRepVO microServiceRepVO = new MicroServiceRepVO();
         BeanUtils.copyProperties(microServiceEntity, microServiceRepVO);
-        Map<String, ApplicationInstance> microServiceInstanceMap = fetchMicroService();
-        List<MicroServiceInstanceEntity> instanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
-        int upCount = 0;
-        if (instanceList != null) {
-            for (MicroServiceInstanceEntity microServiceInstanceEntity : instanceList) {
-                ApplicationInstance applicationInstance = microServiceInstanceMap.get(microServiceInstanceEntity.getIpAddr());
-                if (applicationInstance != null) {
-                    if (MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())) {
-                        upCount++;
-                    }
-                }
-            }
-        }
-        if (instanceList == null || upCount == 0) {
-            microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
-        } else if (upCount < instanceList.size()) {
-            microServiceRepVO.setState(StatusEnum.EXCEPTION.getStatus());
-        } else if (upCount == instanceList.size()) {
-            microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
-            //继续判断JVM内存是否存在告警，存在，则设置为告警状态
-        }
-
-        try {
-            Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(reqVO.getMicroServiceName());
-            long warnCount = 0;
-            if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
-                warnCount = bucketMap.get(LogLevelEnum.WARN.name());
-            }
-            long errorCount = 0;
-            if (bucketMap.get(LogLevelEnum.ERROR.name()) != null) {
-                errorCount = bucketMap.get(LogLevelEnum.ERROR.name());
-            }
-            microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
-            microServiceRepVO.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        setMicroServiceInfo(microServiceRepVO);
         return microServiceRepVO;
     }
 

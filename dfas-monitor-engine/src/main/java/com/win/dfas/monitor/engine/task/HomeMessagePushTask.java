@@ -45,8 +45,8 @@ import lombok.extern.slf4j.Slf4j;
  * 创建人：@author wangyaoheng
  * 创建时间：2019-08-23/9:00
  */
-@Slf4j
-@Component
+
+//@Component
 public class HomeMessagePushTask extends AbstractMessageBuilder {
 
     static Logger log = LoggerFactory.getLogger(HomeMessagePushTask.class);
@@ -86,7 +86,7 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
 
     @Scheduled(cron = "0/6 * * * * ?")
     public void pushQpsData() {
-        push(HomeModuleEnum.qps, prometheusService.getQpsChart());
+        push(HomeModuleEnum.qps, JsonUtil.toJson(prometheusService.getQpsChart()));
     }
 
     @Scheduled(cron = "0/7 * * * * ?")

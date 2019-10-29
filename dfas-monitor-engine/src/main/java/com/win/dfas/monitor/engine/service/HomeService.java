@@ -10,6 +10,7 @@ import com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity;
 import com.win.dfas.monitor.common.vo.ExceptionVO;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.PlatformOverviewVO;
+import com.win.dfas.monitor.common.vo.QpsVO;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public interface HomeService {
 
     public PlatformOverviewVO getPlatformOverviewData();
 
-    public String getQpsData();
+    public QpsVO getQpsData();
 
     public List<MicroServiceRepVO> getMicroServiceStateData() ;
 

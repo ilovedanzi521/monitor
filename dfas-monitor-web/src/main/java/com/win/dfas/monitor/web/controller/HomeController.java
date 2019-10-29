@@ -1,6 +1,7 @@
 package com.win.dfas.monitor.web.controller;
 
 import com.win.dfas.common.vo.WinResponseData;
+import com.win.dfas.monitor.common.vo.QpsVO;
 import com.win.dfas.monitor.engine.service.HomeService;
 import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics;
 import io.swagger.annotations.Api;
@@ -33,7 +34,8 @@ public class HomeController extends BaseController {
     @ApiOperation(value = "查询平台Qps", notes = "查询平台Qps")
     @PostMapping("/qps")
     public WinResponseData qps() {
-        return WinResponseData.handleSuccess(homeService.getQpsData());
+        QpsVO qpsVO = homeService.getQpsData();
+        return WinResponseData.handleSuccess(qpsVO);
     }
 
     /**

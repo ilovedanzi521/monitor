@@ -10,6 +10,7 @@ import com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity;
 import com.win.dfas.monitor.common.vo.ExceptionVO;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.PlatformOverviewVO;
+import com.win.dfas.monitor.common.vo.QpsVO;
 import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.*;
@@ -61,7 +62,7 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public String getQpsData() {
+    public QpsVO getQpsData() {
         return prometheusService.getQpsChart();
     }
 

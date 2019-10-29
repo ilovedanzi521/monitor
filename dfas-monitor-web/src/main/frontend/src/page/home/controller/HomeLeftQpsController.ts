@@ -3,9 +3,11 @@ import Component from "vue-class-component";
 import echarts from "echarts";
 import HomeLeftQpsService from "../service/HomeLeftQpsService";
 import AxiosFun from "../../../api/AxiosFun";
+import BaseController from "../../common/controller/BaseController";
+import { WinResponseData } from "../../common/vo/BaseVO";
 
 @Component({})
-export default class HomeLeftQpsController extends Vue {
+export default class HomeLeftQpsController extends BaseController {
 
   private homeLeftQpsService: HomeLeftQpsService = new HomeLeftQpsService();
 
@@ -15,19 +17,64 @@ export default class HomeLeftQpsController extends Vue {
 
   qpsChartLine;
 
-  private xAxisData: string[] = this.homeLeftQpsService.initHourList();
+  //private xAxisData: string[] = this.homeLeftQpsService.initHourList();
 
-  private yAxisData: number[] = this.homeLeftQpsService.inityAxisDataList();
+  //private yAxisData: number[] = this.homeLeftQpsService.inityAxisDataList();
+
+  private xAxisData: string[] = [];
+
+  private yAxisData: number[] = [];
+
+  intervalId: NodeJS.Timer | null;
+
+  constructor() {
+    super();
+    this.intervalId = null;
+  }
+
+  setCountDown() {
+    this.intervalId = setInterval(() => {
+      this.query();
+    }, 10000);
+  }
+
+  resetCountDown() {
+    clearInterval(this.intervalId);
+    this.intervalId = null;
+  }
 
   mounted() {
     this.initChart(this.xAxisData, this.yAxisData);
+    this.$nextTick(() => {
+      this.query();
+      this.setCountDown();
+    });
+  }
+  
+  private query(): void {
+    this.homeLeftQpsService
+      .qps()
+      .then((res: WinResponseData) => {
+        if (res.winRspType === "ERROR") {
+          this.win_message_error(res.msg);
+        }else{
+         // alert(JSON.stringify(res.data));
+          this.xAxisData = res.data.xaxisData;
+          this.yAxisData = res.data.yaxisData;
+          this.initChart(this.xAxisData, this.yAxisData);
+        }
+      });
+  }
+
+  webSocketOpen() {
     let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/qps";
     this.establishConnection(requestUrl);
   }
 
-  initChart(xAxisData, yAxisData) {
-    this.qpsChartLine = echarts.init(document.getElementById('qpsChartLineBox'));
 
+  initChart(xAxisData, yAxisData) {
+   // let qpsChartLineBox = document.getElementById('qpsChartLineBox') as HTMLElement;
+    this.qpsChartLine = echarts.init(document.getElementById('qpsChartLineBox'));
     // 指定图表的配置项和数据
     let option = {
       tooltip: {              //设置tip提示

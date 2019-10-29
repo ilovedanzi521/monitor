@@ -1,5 +1,6 @@
 import AxiosFun from "../../../api/AxiosFun";
 import {MachineVO} from "../vo/MachineVO";
+import { WinResponseData } from "../../common/vo/BaseVO";
 
 
 export default class HomeLeftQpsService {
@@ -32,6 +33,13 @@ export default class HomeLeftQpsService {
       this.dataList.push(Math.ceil(Math.random() * 1000) + 1);
     }
     return this.dataList;
+  }
+
+  public qps(): Promise<WinResponseData> {
+    return AxiosFun.post(
+      AxiosFun.monitorCenterServiceName + "/home/qps",
+      {}
+    );
   }
 
 }
