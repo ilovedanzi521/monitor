@@ -21,7 +21,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// @import "../../style.css/baseMonitor.scss";
 .isheght100 {
     height: 100%;
 }
