@@ -30,7 +30,6 @@ public class HomeController extends BaseController {
     /**
      * 获取qps
      */
-    @MonitorMetrics
     @ApiOperation(value = "查询平台Qps", notes = "查询平台Qps")
     @PostMapping("/qps")
     public WinResponseData qps() {
@@ -41,7 +40,6 @@ public class HomeController extends BaseController {
     /**
      * 获取qps图表数据
      */
-    @MonitorMetrics
     @ApiOperation(value = "查询平台Qps图表数据", notes = "查询平台Qps图表数据")
     @PostMapping("/exception")
     public WinResponseData exception() {
@@ -52,7 +50,6 @@ public class HomeController extends BaseController {
     /**
      * 查询平台当日请求数
      */
-    @MonitorMetrics
     @ApiOperation(value = "查询平台当日请求数", notes = "查询平台当日请求数")
     @PostMapping("/platformOverview")
     public WinResponseData platformOverview() {
@@ -64,7 +61,6 @@ public class HomeController extends BaseController {
      * 查询平台微服务列表
      * @return
      */
-    @MonitorMetrics
     @ApiOperation(value = "查询平台微服务列表", notes = "查询平台微服务列表")
     @PostMapping("/microServiceState")
     public WinResponseData microServiceState() {

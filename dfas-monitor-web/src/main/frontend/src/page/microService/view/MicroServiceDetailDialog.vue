@@ -48,7 +48,7 @@
        background: #090f26ff !important;
        border-radius: 12px !important;
        text-align: left;
-       //background: green !important;
+       background: rgba(27,36,65,1) !important;
      }
       .el-dialog__body {
         padding: 0 36px !important;
