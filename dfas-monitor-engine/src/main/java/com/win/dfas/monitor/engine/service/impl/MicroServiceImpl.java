@@ -4,10 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.common.util.PrimaryKeyUtil;
+import com.win.dfas.common.vo.WinResponseData;
 import com.win.dfas.monitor.common.constant.LineColorEnum;
 import com.win.dfas.monitor.common.constant.LogLevelEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.constant.StatusEnum;
+import com.win.dfas.monitor.common.dto.DeployCenterMicroServiceDTO;
+import com.win.dfas.monitor.common.dto.DeployCenterMicroServiceInstanceDTO;
 import com.win.dfas.monitor.common.dto.MicroServiceApplicationDTO;
 import com.win.dfas.monitor.common.dto.MicroServiceDTO;
 import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
@@ -33,7 +36,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MicroServiceImpl implements MicroService {
@@ -58,6 +64,9 @@ public class MicroServiceImpl implements MicroService {
     @Value("${registration.center.url}")
     private String registrationCenterUrl;
 
+    @Value("${deployment.server.url}")
+    private String deploymentServerUrl;
+
     @Autowired
     private ElasticsearchService elasticsearchService;
 
@@ -81,54 +90,54 @@ public class MicroServiceImpl implements MicroService {
         return pageList;
     }
 
-    private void setMicroServiceInfo(MicroServiceRepVO microServiceRepVO ){
+    private void setMicroServiceInfo(MicroServiceRepVO microServiceRepVO) {
         Map<String, ApplicationInstance> microServiceInstanceMap = eurekaService.fetchMicroService();
 
-            List<MicroServiceInstanceEntity> microServiceInstanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
-            StringBuilder sb = new StringBuilder();
-            int size = microServiceInstanceList.size();
-            int upCount = 0;
-            for (int i = 0; i < size; i++) {
-                MicroServiceInstanceEntity microServiceInstanceEntity = microServiceInstanceList.get(i);
-                if (i == (size - 1)) {
-                    sb.append(microServiceInstanceEntity.getIpAddr() );
-                } else {
-                    sb.append(microServiceInstanceEntity.getIpAddr() +";");
-                }
-
-                ApplicationInstance applicationInstance = microServiceInstanceMap.get(microServiceInstanceEntity.getIpAddr());
-                if (applicationInstance != null) {
-                    if (MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())) {
-                        upCount++;
-                    }
-                }
-            }
-            microServiceRepVO.setIpAddress(sb.toString());
-
-            if(microServiceInstanceList == null  ||  upCount ==0) {
-                microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
-            }else if(upCount  < size){
-                microServiceRepVO.setState(StatusEnum.EXCEPTION.getStatus());
-            }else if(upCount ==size){
-                microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
-                //继续判断JVM内存是否存在告警，存在，则设置为告警状态
+        List<MicroServiceInstanceEntity> microServiceInstanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
+        StringBuilder sb = new StringBuilder();
+        int size = microServiceInstanceList.size();
+        int upCount = 0;
+        for (int i = 0; i < size; i++) {
+            MicroServiceInstanceEntity microServiceInstanceEntity = microServiceInstanceList.get(i);
+            if (i == (size - 1)) {
+                sb.append(microServiceInstanceEntity.getIpAddr());
+            } else {
+                sb.append(microServiceInstanceEntity.getIpAddr() + ";");
             }
 
-            try {
-                Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceRepVO.getMicroServiceName());
-                long warnCount = 0;
-                if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
-                    warnCount = bucketMap.get(LogLevelEnum.WARN.name());
+            ApplicationInstance applicationInstance = microServiceInstanceMap.get(microServiceInstanceEntity.getIpAddr());
+            if (applicationInstance != null) {
+                if (MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())) {
+                    upCount++;
                 }
-                long errorCount = 0;
-                if (bucketMap.get(LogLevelEnum.ERROR.name()) != null) {
-                    errorCount = bucketMap.get(LogLevelEnum.ERROR.name());
-                }
-                microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
-                microServiceRepVO.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        }
+        microServiceRepVO.setIpAddress(sb.toString());
+
+        if (microServiceInstanceList == null || upCount == 0) {
+            microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
+        } else if (upCount < size) {
+            microServiceRepVO.setState(StatusEnum.EXCEPTION.getStatus());
+        } else if (upCount == size) {
+            microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
+            //继续判断JVM内存是否存在告警，存在，则设置为告警状态
+        }
+
+        try {
+            Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceRepVO.getMicroServiceName());
+            long warnCount = 0;
+            if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
+                warnCount = bucketMap.get(LogLevelEnum.WARN.name());
+            }
+            long errorCount = 0;
+            if (bucketMap.get(LogLevelEnum.ERROR.name()) != null) {
+                errorCount = bucketMap.get(LogLevelEnum.ERROR.name());
+            }
+            microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
+            microServiceRepVO.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -144,7 +153,7 @@ public class MicroServiceImpl implements MicroService {
         MicroServiceEntity microServiceEntity = new MicroServiceEntity();
         BeanUtils.copyProperties(microServiceReqVO, microServiceEntity);
         List<MicroServiceEntity> list = microServiceMapper.selectMicroServiceList(microServiceEntity);
-        List<MicroServiceRepVO> microServiceRepList= ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
+        List<MicroServiceRepVO> microServiceRepList = ObjectUtils.copyPropertiesList(list, MicroServiceRepVO.class);
         for (MicroServiceRepVO microServiceRepVO : microServiceRepList) {
             setMicroServiceInfo(microServiceRepVO);
         }
@@ -155,15 +164,15 @@ public class MicroServiceImpl implements MicroService {
     public List<MicroServiceMachineRepVO> microServiceMachineList(MicroServiceReqVO microServiceReqVO) {
         List<MicroServiceInstanceEntity> list = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceReqVO.getId());
         List<MicroServiceMachineRepVO> microServiceMachineRepList = ObjectUtils.copyPropertiesList(list, MicroServiceMachineRepVO.class);
-        List<MetricsResultVO> metricsResultList= prometheusService.getJvmMemory(microServiceReqVO);
+        List<MetricsResultVO> metricsResultList = prometheusService.getJvmMemory(microServiceReqVO);
         for (MicroServiceMachineRepVO microServiceMachineRep : microServiceMachineRepList) {
             //设置机器状态
             try {
-                if(metricsResultList != null){
-                    for(MetricsResultVO metricsResultVO:metricsResultList){
-                        Map<String,String> metricMap = metricsResultVO.getMetric();
-                        if(metricMap.get("instance").contains(microServiceMachineRep.getIpAddr())){
-                            Double value=Double.parseDouble(String.valueOf(metricsResultVO.getValue().get(1)));
+                if (metricsResultList != null) {
+                    for (MetricsResultVO metricsResultVO : metricsResultList) {
+                        Map<String, String> metricMap = metricsResultVO.getMetric();
+                        if (metricMap.get("instance").contains(microServiceMachineRep.getIpAddr())) {
+                            Double value = Double.parseDouble(String.valueOf(metricsResultVO.getValue().get(1)));
                             BigDecimal bigDecimal = new BigDecimal(value).divide(new BigDecimal(1024 * 1024)).setScale(2, BigDecimal.ROUND_HALF_UP);
                             microServiceMachineRep.setJvm(noneThousandBitNumberFormat.format(bigDecimal));
                         }
@@ -236,7 +245,7 @@ public class MicroServiceImpl implements MicroService {
                     if (!ipAddressList.contains(microServiceInstanceEntity.getIpAddr())) {
                         microServiceInstanceMapper.deleteMicroServiceInstance(microServiceInstanceEntity.getId());
                     } else {
-                        existList.add(microServiceInstanceEntity.getIpAddr() );
+                        existList.add(microServiceInstanceEntity.getIpAddr());
                     }
                 }
             }
@@ -282,10 +291,10 @@ public class MicroServiceImpl implements MicroService {
     }
 
     private List<MicroServiceApplicationDTO> getApplicationList() {
-        StringBuilder url=new StringBuilder();
-        if(registrationCenterUrl.endsWith("/")){
+        StringBuilder url = new StringBuilder();
+        if (registrationCenterUrl.endsWith("/")) {
             url.append(registrationCenterUrl + "eureka/apps");
-        }else{
+        } else {
             url.append(registrationCenterUrl + "/eureka/apps");
         }
         String result = RestfulTools.get(url.toString(), String.class);
@@ -298,6 +307,11 @@ public class MicroServiceImpl implements MicroService {
     public void synchronizeMicroService() {
         this.microServiceMapper.clearMicroService();
         this.microServiceInstanceMapper.clearMicroServiceInstance();
+        syncFromDeployCenter();
+    }
+
+
+    private void syncFromEureka() {
         List<MicroServiceApplicationDTO> applicationList = getApplicationList();
         if (applicationList != null) {
             List<MicroServiceEntity> microServiceEntityList = new ArrayList<>();
@@ -332,6 +346,47 @@ public class MicroServiceImpl implements MicroService {
             if (microServiceEntityList.size() > 0) {
                 microServiceMapper.insertMicroServiceList(microServiceEntityList);
             }
+        }
+    }
+
+    private void syncFromDeployCenter() {
+        String url = deploymentServerUrl + "/deploy/app/module/treeList";
+        String result = RestfulTools.get(url, String.class);
+        WinResponseData winResponseData = JsonUtil.toObject(result, WinResponseData.class);
+        if (winResponseData.getData() != null) {
+            String data = winResponseData.getData().toString();
+            List<DeployCenterMicroServiceDTO> deployCenterMicroServiceDTOList = (List<DeployCenterMicroServiceDTO>) JsonUtil.toList(data, DeployCenterMicroServiceDTO.class);
+
+            List<MicroServiceEntity> microServiceEntityList = new ArrayList<>();
+            List<MicroServiceInstanceEntity> microServiceInstanceEntityList = new ArrayList<>();
+
+            for (DeployCenterMicroServiceDTO deployCenterMicroServiceDTO : deployCenterMicroServiceDTOList) {
+                MicroServiceEntity microServiceEntity = new MicroServiceEntity();
+                microServiceEntity.setId(PrimaryKeyUtil.generateId());
+                microServiceEntity.setMicroServiceName(deployCenterMicroServiceDTO.getMicroServiceName());
+                microServiceEntityList.add(microServiceEntity);
+
+                List<DeployCenterMicroServiceInstanceDTO> instanceList = deployCenterMicroServiceDTO.getInstanceList();
+                if (instanceList != null) {
+                    for (DeployCenterMicroServiceInstanceDTO deployCenterMicroServiceInstanceDTO : instanceList) {
+                        MicroServiceInstanceEntity microServiceInstanceEntity = new MicroServiceInstanceEntity();
+                        microServiceInstanceEntity.setId(PrimaryKeyUtil.generateId());
+                        microServiceInstanceEntity.setServiceId(microServiceEntity.getId());
+                        microServiceInstanceEntity.setHostName(deployCenterMicroServiceInstanceDTO.getHostName());
+                        microServiceInstanceEntity.setIpAddr(deployCenterMicroServiceInstanceDTO.getIpAddr());
+                        microServiceInstanceEntityList.add(microServiceInstanceEntity);
+                    }
+                }
+            }
+
+            if (microServiceInstanceEntityList.size() > 0) {
+                microServiceInstanceMapper.insertMicroServiceInstanceList(microServiceInstanceEntityList);
+            }
+            if (microServiceEntityList.size() > 0) {
+                microServiceMapper.insertMicroServiceList(microServiceEntityList);
+            }
+        } else {
+            syncFromEureka();
         }
     }
 
