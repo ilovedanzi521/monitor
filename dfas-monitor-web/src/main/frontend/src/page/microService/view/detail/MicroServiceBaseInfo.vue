@@ -15,10 +15,10 @@
     <div class="outDivStyle">
       <div class="innerDivStyle">
         <div class="title">状态</div>
-        <div v-if="microServiceInfoRepVO.state == '0' " class="status">离线</div>
-        <div v-else-if="microServiceInfoRepVO.state == '1' " class="status">异常</div>
-        <div v-else-if="microServiceInfoRepVO.state == '2' " class="status">告警</div>
-        <div v-else-if="microServiceInfoRepVO.state == '3' " class="status">在线</div>
+        <div v-if="microServiceInfoRepVO.state == '0' " class="status_0">离线</div>
+        <div v-else-if="microServiceInfoRepVO.state == '1' " class="status_1">异常</div>
+        <div v-else-if="microServiceInfoRepVO.state == '2' " class="status_2">告警</div>
+        <div v-else-if="microServiceInfoRepVO.state == '3' " class="status_3">在线</div>
         <div v-else-if="microServiceInfoRepVO.state == '' " class="status">-</div>
         <div v-else-if="microServiceInfoRepVO.state == '-' " class="status">-</div>
       </div>
@@ -89,9 +89,46 @@
       font-family:Microsoft YaHei;
       font-weight:bold;
       line-height:26px;
-      color:rgba(51,204,51,1);
+      color:rgba(255,255,255,1);
       opacity:1;
     }
+
+ .status_0 {
+      height:26px;
+      font-size:20px;
+      font-family:Microsoft YaHei;
+      font-weight:bold;
+      line-height:26px;
+      opacity:1;
+      color:rgba(95,92,94,1);
+  }
+  .status_1 {
+          height:26px;
+      font-size:20px;
+      font-family:Microsoft YaHei;
+      font-weight:bold;
+      line-height:26px;
+      opacity:1;
+      color:rgba(245,12,28,1);
+  }
+  .status_2 {
+          height:26px;
+      font-size:20px;
+      font-family:Microsoft YaHei;
+      font-weight:bold;
+      line-height:26px;
+      opacity:1;
+      color:rgba(245,179,0,1);
+  }
+   .status_3 {
+           height:26px;
+      font-size:20px;
+      font-family:Microsoft YaHei;
+      font-weight:bold;
+      line-height:26px;
+      opacity:1;
+      color:rgba(51,204,51,1);
+  }
 
     .warn{
       height:26px;

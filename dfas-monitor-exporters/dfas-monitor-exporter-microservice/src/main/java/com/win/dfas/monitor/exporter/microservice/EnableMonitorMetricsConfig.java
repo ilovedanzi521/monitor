@@ -1,9 +1,14 @@
 package com.win.dfas.monitor.exporter.microservice;
 
-import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetricsAspect;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.*;
+import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetricsAspect;
 
 /**
  * 配置启用注解
@@ -15,7 +20,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ MonitorMetricsAspect.class })
+@Import({MonitorMetricsAspect.class})
 public @interface EnableMonitorMetricsConfig {
 
 }

@@ -108,6 +108,7 @@ export default class HomeMicroServiceStateController extends BaseController {
   handleWebSocketData(e) {
     let object = JSON.parse(e.data);
     this.microServiceStateList = object;
+    //alert(JSON.stringify(this.microServiceStateList));
   }
 
   handleClose() {

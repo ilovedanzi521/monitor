@@ -31,7 +31,7 @@ export default class HomeRightMicroServiceState extends HomeMicroServiceStateCon
         {
             id: "1",
             state: "0",
-            ipAddress: "192.168.0.0111111111",
+            ipAddress: "192-168.0.0111111111",
             cupNum: 2,
             memorySize: "128G",
             diskSize: "32T",

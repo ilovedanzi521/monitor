@@ -2,24 +2,60 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import PlatformOverviewService from "../service/HomePlatformOverviewService";
 import AxiosFun from "../../../api/AxiosFun";
+import { WinResponseData } from "../../common/vo/BaseVO";
+import HomePlatformOverviewVO from "../../microService/vo/HomePlatformOverviewVO";
+import BaseController from "../../common/controller/BaseController";
 
 @Component({})
-export default class HomePlatformOverviewController extends Vue {
+export default class HomePlatformOverviewController extends BaseController {
+  
   private platformOverviewService: PlatformOverviewService = new PlatformOverviewService();
 
   ws: WebSocket;
 
-  private totalNode: string = "0";
+  private homePlatformOverviewVO :HomePlatformOverviewVO = new HomePlatformOverviewVO();
 
-  private totalHttpRequest: string = "0";
+  intervalId: NodeJS.Timer | null;
 
-  private totalMicroService: string = "0";
+  constructor() {
+    super();
+    this.intervalId = null;
+  }
 
-  private qps: string = "0";
+  setCountDown() {
+    this.intervalId = setInterval(() => {
+      this.query();
+    }, 1000);
+  }
+
+  resetCountDown() {
+    clearInterval(this.intervalId);
+    this.intervalId = null;
+  }
 
   mounted() {
-    let requestUrl =
-      AxiosFun.monitorCenterWebsocketBaseUrl + "/home/platformOverview";
+    this.$nextTick(() => {
+      this.query();
+      this.setCountDown();
+    });
+  }
+
+
+
+  private query(): void {
+    this.platformOverviewService
+      .platformOverview()
+      .then((res: WinResponseData) => {
+        if (res.winRspType === "ERROR") {
+          this.win_message_error(res.msg);
+        }else{
+          this.homePlatformOverviewVO = res.data;
+        }
+      });
+  }
+
+  webSocketOpen() {
+    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/platformOverview";
     this.establishConnection(requestUrl);
   }
 
@@ -40,11 +76,8 @@ export default class HomePlatformOverviewController extends Vue {
   }
 
   handleWebSocketData(e) {
-    let object = JSON.parse(e.data);
-    this.totalNode = object.totalNode;
-    this.qps = object.qps;
-    this.totalMicroService = object.totalMicroService;
-    this.totalHttpRequest = object.totalHttpRequest;
+    //let object = JSON.parse(e.data);
+    this.homePlatformOverviewVO = e.data;
   }
 
   handleClose() {

@@ -25,4 +25,6 @@ public interface MicroServiceInstanceMapper {
 
     int insertMicroServiceInstanceList(List<MicroServiceInstanceEntity> microServiceList);
 
+    void clearMicroServiceInstance();
+
 }

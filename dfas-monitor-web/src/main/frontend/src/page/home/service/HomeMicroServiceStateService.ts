@@ -1,116 +1,19 @@
 import AxiosFun from "../../../api/AxiosFun";
-import {MicroServiceStateVO} from "../vo/MicroServiceStateVO";
-
+import { MicroServiceStateVO } from "../vo/MicroServiceStateVO";
+import { WinResponseData } from "../../common/vo/BaseVO";
 
 export default class HomeMicroServiceStateService {
 
-  private microServiceStateList: Array<MicroServiceStateVO> = [{
-    "id": "1",
-    "state": "1",
-    "microServiceName": "订单服务",
-    "microServiceAlias": "订单服务",
-    "warn": 2,
-    "error": 2
-  },
-    {
-      "id": "2",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "3",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "4",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "5",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "6",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "7",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "8",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "9",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "10",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "11",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "12",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    },
-    {
-      "id": "13",
-      "state": "1",
-      "microServiceName": "订单服务",
-      "microServiceAlias": "订单服务",
-      "warn": 2,
-      "error": 2
-    }];
+  private microServiceStateList: Array<MicroServiceStateVO> = [];
+
+  public microServiceState(): Promise<WinResponseData> {
+    return AxiosFun.post(
+      AxiosFun.monitorCenterWebsocketBaseUrl + "/home/microServiceState",
+      {}
+    );
+  }
 
   public initMicroServiceStateList() {
     return this.microServiceStateList;
   }
-
 }

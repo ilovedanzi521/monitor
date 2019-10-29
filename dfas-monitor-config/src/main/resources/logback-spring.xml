@@ -3,6 +3,10 @@
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
+    <springProperty scope="context" name="springElasticsearchIndex" source="spring.elasticsearch.index"/>
+
+    <springProperty scope="context" name="kafkaServerUrl" source="kafka.server.url"/>
+
     <define name="monitorLogDir" class="com.win.dfas.monitor.config.log.MonitorLogDir"/>
 
     <define name="logCustomField" class="com.win.dfas.monitor.exporter.microservice.log.LogCustomField"/>
@@ -18,10 +22,10 @@
             <charset>UTF-8</charset>
         </encoder>
         <!--kafka topic 需要与配置文件里面的topic一致 否则kafka会沉默并鄙视你-->
-        <topic>test</topic>
+        <topic>${springElasticsearchIndex}</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy"/>
         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
-        <producerConfig>bootstrap.servers=192.168.0.56:9092</producerConfig>
+        <producerConfig>bootstrap.servers=${kafkaServerUrl}</producerConfig>
     </appender>
 
     <!-- 文件输出 -->

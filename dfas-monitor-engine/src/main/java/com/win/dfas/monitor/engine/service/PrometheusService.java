@@ -31,4 +31,6 @@ public interface PrometheusService {
     public List<CPULineChartMetricsResultVO> getCPULineChart(String ipAddress,String type);
 
     public List<DiskBarChartMetricsResultVO> getDiskBarChart(String ipAddress, String type);
+
+    public String  getJvmMemory(MicroServiceReqVO reqVO);
 }

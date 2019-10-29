@@ -21,6 +21,7 @@ import com.win.dfas.monitor.common.vo.jvm.JvmMemoryMetricsResultVO;
 import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.ElasticsearchService;
+import com.win.dfas.monitor.engine.service.EurekaService;
 import com.win.dfas.monitor.engine.service.MicroService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +46,9 @@ public class MicroServiceImpl implements MicroService {
 
     @Autowired
     private PrometheusService prometheusService;
+
+    @Autowired
+    private EurekaService eurekaService;
 
     @PostConstruct
     void init() {
@@ -71,10 +75,14 @@ public class MicroServiceImpl implements MicroService {
         PageInfo<MicroServiceEntity> info = new PageInfo<>(microServiceEntityList);
         PageInfo<MicroServiceRepVO> pageList = ObjectUtils.copyPageInfo(info, MicroServiceRepVO.class);
         List<MicroServiceRepVO> microServiceRepList = pageList.getList();
+
+        Map<String, ApplicationInstance> microServiceInstanceMap = eurekaService.fetchMicroService();
+
         for (MicroServiceRepVO microServiceRepVO : microServiceRepList) {
             List<MicroServiceInstanceEntity> microServiceInstanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
             StringBuilder sb = new StringBuilder();
             int size = microServiceInstanceList.size();
+            int upCount = 0;
             for (int i = 0; i < size; i++) {
                 MicroServiceInstanceEntity microServiceInstanceEntity = microServiceInstanceList.get(i);
                 if (i == (size - 1)) {
@@ -82,8 +90,42 @@ public class MicroServiceImpl implements MicroService {
                 } else {
                     sb.append(microServiceInstanceEntity.getIpAddr() );
                 }
+
+                ApplicationInstance applicationInstance = microServiceInstanceMap.get(microServiceInstanceEntity.getIpAddr());
+                if (applicationInstance != null) {
+                    if (MonitorConstants.UP_STATUS.equals(applicationInstance.getStatus())) {
+                        upCount++;
+                    }
+                }
+
             }
             microServiceRepVO.setIpAddress(sb.toString());
+
+            if(microServiceInstanceList == null  ||  upCount ==0) {
+                microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
+            }else if(upCount  < size){
+                microServiceRepVO.setState(StatusEnum.EXCEPTION.getStatus());
+            }else if(upCount ==size){
+                microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
+                //继续判断JVM内存是否存在告警，存在，则设置为告警状态
+            }
+
+            try {
+                Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceRepVO.getMicroServiceName());
+                long warnCount = 0;
+                if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
+                    warnCount = bucketMap.get(LogLevelEnum.WARN.name());
+                }
+                long errorCount = 0;
+                if (bucketMap.get(LogLevelEnum.ERROR.name()) != null) {
+                    errorCount = bucketMap.get(LogLevelEnum.ERROR.name());
+                }
+                microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
+                microServiceRepVO.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         return pageList;
     }
@@ -112,6 +154,8 @@ public class MicroServiceImpl implements MicroService {
         for (MicroServiceMachineRepVO microServiceMachineRep : microServiceMachineRepList) {
             //设置机器状态、JVM内存
             try {
+               String result= prometheusService.getJvmMemory(microServiceReqVO);
+
                 Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceReqVO.getMicroServiceName(), microServiceMachineRep.getIpAddr(), microServiceMachineRep.getPort());
                 long warnCount = 0;
                 if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
@@ -178,10 +222,7 @@ public class MicroServiceImpl implements MicroService {
                 for (MicroServiceInstanceEntity microServiceInstanceEntity : instanceList) {
                     if (!ipAddressList.contains(microServiceInstanceEntity.getIpAddr())) {
                         microServiceInstanceMapper.deleteMicroServiceInstance(microServiceInstanceEntity.getId());
-                    } else if (!portList.contains(microServiceInstanceEntity.getPort())) {
-                        //microServiceInstanceMapper.deleteMicroServiceInstance(microServiceInstanceEntity.getId());
                     } else {
-                        //existList.add(microServiceInstanceEntity.getIpAddr() + ":" + microServiceInstanceEntity.getPort());
                         existList.add(microServiceInstanceEntity.getIpAddr() );
                     }
                 }
@@ -254,6 +295,7 @@ public class MicroServiceImpl implements MicroService {
     @Transactional(rollbackFor = Exception.class)
     public void synchronizeMicroService() {
         this.microServiceMapper.clearMicroService();
+        this.microServiceInstanceMapper.clearMicroServiceInstance();
         List<MicroServiceApplicationDTO> applicationList = getApplicationList();
         if (applicationList != null) {
             List<MicroServiceEntity> microServiceEntityList = new ArrayList<>();

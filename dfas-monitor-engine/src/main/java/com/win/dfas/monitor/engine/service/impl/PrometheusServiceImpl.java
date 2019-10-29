@@ -34,8 +34,10 @@ public class PrometheusServiceImpl implements PrometheusService {
     @Override
     public String getQpsChart() {
         // String url = prometheusServerUrl + "/api/v1/query_range?query=increase(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=60";
-        String url = prometheusServerUrl + "/api/v1/query_range?query=rate(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1h])&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=3600";
-        String result = RestfulTools.get(url, String.class);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("queryParam", "rate(http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}[1h])");
+        String url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=3600";
+        String result = RestfulTools.get(url, String.class, parameters);
         return convertMatrixData(result);
     }
 
@@ -48,12 +50,31 @@ public class PrometheusServiceImpl implements PrometheusService {
     }
 
     @Override
+    public String  getJvmMemory(MicroServiceReqVO reqVO) {
+        //String url = prometheusServerUrl + "/api/v1/query_range?query=jvm_memory_used_bytes&start=1571612606.68&end=1571655806.68&step=172";
+        //  String queryParam = "sum(jvm_memory_used_bytes{area='heap'})";
+        Map<String, Object> parameters = new HashMap<>();
+        //parameters.put("queryParam", "sum(jvm_memory_used_bytes{area='heap'})");
+        parameters.put("queryParam", "sum(jvm_memory_used_bytes{application='" + reqVO.getMicroServiceName().toLowerCase() + "',area='heap'}) by (instance)");
+        String url = null;
+        try {
+            //url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=1571612606.68&end=1571655806.68&step=172";
+            url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
+            String result = RestfulTools.get(url, String.class, parameters);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public List<JvmMemoryMetricsResultVO> getJvmMemoryChart(MicroServiceReqVO reqVO) {
         //String url = prometheusServerUrl + "/api/v1/query_range?query=jvm_memory_used_bytes&start=1571612606.68&end=1571655806.68&step=172";
         //  String queryParam = "sum(jvm_memory_used_bytes{area='heap'})";
         Map<String, Object> parameters = new HashMap<>();
         //parameters.put("queryParam", "sum(jvm_memory_used_bytes{area='heap'})");
-        parameters.put("queryParam", "sum(jvm_memory_used_bytes{application='"+reqVO.getMicroServiceName().toLowerCase()+"',area='heap'}) by (instance)");
+        parameters.put("queryParam", "sum(jvm_memory_used_bytes{application='" + reqVO.getMicroServiceName().toLowerCase() + "',area='heap'}) by (instance)");
         String url = null;
         try {
             //url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=1571612606.68&end=1571655806.68&step=172";
@@ -67,9 +88,9 @@ public class PrometheusServiceImpl implements PrometheusService {
     }
 
     @Override
-    public List<CPULineChartMetricsResultVO> getCPULineChart(String ipAddress,String type){
+    public List<CPULineChartMetricsResultVO> getCPULineChart(String ipAddress, String type) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("queryParam", "avg(irate(node_cpu_seconds_total{instance='expoter_"+ipAddress+"',mode='"+type+"'}[1m])) by (instance)");
+        parameters.put("queryParam", "avg(irate(node_cpu_seconds_total{instance='expoter_" + ipAddress + "',mode='" + type + "'}[1m])) by (instance)");
         String url = null;
         try {
             url = prometheusServerUrl + "/api/v1/query_range?query={queryParam}&start=" + DateUtils.getStartTime() + "&end=" + DateUtils.getEndTime() + "&step=345";
@@ -82,12 +103,12 @@ public class PrometheusServiceImpl implements PrometheusService {
     }
 
     @Override
-    public List<DiskBarChartMetricsResultVO> getDiskBarChart(String ipAddress, String type){
+    public List<DiskBarChartMetricsResultVO> getDiskBarChart(String ipAddress, String type) {
         Map<String, Object> parameters = new HashMap<>();
-        if(MonitorConstants.DISK_USED.equals(type)){
-            parameters.put("queryParam", "node_filesystem_size_bytes{instance='expoter_"+ipAddress+"',device!~'rootfs'} - node_filesystem_avail_bytes{instance='expoter_"+ipAddress+"',device!~'rootfs'}");
-        }else if(MonitorConstants.DISK_FREE.equals(type)){
-            parameters.put("queryParam","node_filesystem_avail_bytes{instance='expoter_"+ipAddress+"',device!~'rootfs'}");
+        if (MonitorConstants.DISK_USED.equals(type)) {
+            parameters.put("queryParam", "node_filesystem_size_bytes{instance='expoter_" + ipAddress + "',device!~'rootfs'} - node_filesystem_avail_bytes{instance='expoter_" + ipAddress + "',device!~'rootfs'}");
+        } else if (MonitorConstants.DISK_FREE.equals(type)) {
+            parameters.put("queryParam", "node_filesystem_avail_bytes{instance='expoter_" + ipAddress + "',device!~'rootfs'}");
         }
         String url = null;
         try {
@@ -122,8 +143,10 @@ public class PrometheusServiceImpl implements PrometheusService {
     @Override
     public Double getQps() {
         //String url = prometheusServerUrl + "/api/v1/query?query=increase(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])";
-        String url = prometheusServerUrl + "/api/v1/query?query=rate(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + "[1m])";
-        String result = RestfulTools.get(url, String.class);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("queryParam", "rate(http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}[1m])");
+        String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
+        String result = RestfulTools.get(url, String.class, parameters);
         return Double.valueOf(convertVectorData(result));
     }
 
@@ -136,8 +159,10 @@ public class PrometheusServiceImpl implements PrometheusService {
 
     @Override
     public Long getHttpRequestTotal() {
-        String url = prometheusServerUrl + "/api/v1/query?query=sum(http_requests_total_" + DateUtils.getCurrentDateByStringFormat() + ")";
-        String result = RestfulTools.get(url, String.class);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("queryParam", "http_requests_total{currentDate='" + DateUtils.getCurrentDateByStringFormat() + "'}");
+        String url = prometheusServerUrl + "/api/v1/query?query={queryParam}";
+        String result = RestfulTools.get(url, String.class, parameters);
         return Long.parseLong(convertVectorData(result));
     }
 
@@ -154,13 +179,13 @@ public class PrometheusServiceImpl implements PrometheusService {
         RestfulTools.post(url, String.class);
     }
 
-    private List<DiskBarChartMetricsResultVO> convertDiskBarChartData(String result){
+    private List<DiskBarChartMetricsResultVO> convertDiskBarChartData(String result) {
         DiskBarChartMetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, DiskBarChartMetricsReturnMsgVO.class);
         List<DiskBarChartMetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
         return metricsResultList;
     }
 
-    private List<CPULineChartMetricsResultVO> convertCPULineChartData(String result){
+    private List<CPULineChartMetricsResultVO> convertCPULineChartData(String result) {
         CPULineChartMetricsReturnMsgVO metricsReturnMsgVO = JsonUtil.toObject(result, CPULineChartMetricsReturnMsgVO.class);
         List<CPULineChartMetricsResultVO> metricsResultList = metricsReturnMsgVO.getData().getResult();
         if (metricsResultList != null) {
@@ -196,7 +221,7 @@ public class PrometheusServiceImpl implements PrometheusService {
                     metricValueList.add(metricValueVO);
                 }
                 for (String time : allTimeList) {
-                    if(!metricsResultVO.getExistTimesList().contains(time)){
+                    if (!metricsResultVO.getExistTimesList().contains(time)) {
                         MetricValueVO metricValueVO = new MetricValueVO();
                         metricValueVO.setValue("0");
                         metricValueVO.setStrTime(time);
@@ -285,7 +310,7 @@ public class PrometheusServiceImpl implements PrometheusService {
                     metricValueList.add(metricValueVO);
                 }
                 for (String time : allTimeList) {
-                    if(!metricsResultVO.getExistTimesList().contains(time)){
+                    if (!metricsResultVO.getExistTimesList().contains(time)) {
                         MetricValueVO metricValueVO = new MetricValueVO();
                         metricValueVO.setValue("0");
                         metricValueVO.setStrTime(time);

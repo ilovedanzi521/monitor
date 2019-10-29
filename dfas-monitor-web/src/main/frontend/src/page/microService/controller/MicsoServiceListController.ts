@@ -105,6 +105,7 @@ export default class MicsoServiceListController extends BaseController {
         this.win_message_error(res.msg);
       }
       this.pageVO = res.data;
+      //alert(JSON.stringify(this.pageVO));
       this.$nextTick(() => {
         if (this.$refs.microServiceInfoTable !== undefined && this.$refs.microServiceInfoTable.data.length > 0) {
           // 第一行选中

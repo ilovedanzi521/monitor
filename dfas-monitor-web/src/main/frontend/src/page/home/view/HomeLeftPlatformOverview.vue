@@ -8,21 +8,21 @@
         <div id="leftDiv">
           <div id="totalNodeDiv">
             <div id="totalNodeTextDiv">总节点数&nbsp;&nbsp;</div>
-            <div id="totalNodeNumberDiv">{{totalNode}}</div>
+            <div id="totalNodeNumberDiv">{{homePlatformOverviewVO.totalNode}}</div>
           </div>
           <div id="currentRequestDiv">
             <div id="currentRequestTextDiv">今日请求数&nbsp;&nbsp;</div>
-            <div id="currentRequestNumberDiv">{{totalHttpRequest}}</div>
+            <div id="currentRequestNumberDiv">{{homePlatformOverviewVO.totalHttpRequest}}</div>
           </div>
         </div>
         <div id="rightDiv">
           <div id="totalServiceDiv">
             <div id="totalServiceTextDiv">总服务数&nbsp;&nbsp;</div>
-            <div id="totalServiceNumberDiv">{{totalMicroService}}</div>
+            <div id="totalServiceNumberDiv">{{homePlatformOverviewVO.totalMicroService}}</div>
           </div>
           <div id="qpsDiv">
             <div id="qpsTextDiv">Qps&nbsp;&nbsp;</div>
-            <div id="qpsNumberDiv">{{qps}}</div>
+            <div id="qpsNumberDiv">{{homePlatformOverviewVO.qps}}</div>
           </div>
         </div>
       </div>

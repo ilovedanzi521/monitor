@@ -33,8 +33,24 @@
     <div class="microServiceDataTable">
       <win-table :height="tableHeight" :data="pageVO.list" ref="microServiceInfoTable" @cell-dblclick="dblclick" @select-change="tableSelectionChange" @select-all="tableSelectionChange" @cell-click="handleCurrentChange">
         <win-table-column prop="microServiceName" label="微服务名称"></win-table-column>
-        <win-table-column prop="microServiceAlias" label="微服务描述" > </win-table-column> 
-        <win-table-column prop="state" label="状态"></win-table-column>
+        <win-table-column prop="microServiceAlias" label="微服务描述" > 
+          <template slot-scope="scope">
+              <span v-if="scope.row.microServiceAlias === ''">-</span>
+              <span v-else-if="scope.row.microServiceAlias === null ">-</span>
+              <span v-else-if="scope.row.microServiceAlias != ''">{{scope.row.microServiceAlias}}</span> 
+              <span v-else-if="scope.row.microServiceAlias != null ">{{scope.row.microServiceAlias}}</span> 
+          </template>
+        </win-table-column> 
+        <win-table-column prop="state" label="状态">
+          <template slot-scope="scope">
+              <span class="content_0" v-if="scope.row.state === '0'">离线</span>
+              <span class="content_1" v-else-if="scope.row.state === '1'">异常</span>
+              <span class="content_2" v-else-if="scope.row.state === '2'">告警</span>
+              <span class="content_3" v-else-if="scope.row.state === '3'">在线</span>
+              <span  v-else-if="scope.row.state === ''">-</span>
+              <span  v-else-if="scope.row.state === '-'">-</span>
+          </template>
+        </win-table-column>
         <win-table-column prop="warn" label="告警数"></win-table-column>
         <win-table-column prop="error" label="错误数"></win-table-column>
         <win-table-column prop="operation" align="center" fixed="right" label="操作" width="480">
@@ -74,5 +90,17 @@
   }
   .microServiceDataTable {
     margin-right: 10px;
+  }
+ .content_0 {
+      color:rgba(95,92,94,1);
+  }
+  .content_1 {
+      color:rgba(245,12,28,1);
+  }
+  .content_2 {
+      color:rgba(245,179,0,1);
+  }
+   .content_3 {
+      color:rgba(51,204,51,1);
   }
 </style>

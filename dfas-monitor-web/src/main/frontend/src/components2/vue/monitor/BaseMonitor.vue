@@ -13,7 +13,7 @@
                             <span>{{aitem.ipAddress||aitem.microServiceName}}</span>
                         </p>
                         <p v-if="aitem.microServiceAlias">
-                            <label>微服务描述:"</label>
+                            <label>微服务描述:</label>
                             <span>{{aitem.microServiceAlias}}</span>
                         </p>
                         <p v-if="aitem.cpuNum||aitem.warn">

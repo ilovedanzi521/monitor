@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import com.win.dfas.monitor.common.constant.LogLevelEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,6 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
         List<MicroServiceEntity> microServiceEntityList = microServiceMapper.selectMicroServiceList(null);
         List<MicroServiceRepVO> microServiceRepList = ObjectUtils.copyPropertiesList(microServiceEntityList, MicroServiceRepVO.class);
         Map<String, ApplicationInstance> microServiceInstanceMap = eurekaService.fetchMicroService();
-        Random random = new Random(System.currentTimeMillis());
         for (MicroServiceRepVO microServiceRepVO : microServiceRepList) {
             List<MicroServiceInstanceEntity> instanceList = microServiceInstanceMapper.selectMicroServiceInstanceListByServiceId(microServiceRepVO.getId());
             int upCount = 0;
@@ -109,7 +109,6 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
                 }
             }
 
-            //microServiceRepVO.setState(String.valueOf(random.nextInt(4)));
             if(instanceList == null  ||  upCount ==0) {
                 microServiceRepVO.setState(StatusEnum.OFFLINE.getStatus());
             }else if(upCount  < instanceList.size()){
@@ -118,6 +117,23 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
                 microServiceRepVO.setState(StatusEnum.ONLINE.getStatus());
                 //继续判断JVM内存是否存在告警，存在，则设置为告警状态
             }
+
+            try {
+                Map<String, Long> bucketMap = elasticsearchService.getLogTotalCountByMicroService(microServiceRepVO.getMicroServiceName());
+                long warnCount = 0;
+                if (bucketMap.get(LogLevelEnum.WARN.name()) != null) {
+                    warnCount = bucketMap.get(LogLevelEnum.WARN.name());
+                }
+                long errorCount = 0;
+                if (bucketMap.get(LogLevelEnum.ERROR.name()) != null) {
+                    errorCount = bucketMap.get(LogLevelEnum.ERROR.name());
+                }
+                microServiceRepVO.setWarn(String.valueOf(thousandBitNumberFormat.format(warnCount)));
+                microServiceRepVO.setError(String.valueOf(thousandBitNumberFormat.format(errorCount)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.microServiceState);
         if (webSocketSet != null) {
