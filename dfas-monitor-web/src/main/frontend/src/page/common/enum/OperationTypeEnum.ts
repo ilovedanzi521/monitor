@@ -6,5 +6,7 @@ export enum OperationTypeEnum {
     DISABLED = "DISABLED",
     ENABLE = "ENABLE",
     FORBIDDEN = "FORBIDDEN",
-    SYN = 'SYN'
+    SYN = 'SYN',
+    SCRAPE = 'SCRAPE',
+    ALERTRULE = 'ALERTRULE'
 }

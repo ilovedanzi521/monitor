@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.win.dfas.monitor.config.mapper.ScrapeConfigMapper">
+    
+    <resultMap type="com.win.dfas.monitor.common.entity.ScrapeConfig" id="ScrapeConfigResult">
+        <result property="id"    column="ID"    />
+        <result property="jobName"    column="JOB_NAME"    />
+        <result property="scheme"    column="SCHEME"    />
+        <result property="scrapeInterval"    column="SCRAPE_INTERVAL"    />
+        <result property="metricsPath"    column="METRICS_PATH"    />
+        <result property="staticConfigsTargets"    column="STATIC_CONFIGS_TARGETS"    />
+        <result property="staticConfigsLabelsInstance"    column="STATIC_CONFIGS_LABELS_INSTANCE"    />
+        <result property="consulSdConfigsServer"    column="CONSUL_SD_CONFIGS_SERVER"    />
+        <result property="consulSdConfigsServername"    column="CONSUL_SD_CONFIGS_SERVERNAME"    />
+        <result property="consulSdConfigsScheme"    column="CONSUL_SD_CONFIGS_SCHEME"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+	
+	<sql id="selectScrapeConfigVo">
+        select ID, JOB_NAME, SCHEME, SCRAPE_INTERVAL, METRICS_PATH, STATIC_CONFIGS_TARGETS, STATIC_CONFIGS_LABELS_INSTANCE, CONSUL_SD_CONFIGS_SERVER, CONSUL_SD_CONFIGS_SERVERNAME, CONSUL_SD_CONFIGS_SCHEME, CREATE_TIME, UPDATE_TIME from t_scrape_config
+    </sql>
+
+    <select id="selectScrapeConfigList" parameterType="com.win.dfas.monitor.common.entity.ScrapeConfig" resultMap="ScrapeConfigResult">
+        <include refid="selectScrapeConfigVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and ID = #{iD}</if>
+             <if test="jobName != null  and jobName != '' "> and JOB_NAME = #{jobName}</if>
+             <if test="scheme != null  and scheme != '' "> and SCHEME = #{sCHEME}</if>
+             <if test="scrapeInterval != null "> and SCRAPE_INTERVAL = #{scrapeInterval}</if>
+             <if test="metricsPath != null  and metricsPath != '' "> and METRICS_PATH = #{metricsPath}</if>
+             <if test="staticConfigsTargets != null  and staticConfigsTargets != '' "> and STATIC_CONFIGS_TARGETS = #{staticConfigsTargets}</if>
+             <if test="staticConfigsLabelsInstance != null  and staticConfigsLabelsInstance != '' "> and STATIC_CONFIGS_LABELS_INSTANCE = #{staticConfigsLabelsInstance}</if>
+             <if test="consulSdConfigsServer != null  and consulSdConfigsServer != '' "> and CONSUL_SD_CONFIGS_SERVER = #{consulSdConfigsServer}</if>
+             <if test="consulSdConfigsServername != null  and consulSdConfigsServername != '' "> and CONSUL_SD_CONFIGS_SERVERNAME = #{consulSdConfigsServername}</if>
+             <if test="consulSdConfigsScheme != null  and consulSdConfigsScheme != '' "> and CONSUL_SD_CONFIGS_SCHEME = #{consulSdConfigsScheme}</if>
+             <if test="createTime != null  and createTime != '' "> and CREATE_TIME = #{createTime}</if>
+             <if test="updateTime != null  and updateTime != '' "> and UPDATE_TIME = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectScrapeConfigById" parameterType="String" resultMap="ScrapeConfigResult">
+        <include refid="selectScrapeConfigVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertScrapeConfig" parameterType="com.win.dfas.monitor.common.entity.ScrapeConfig">
+        insert into t_scrape_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">ID,</if>
+			<if test="jobName != null  and jobName != ''  ">JOB_NAME,</if>
+			<if test="scheme != null  and scheme != ''  ">SCHEME,</if>
+			<if test="scrapeInterval != null  ">SCRAPE_INTERVAL,</if>
+			<if test="metricsPath != null  and metricsPath != ''  ">METRICS_PATH,</if>
+			<if test="staticConfigsTargets != null  and staticConfigsTargets != ''  ">STATIC_CONFIGS_TARGETS,</if>
+			<if test="staticConfigsLabelsInstance != null  and staticConfigsLabelsInstance != ''  ">STATIC_CONFIGS_LABELS_INSTANCE,</if>
+			<if test="consulSdConfigsServer != null  and consulSdConfigsServer != ''  ">CONSUL_SD_CONFIGS_SERVER,</if>
+			<if test="consulSdConfigsServername != null  and consulSdConfigsServername != ''  ">CONSUL_SD_CONFIGS_SERVERNAME,</if>
+			<if test="consulSdConfigsScheme != null  and consulSdConfigsScheme != ''  ">CONSUL_SD_CONFIGS_SCHEME,</if>
+			<if test="createTime != null  and createTime != ''  ">CREATE_TIME,</if>
+			<if test="updateTime != null  and updateTime != ''  ">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="jobName != null  and jobName != ''  ">#{jobName},</if>
+			<if test="scheme != null  and scheme != ''  ">#{scheme},</if>
+			<if test="scrapeInterval != null  ">#{scrapeInterval},</if>
+			<if test="metricsPath != null  and metricsPath != ''  ">#{metricsPath},</if>
+			<if test="staticConfigsTargets != null  and staticConfigsTargets != ''  ">#{staticConfigsTargets},</if>
+			<if test="staticConfigsLabelsInstance != null  and staticConfigsLabelsInstance != ''  ">#{staticConfigsLabelsInstance},</if>
+			<if test="consulSdConfigsServer != null  and consulSdConfigsServer != ''  ">#{consulSdConfigsServer},</if>
+			<if test="consulSdConfigsServername != null  and consulSdConfigsServername != ''  ">#{consulSdConfigsServername},</if>
+			<if test="consulSdConfigsScheme != null  and consulSdConfigsScheme != ''  ">#{consulSdConfigsScheme},</if>
+			<if test="createTime != null  and createTime != ''  ">#{createTime},</if>
+			<if test="updateTime != null  and updateTime != ''  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateScrapeConfig" parameterType="com.win.dfas.monitor.common.entity.ScrapeConfig">
+        update t_scrape_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobName != null  and jobName != ''  ">JOB_NAME = #{jobName},</if>
+            <if test="scheme != null  and scheme != ''  ">SCHEME = #{scheme},</if>
+            <if test="scrapeInterval != null  ">SCRAPE_INTERVAL = #{scrapeInterval},</if>
+            <if test="metricsPath != null  and metricsPath != ''  ">METRICS_PATH = #{metricsPath},</if>
+            <if test="staticConfigsTargets != null  and staticConfigsTargets != ''  ">STATIC_CONFIGS_TARGETS = #{staticConfigsTargets},</if>
+            <if test="staticConfigsLabelsInstance != null  and staticConfigsLabelsInstance != ''  ">STATIC_CONFIGS_LABELS_INSTANCE = #{staticConfigsLabelsInstance},</if>
+            <if test="consulSdConfigsServer != null  and consulSdConfigsServer != ''  ">CONSUL_SD_CONFIGS_SERVER = #{consulSdConfigsServer},</if>
+            <if test="consulSdConfigsServername != null  and consulSdConfigsServername != ''  ">CONSUL_SD_CONFIGS_SERVERNAME = #{consulSdConfigsServername},</if>
+            <if test="consulSdConfigsScheme != null  and consulSdConfigsScheme != ''  ">CONSUL_SD_CONFIGS_SCHEME = #{consulSdConfigsScheme},</if>
+            <if test="createTime != null  and createTime != ''  ">CREATE_TIME = #{createTime},</if>
+            <if test="updateTime != null  and updateTime != ''  ">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+	<delete id="deleteScrapeConfigById" parameterType="String">
+        delete from t_scrape_config where ID = #{id}
+    </delete>
+	
+    <delete id="deleteScrapeConfigByIds" parameterType="String">
+        delete from t_scrape_config where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

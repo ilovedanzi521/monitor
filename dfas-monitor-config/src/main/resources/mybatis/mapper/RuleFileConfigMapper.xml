@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.win.dfas.monitor.config.mapper.RuleFileConfigMapper">
+    
+    <resultMap type="com.win.dfas.monitor.common.entity.RuleFileConfig" id="RuleFileConfigResult">
+        <result property="id"    column="ID"    />
+        <result property="groupsName"    column="GROUPS_NAME"    />
+        <result property="name"    column="NAME"    />
+        <result property="expr"    column="EXPR"    />
+        <result property="fortime"    column="FORTIME"    />
+        <result property="labelsSeverity"    column="LABELS_SEVERITY"    />
+        <result property="annotationsSummary"    column="ANNOTATIONS_SUMMARY"    />
+        <result property="annotationsDescription"    column="ANNOTATIONS_DESCRIPTION"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+	
+	<sql id="selectRuleFileConfigVo">
+        select ID, GROUPS_NAME, NAME, EXPR, FORTIME, LABELS_SEVERITY, ANNOTATIONS_SUMMARY, ANNOTATIONS_DESCRIPTION, CREATE_TIME, UPDATE_TIME from t_rule_file_config
+    </sql>
+	
+    <select id="selectRuleFileConfigList" parameterType="com.win.dfas.monitor.common.entity.RuleFileConfig" resultMap="RuleFileConfigResult">
+        <include refid="selectRuleFileConfigVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and ID = #{id}</if>
+             <if test="groupsName != null  and groupsName != '' "> and GROUPS_NAME = #{groupsName}</if>
+             <if test="name != null  and name != '' "> and NAME = #{name}</if>
+             <if test="expr != null  and expr != '' "> and EXPR = #{expr}</if>
+             <if test="fortime != null "> and FORTIME = #{fortime}</if>
+             <if test="labelsSeverity != null  and labelsSeverity != '' "> and LABELS_SEVERITY = #{labelsSeverity}</if>
+             <if test="annotationsSummary != null  and annotationsSummary != '' "> and ANNOTATIONS_SUMMARY = #{annotationsSummary}</if>
+             <if test="annotationsDescription != null  and annotationsDescription != '' "> and ANNOTATIONS_DESCRIPTION = #{annotationsDescription}</if>
+             <if test="createTime != null  and createTime != '' "> and CREATE_TIME = #{createTime}</if>
+             <if test="updateTime != null  and updateTime != '' "> and UPDATE_TIME = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectRuleFileConfigById" parameterType="String" resultMap="RuleFileConfigResult">
+        <include refid="selectRuleFileConfigVo"/>
+        where ID = #{iD}
+    </select>
+        
+    <insert id="insertRuleFileConfig" parameterType="com.win.dfas.monitor.common.entity.RuleFileConfig">
+        insert into t_rule_file_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">ID,</if>
+			<if test="groupsName != null  and groupsName != ''  ">GROUPS_NAME,</if>
+			<if test="name != null  and name != ''  ">NAME,</if>
+			<if test="expr != null  and expr != ''  ">EXPR,</if>
+			<if test="fortime != null  ">FORTIME,</if>
+			<if test="labelsSeverity != null  and labelsSeverity != ''  ">LABELS_SEVERITY,</if>
+			<if test="annotationsSummary != null  and annotationsSummary != ''  ">ANNOTATIONS_SUMMARY,</if>
+			<if test="annotationsDescription != null  and annotationsDescription != ''  ">ANNOTATIONS_DESCRIPTION,</if>
+			<if test="createTime != null  and createTime != ''  ">CREATE_TIME,</if>
+			<if test="updateTime != null  and updateTime != ''  ">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="groupsName != null  and groupsName != ''  ">#{groupsName},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="expr != null  and expr != ''  ">#{expr},</if>
+			<if test="fortime != null  ">#{fortime},</if>
+			<if test="labelsSeverity != null  and labelsSeverity != ''  ">#{labelsSeverity},</if>
+			<if test="annotationsSummary != null  and annotationsSummary != ''  ">#{annotationsSummary},</if>
+			<if test="annotationsDescription != null  and annotationsDescription != ''  ">#{annotationsDescription},</if>
+			<if test="createTime != null  and createTime != ''  ">#{createTime},</if>
+			<if test="updateTime != null  and updateTime != ''  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateRuleFileConfig" parameterType="com.win.dfas.monitor.common.entity.RuleFileConfig">
+        update t_rule_file_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="groupsName != null  and groupsName != ''  ">GROUPS_NAME = #{groupsName},</if>
+            <if test="name != null  and name != ''  ">NAME = #{name},</if>
+            <if test="expr != null  and expr != ''  ">EXPR = #{expr},</if>
+            <if test="fortime != null  ">FORTIME = #{fortime},</if>
+            <if test="labelsSeverity != null  and labelsSeverity != ''  ">LABELS_SEVERITY = #{labelsSeverity},</if>
+            <if test="annotationsSummary != null  and annotationsSummary != ''  ">ANNOTATIONS_SUMMARY = #{annotationsSummary},</if>
+            <if test="annotationsDescription != null  and annotationsDescription != ''  ">ANNOTATIONS_DESCRIPTION = #{annotationsDescription},</if>
+            <if test="createTime != null  and createTime != ''  ">CREATE_TIME = #{createTime},</if>
+            <if test="updateTime != null  and updateTime != ''  ">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+	<delete id="deleteRuleFileConfigById" parameterType="String">
+        delete from t_rule_file_config where ID = #{id}
+    </delete>
+	
+    <delete id="deleteRuleFileConfigByIds" parameterType="String">
+        delete from t_rule_file_config where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

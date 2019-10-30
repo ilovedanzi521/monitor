@@ -1,10 +1,10 @@
 <template>
   <div>
     <div>
-      <ScrapeTable :userReqVo="userReqVo" @addScrapePage="addScrapePage"></ScrapeTable>
-      <AlertRuleTable :userReqVo="userReqVo" @addScrapePage="addScrapePage"></AlertRuleTable>
+      <ScrapeTable :userReqVo="userReqVo" @addScrapePage="addScrapePage" @editScrapePage="editScrapePage" @deleteScrapePage="deleteScrapePage"></ScrapeTable>
+      <AlertRuleTable :userReqVo="userReqVo" @addAlertRulePage="addAlertRulePage" @editAlertRulePage="editAlertRulePage" @deleteAlertRulePage="deleteAlertRulePage"></AlertRuleTable>
     </div>
-    <component :is="userReqVo.stateController.switchFormType" :userReqVo="userReqVo"  @addMachine="httpAddMachine" @deletemachine="httpDeleteMachine" @editmachine="httpEditMachine">
+    <component :is="userReqVo.stateController.switchFormType" :userReqVo="userReqVo"  @addScrape="httpAddScrape"  @editScrape="httpEditScrape" @deleteScrape="httpDeleteScrape" @addAlertRule="httpAddAlertRule"  @editAlertRule="httpEditAlertRule" @deleteAlertRule="httpDeleteAlertRule">
     </component>
   </div>
 </template>
@@ -25,7 +25,6 @@
   import MachineTable from "../view/MachineTable.vue";
   import ScrapeTable from "../view/ScrapeTable.vue";
   import AlertRuleTable from "../view/AlertRuleTable.vue";
-
 
   @Component({ components: {Machine,ScrapeTable,AlertRuleTable} })
   export default class SysConfig extends SysconfigController {

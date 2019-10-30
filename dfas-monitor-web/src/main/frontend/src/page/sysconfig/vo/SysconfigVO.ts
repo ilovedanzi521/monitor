@@ -25,6 +25,34 @@ export class UserReqVO extends BaseReqVO {
   public userSerachParam: string;
   machinePanelDataList: any[];
 
+  //dataRow : Object ;
+
+  scrape: Scrape = {
+    id: "",
+    jobName: "",
+    scheme: "",
+    scrapeInterval: "",
+    metricsPath: "",
+    staticConfigsTargets: "",
+    staticConfigsLabelsInstance: "",
+    consulSdConfigsServer: "",
+    consulSdConfigsServername: "",
+    consulSdConfigsScheme: "",
+  };
+
+  alertRule: AlertRule = {
+    id: "",
+    groupsName: "",
+    name: "",
+    expr: "",
+    fortime: "",
+    labelsSeverity: "",
+    annotationsSummary: "",
+    annotationsDescription: "",
+  };
+
+
+
   user: User = {
     id: "",
     userCode: "",
@@ -46,7 +74,8 @@ export class UserReqVO extends BaseReqVO {
   //加载，刷新展示树结构的公司，部门，角色数据
   companArray: any[] = [];
 
-  userArray: UserQuery[] = [];
+  scrapeArray: UserQuery[] = [];
+  alertRuleArray: UserQuery[] = [];
   userStateArray: UserState[] = [
     {
       userStateText: "显示正常用户",
@@ -164,3 +193,72 @@ interface Machine {
   name: string; //机器名称
 }
 
+/**
+ *
+ *
+ * 添加公司模块继承公司接口
+ *
+ *
+ *  */
+export class ScrapeClass implements Scrape {
+  id:"";
+  jobName: "";
+  scheme: "";
+  scrapeInterval: "";
+  metricsPath: "";
+  staticConfigsTargets: "";
+  staticConfigsLabelsInstance: "";
+  consulSdConfigsServer: "";
+  consulSdConfigsServername: "";
+  consulSdConfigsScheme: "";
+}
+
+export class AlertRuleClass implements AlertRule {
+  id:"";
+  groupsName: "";
+  name: "";
+  expr: "";
+  fortime: "";
+  labelsSeverity: "";
+  annotationsSummary: "";
+  annotationsDescription: "";
+}
+
+/**
+ *
+ *
+ * 刮取数据接口
+ *
+ *
+ * */
+interface Scrape {
+  id: string;
+  jobName: string;
+  scheme: string;
+  scrapeInterval: string;
+  metricsPath: string;
+  staticConfigsTargets: string;
+  staticConfigsLabelsInstance: string;
+  consulSdConfigsServer: string;
+  consulSdConfigsServername: string;
+  consulSdConfigsScheme: string;
+}
+
+/**
+ *
+ *
+ * 预警数据接口
+ *
+ *
+ * */
+
+interface AlertRule {
+  id: string;
+  groupsName: string;
+  name: string;
+  expr: string;
+  fortime: string;
+  labelsSeverity: string;
+  annotationsSummary: string;
+  annotationsDescription: string;
+}
