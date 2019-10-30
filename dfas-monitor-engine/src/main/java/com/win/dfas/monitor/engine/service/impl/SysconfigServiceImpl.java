@@ -4,6 +4,7 @@ import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.entity.RuleFileConfig;
 import com.win.dfas.monitor.common.entity.ScrapeConfig;
 import com.win.dfas.monitor.common.util.Convert;
+import com.win.dfas.monitor.common.util.RestfulTools;
 import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.config.mapper.RuleFileConfigMapper;
 import com.win.dfas.monitor.engine.service.IRuleFileConfigService;
@@ -50,6 +51,8 @@ public class SysconfigServiceImpl implements ISysconfigService
 		Map<String,Object> resultMap = generateSystemConfiguration();
 		sync2prometheus(resultMap);
 		clearLocalFile(resultMap);
+		String url = prometheusServerUrl + "/-/reload";
+		RestfulTools.post(url, String.class);
 	}
 
 	@Override
