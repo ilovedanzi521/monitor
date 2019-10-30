@@ -4,29 +4,27 @@
       <dt>刮取配置</dt>
       <dd>
             <span class="btngrounp">
-                    <button class="but" @click="handleAddScrape">
+                    <button class="but" @click="handAddScrape">
                         <i class="icon el-icon-plus"></i>
                         <span>新增刮取规则</span>
                     </button>
-                    <button class="but"  @click="delScrapeBatch">
+                    <button class="but"  @click="delBatchScrape">
                         <i class="icon el-icon-delete"></i>
                         <span>删除刮取规则</span>
                     </button>
                 </span>
       </dd>
     </dl>
-    <win-table ref="multipleTable" style="width: 100%" @cell-dblclick="mclick" :data="userReqVo.userArray" :showSelection="true" @select-change="tableScrapSelectionChange" @select-all="tableScrapSelectionChange"  max-height="600">
-
-      <win-table-column prop="ipAddress" label="IP" width="150"></win-table-column>
-      <win-table-column prop="name" label="抓取指标的job名称" width="150"></win-table-column>
+    <win-table ref="multipleTable" style="width: 100%" :data="userReqVo.scrapeArray" :showSelection="true" @select-change="tableScrapSelectionChange" @select-all="tableScrapSelectionChange"  max-height="600">
+      <win-table-column prop="jobName" label="抓取指标的job名称" width="150"></win-table-column>
       <!--<win-table-column :formatter="formatRoleName" label="状态" width="200"></win-table-column>-->
-      <win-table-column prop="cpu" label="请求协议" width="150"></win-table-column>
-      <win-table-column prop="memory" label="抓取目标的频率" width="150"></win-table-column>
-      <win-table-column prop="disk" label="获取指标的HTTP资源路径" width="150"></win-table-column>
-      <win-table-column prop="disk2" label="静态配置指定的目标" width="150"></win-table-column>
-      <win-table-column prop="disk2" label="指标的标签" width="150"></win-table-column>
-      <win-table-column prop="disk3" label="注册中心地址" width="150"></win-table-column>
-      <win-table-column prop="disk4" label="服务名称" width="150"></win-table-column>
+      <win-table-column prop="scheme" label="请求协议" width="150"></win-table-column>
+      <win-table-column prop="scrapeInterval" label="抓取目标的频率" width="150"></win-table-column>
+      <win-table-column prop="metricsPath" label="获取指标的HTTP资源路径" width="150"></win-table-column>
+      <win-table-column prop="staticConfigsTargets" label="静态配置指定的目标" width="150"></win-table-column>
+      <win-table-column prop="staticConfigsLabelsInstance" label="指标的标签" width="150"></win-table-column>
+      <win-table-column prop="consulSdConfigsServer" label="注册中心地址" width="150"></win-table-column>
+      <win-table-column prop="consulSdConfigsServername" label="服务名称" width="150"></win-table-column>
       <win-table-column prop="operation" align="center" fixed="right" label="操作" width="200">
         <template slot-scope="scope">
                   <span class="operation" @click="handleEditScrape(scope.row)">
@@ -38,7 +36,7 @@
         </template>
       </win-table-column>
     </win-table>
-    <win-pagination name="machine" v-bind:childMsg="userReqVo.userPageVO" @callFather="machinePageQuery"></win-pagination>
+    <win-pagination name="scrape" v-bind:childMsg="userReqVo.userPageVO" @callFather="scrapePageQuery"></win-pagination>
   </div>
 
 </template>
@@ -60,21 +58,29 @@
   @Component({ components: {Machine} })
   export default class ScrapeTable extends SysconfigController {
 
-    @Emit("addScrapePage")
+    //@Emit("addScrapePage")
     /**新增刮取配置 */
-    handleAddScrape() {
+    handAddScrape() {
       console.log("addScrapePage");
+      this.$emit("addScrapePage",this.userReqVo);
     }
 
     handleEditScrape(row, column) {
-      this.userReqVo.machine = row
-      this.userReqVo.stateController.switchFormType = "EditScrape";
-      //this.$emit('editScrapeePage', row);
+      console.log(">>>>>>>>>handleEditScrape>>>>>>>>>>>>>>");
+      this.userReqVo.scrape = row
+      //this.userReqVo.stateController.switchFormType = "EditScrape";
+      this.$emit('editScrapePage', row);
     }
 
     handleDeleteScrape(row, column) {
-      this.userReqVo.machine = row;
-      this.userReqVo.stateController.switchFormType = "DeleteScrape";
+      this.userReqVo.scrape = row;
+      this.$emit('deleteScrapePage', row);
+      //this.userReqVo.stateController.switchFormType = "DeleteScrape";
+    }
+
+    @Emit("scrapePageQuery")
+    scrapePageQuery(vo: PageVO) {
+      return vo;
     }
 
   }

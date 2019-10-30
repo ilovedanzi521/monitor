@@ -3,65 +3,87 @@ import { SysconfigVO } from "../vo/SysconfigVO";
 import AxiosFun from "../../../api/AxiosFun";
 
 /**
- * 机器页面获取数据
+ * 系统配置页面获取数据
  */
 export default class SysconfigService {
   
-  static getMachine(vo): Promise<WinResponseData> {
-      console.log("getMachine");
+  static getScrapeDataList(vo): Promise<WinResponseData> {
+      console.log("getScrapeDataList");
     return AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/machinePage",
+      AxiosFun.monitorCenterServiceName + "/scrape/scrapePage",
       vo
     );
   }
 
   /**添加机器 */
-  static addMachine(vo: SysconfigVO): Promise<WinResponseData> {
+  static addScrape(vo: SysconfigVO): Promise<WinResponseData> {
     return AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/add",
+      AxiosFun.monitorCenterServiceName + "/scrape/add",
       vo
     );
   }
 
   //编辑机器
-  static editMachine(vo: SysconfigVO): Promise<WinResponseData> {
+  static editScrape(vo: SysconfigVO): Promise<WinResponseData> {
     return AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/modify",
+      AxiosFun.monitorCenterServiceName + "/scrape/modify",
       vo
     );
   }
 
   //删除机器
-  static deleteMachine(vo: SysconfigVO): Promise<WinResponseData> {
+  static deleteScrape(vo: SysconfigVO): Promise<WinResponseData> {
     return AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/delete",
+      AxiosFun.monitorCenterServiceName + "/scrape/delete",
       vo
     );
   }
 
   /** 批量删除 */
-  static delBatch(ids: string) {
+  static delScrapeBatch(ids: string) {
     return AxiosFun.winDelete(
-      AxiosFun.monitorCenterServiceName + "/machine/batchDelete/" + ids
+      AxiosFun.monitorCenterServiceName + "/scrape/batchDelete/" + ids
     );
   }
 
-  //一键同步
-  static onKeySync(): Promise<WinResponseData> {
+  /***********************************************************************************/
+  static getAlertRuleDataList(vo): Promise<WinResponseData> {
+    console.log("getAlertRuleDataList");
     return AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/onKeySync",
-      null
+      AxiosFun.monitorCenterServiceName + "/alertRule/alertRulePage",
+      vo
     );
   }
 
-  //机器明细数据
-  static machinePanelData(): Promise<WinResponseData> {
+  /**添加机器 */
+  static addAlertRule(vo: SysconfigVO): Promise<WinResponseData> {
     return AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/machine/machinePanelData",
-      null
+      AxiosFun.monitorCenterServiceName + "/alertRule/add",
+      vo
     );
   }
 
+  //编辑机器
+  static editAlertRule(vo: SysconfigVO): Promise<WinResponseData> {
+    return AxiosFun.post(
+      AxiosFun.monitorCenterServiceName + "/alertRule/modify",
+      vo
+    );
+  }
 
+  //删除机器
+  static deleteAlertRule(vo: SysconfigVO): Promise<WinResponseData> {
+    return AxiosFun.post(
+      AxiosFun.monitorCenterServiceName + "/alertRule/delete",
+      vo
+    );
+  }
+
+  /** 批量删除 */
+  static delAlertRuleBatch(ids: string) {
+    return AxiosFun.winDelete(
+      AxiosFun.monitorCenterServiceName + "/alertRule/batchDelete/" + ids
+    );
+  }
 
 }
