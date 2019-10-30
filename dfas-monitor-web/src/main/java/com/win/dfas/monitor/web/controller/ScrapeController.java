@@ -9,6 +9,7 @@ import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.service.IScrapeConfigService;
+import com.win.dfas.monitor.engine.service.ISysconfigService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,8 +37,9 @@ public class ScrapeController extends BaseController {
 
     @Autowired
     private IScrapeConfigService scrapeConfigService;
+
     @Autowired
-    private PrometheusService prometheusService;
+    ISysconfigService sysconfigService;
 
     /** 新增刮取 */
     @ApiOperation(value = "新增刮取", notes = "新增刮取")
@@ -49,7 +51,9 @@ public class ScrapeController extends BaseController {
         scrapeConfig.setId(IDUtils.nextId());
         scrapeConfig.setJobName(map.get("jobName"));
         scrapeConfig.setScheme(map.get("scheme"));
-        scrapeConfig.setScrapeInterval(Integer.parseInt(map.get("scrapeInterval")));
+        if(map.get("scrapeInterval") != null){
+            scrapeConfig.setScrapeInterval(Integer.parseInt(map.get("scrapeInterval")));
+        }
         scrapeConfig.setMetricsPath(map.get("metricsPath"));
         scrapeConfig.setStaticConfigsTargets(map.get("staticConfigsTargets"));
         scrapeConfig.setStaticConfigsLabelsInstance(map.get("staticConfigsLabelsInstance"));
@@ -57,6 +61,7 @@ public class ScrapeController extends BaseController {
         scrapeConfig.setConsulSdConfigsServername(map.get("consulSdConfigsServername"));
         scrapeConfig.setConsulSdConfigsScheme(map.get("consulSdConfigsScheme"));
         scrapeConfigService.insertScrapeConfig(scrapeConfig);
+        sysconfigService.syncFile();
         return successData(scrapeConfig.getId(),"新增刮取成功");
     }
 
@@ -78,6 +83,7 @@ public class ScrapeController extends BaseController {
         scrapeConfig.setConsulSdConfigsServername(map.get("consulSdConfigsServername"));
         scrapeConfig.setConsulSdConfigsScheme(map.get("consulSdConfigsScheme"));
         scrapeConfigService.updateScrapeConfig(scrapeConfig);
+        sysconfigService.syncFile();
         return successData(scrapeConfig.getId(),"修改刮取成功");
     }
 
@@ -89,6 +95,7 @@ public class ScrapeController extends BaseController {
         Map<String,String> map = JsonUtil.toObject(data, Map.class);
         String id = map.get("id") ;
         scrapeConfigService.deleteScrapeConfigByIds(id);
+        sysconfigService.syncFile();
         return successData(id,"删除刮取成功");
     }
     /** 修改刮取 */
@@ -97,6 +104,7 @@ public class ScrapeController extends BaseController {
     @DeleteMapping("/batchDelete/{ids}")
     public String batchDelete(@PathVariable("ids") String ids) {
         scrapeConfigService.deleteScrapeConfigByIds(ids);
+        sysconfigService.syncFile();
         return successData(ids,"删除刮取成功");
     }
 

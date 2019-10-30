@@ -6,7 +6,7 @@ import java.util.List;
 /**
  *  服务层
  * 
- * @author yss
+ * @author lj
  * @date 2019-10-29
  */
 public interface IRuleFileConfigService 

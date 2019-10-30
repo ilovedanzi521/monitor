@@ -12,4 +12,8 @@ public class MonitorConstants {
 
     public static final String DISK_FREE ="FREE";
 
+    public static final String RESULTMAP_PROMETHEUS = "RESULTMAP_PROMETHEUS" ;
+
+    public static final String RESULTMAP_ALERTRULE = "RESULTMAP_ALERTRULE" ;
+
 }

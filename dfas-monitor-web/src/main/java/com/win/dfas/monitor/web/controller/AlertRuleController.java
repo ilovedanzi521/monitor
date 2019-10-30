@@ -6,6 +6,7 @@ import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.engine.service.IRuleFileConfigService;
 import com.win.dfas.monitor.engine.service.IScrapeConfigService;
+import com.win.dfas.monitor.engine.service.ISysconfigService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,6 +35,8 @@ public class AlertRuleController extends BaseController {
     private IRuleFileConfigService ruleFileConfigService;
     @Autowired
     private PrometheusService prometheusService;
+    @Autowired
+    ISysconfigService sysconfigService;
 
     /** 新增预警 */
     @ApiOperation(value = "新增预警", notes = "新增预警")
@@ -51,6 +54,7 @@ public class AlertRuleController extends BaseController {
         ruleFileConfig.setAnnotationsSummary(map.get("annotationsSummary"));
         ruleFileConfig.setAnnotationsDescription(map.get("annotationsDescription"));
         ruleFileConfigService.insertRuleFileConfig(ruleFileConfig);
+        sysconfigService.syncFile();
         return successData(ruleFileConfig.getId(),"新增预警成功");
     }
 
@@ -70,6 +74,7 @@ public class AlertRuleController extends BaseController {
         ruleFileConfig.setAnnotationsSummary(map.get("annotationsSummary"));
         ruleFileConfig.setAnnotationsDescription(map.get("annotationsDescription"));
         ruleFileConfigService.updateRuleFileConfig(ruleFileConfig);
+        sysconfigService.syncFile();
         return successData(ruleFileConfig.getId(),"修改预警成功");
     }
 
@@ -81,6 +86,7 @@ public class AlertRuleController extends BaseController {
         Map<String,String> map = JsonUtil.toObject(data, Map.class);
         String id = map.get("id") ;
         ruleFileConfigService.deleteRuleFileConfigByIds(id);
+        sysconfigService.syncFile();
         return successData(id,"删除预警成功");
     }
     /** 修改预警 */
@@ -89,6 +95,7 @@ public class AlertRuleController extends BaseController {
     @DeleteMapping("/batchDelete/{ids}")
     public String batchDelete(@PathVariable("ids") String ids) {
         ruleFileConfigService.deleteRuleFileConfigByIds(ids);
+        sysconfigService.syncFile();
         return successData(ids,"删除预警成功");
     }
 
