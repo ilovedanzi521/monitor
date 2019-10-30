@@ -1,7 +1,7 @@
 package com.win.dfas.monitor.web;
 
 import com.win.dfas.monitor.engine.MonitorEngineInitializer;
-import com.win.dfas.monitor.exporter.microservice.EnableMonitorMetricsConfig;
+import com.win.dfas.monitor.exporter.microservice.EnableMonitorGatewayConfig;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /*@EnableAdminServer*/
 //@EnableDiscoveryClient
 @EnableEurekaClient
-@EnableMonitorMetricsConfig
+@EnableMonitorGatewayConfig
 @EnableScheduling
 @MapperScan("com.win.dfas.monitor.config.mapper")
 @SpringBootApplication(scanBasePackages = {"com.win.dfas.monitor.engine", "com.win.dfas.monitor.web", "com.win.dfas.monitor.config", "com.win.dfas.monitor.common.util"})

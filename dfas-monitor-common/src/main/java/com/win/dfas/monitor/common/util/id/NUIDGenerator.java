@@ -53,79 +53,79 @@ public class NUIDGenerator extends AbsIDGenerator implements IDGenerator {
         return date + randStr + seqStr;
     }
 
-    public static void main(String[] args) {
-
-        final NUIDGenerator nuid = new NUIDGenerator();
-        final Hashtable<String, String> ids = new Hashtable<String, String>();
-
-        final int idMax = 50000;
-        final CountDownLatch cntdown = new CountDownLatch(4);
-        Thread t1 = new Thread(new Runnable() {
-
-            public void run() {
-
-                for (int i = 0; i < idMax; i++) {
-                    ids.put(nuid.nextId(), i + "");
-                }
-                System.out.println("ok1");
-                cntdown.countDown();
-            }
-        });
-
-        Thread t2 = new Thread(new Runnable() {
-
-            public void run() {
-
-                for (int i = 0; i < idMax; i++) {
-                    ids.put(nuid.nextId(), i + "");
-                }
-                System.out.println("ok2");
-                cntdown.countDown();
-            }
-        });
-
-        Thread t3 = new Thread(new Runnable() {
-
-            public void run() {
-
-                for (int i = 0; i < idMax; i++) {
-                    ids.put(nuid.nextId(), i + "");
-                }
-                System.out.println("ok3");
-                cntdown.countDown();
-            }
-        });
-        Thread t4 = new Thread(new Runnable() {
-
-            public void run() {
-
-                NUIDGenerator nuid = new NUIDGenerator();
-                for (int i = 0; i < idMax; i++) {
-                    ids.put(nuid.nextId(), i + "");
-                }
-                System.out.println("ok4");
-                cntdown.countDown();
-            }
-        });
-
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
-        int i = 0;
-
-        System.out.println("检查id是否重复....");
-        try {
-            cntdown.await();
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
-
-        if (ids.size() < 4 * idMax) {
-            System.err.println("id生成重复");
-        } else {
-            System.out.println("无重复id， size＝" + ids.size());
-        }
-    }
-
+	/*public static void main(String[] args) {
+	
+	    final NUIDGenerator nuid = new NUIDGenerator();
+	    final Hashtable<String, String> ids = new Hashtable<String, String>();
+	
+	    final int idMax = 50000;
+	    final CountDownLatch cntdown = new CountDownLatch(4);
+	    Thread t1 = new Thread(new Runnable() {
+	
+	        public void run() {
+	
+	            for (int i = 0; i < idMax; i++) {
+	                ids.put(nuid.nextId(), i + "");
+	            }
+	            System.out.println("ok1");
+	            cntdown.countDown();
+	        }
+	    });
+	
+	    Thread t2 = new Thread(new Runnable() {
+	
+	        public void run() {
+	
+	            for (int i = 0; i < idMax; i++) {
+	                ids.put(nuid.nextId(), i + "");
+	            }
+	            System.out.println("ok2");
+	            cntdown.countDown();
+	        }
+	    });
+	
+	    Thread t3 = new Thread(new Runnable() {
+	
+	        public void run() {
+	
+	            for (int i = 0; i < idMax; i++) {
+	                ids.put(nuid.nextId(), i + "");
+	            }
+	            System.out.println("ok3");
+	            cntdown.countDown();
+	        }
+	    });
+	    Thread t4 = new Thread(new Runnable() {
+	
+	        public void run() {
+	
+	            NUIDGenerator nuid = new NUIDGenerator();
+	            for (int i = 0; i < idMax; i++) {
+	                ids.put(nuid.nextId(), i + "");
+	            }
+	            System.out.println("ok4");
+	            cntdown.countDown();
+	        }
+	    });
+	
+	    t1.start();
+	    t2.start();
+	    t3.start();
+	    t4.start();
+	    int i = 0;
+	
+	    System.out.println("检查id是否重复....");
+	    try {
+	        cntdown.await();
+	    } catch (InterruptedException e1) {
+	        e1.printStackTrace();
+	    }
+	
+	    if (ids.size() < 4 * idMax) {
+	        System.err.println("id生成重复");
+	    } else {
+	        System.out.println("无重复id， size＝" + ids.size());
+	    }
+	}
+	*/
 }

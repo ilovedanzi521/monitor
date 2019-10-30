@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableMonitorLogConfig
-@EnableMonitorMetricsConfig
+@EnableMonitorGatewayConfig
 public @interface EnableMonitorConfig {
 
 }

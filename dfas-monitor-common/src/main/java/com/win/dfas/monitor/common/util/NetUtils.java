@@ -337,9 +337,9 @@ public class NetUtils {
 	}
 	
 
-	public static void main(String[] args) throws SocketException {
-		//getLocalIpAddress();
-		System.out.println(getLocalIpAddress());
+/*	public static void main(String[] args) throws SocketException {
+		getLocalIpAddress();
+		System.out.println(getLocalIpAddress());*/
 //		List all = getAllIPAddress();
 //		for (int i = 0; i < all.size(); i++) {
 //			System.out.println(all.get(i));
@@ -348,5 +348,5 @@ public class NetUtils {
 		//		System.out.println(NetUtils.getHostName("localhost"));
 		//		System.out.println(NetUtils.getIpByHost("http://www.baidu.com"));
 		//		System.out.println(NetUtils.getIpByHost("http://192.168.101.195:9001/sofa"));
-	}
+//	}
 }

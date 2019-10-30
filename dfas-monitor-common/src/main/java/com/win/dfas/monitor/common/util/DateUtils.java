@@ -802,9 +802,9 @@ public final class DateUtils {
 		return new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
 	}
 
-	public static void main(String args[]) {
-		System.out.println(DateUtils.getPastDate(7, "yyyyMMdd"));
-	}
+	/*	public static void main(String args[]) {
+			System.out.println(DateUtils.getPastDate(7, "yyyyMMdd"));
+		}*/
 
 	/**
 	 * @当前季度的开始时间，即2012-01-01

@@ -21,6 +21,6 @@ import com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetricsAspect;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({MonitorMetricsAspect.class})
-public @interface EnableMonitorMetricsConfig {
+public @interface EnableMonitorGatewayConfig {
 
 }
