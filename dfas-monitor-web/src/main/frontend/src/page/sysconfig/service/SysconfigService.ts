@@ -86,4 +86,17 @@ export default class SysconfigService {
     );
   }
 
+  static initIpAddressSelect(ipAddressSelect) {
+    AxiosFun.post(
+      AxiosFun.monitorCenterServiceName + "/alertRule/getIssueTypeSelect",
+      null
+    ).then((response: WinResponseData) => {
+      console.log(response.data);
+      ipAddressSelect = response.data;
+    })
+      .catch((ex: any) => {
+      });
+  }
+
+
 }

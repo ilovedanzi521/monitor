@@ -18,7 +18,7 @@
     <win-table ref="multipleTable" style="width: 100%" :data="userReqVo.scrapeArray" :showSelection="true" @select-change="tableScrapSelectionChange" @select-all="tableScrapSelectionChange"  max-height="600">
       <win-table-column prop="jobName" label="抓取指标的job名称" width="150"></win-table-column>
       <!--<win-table-column :formatter="formatRoleName" label="状态" width="200"></win-table-column>-->
-      <win-table-column prop="scheme" label="请求协议" width="150"></win-table-column>
+      <!--<win-table-column prop="scheme" label="请求协议" width="150"></win-table-column>-->
       <win-table-column prop="scrapeInterval" label="抓取目标的频率" width="150"></win-table-column>
       <win-table-column prop="metricsPath" label="获取指标的HTTP资源路径" width="150"></win-table-column>
       <win-table-column prop="staticConfigsTargets" label="静态配置指定的目标" width="150"></win-table-column>

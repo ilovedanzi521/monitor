@@ -29,6 +29,7 @@ export class UserReqVO extends BaseReqVO {
 
   scrape: Scrape = {
     id: "",
+    scrapeType : "" ,
     jobName: "",
     scheme: "",
     scrapeInterval: "",
@@ -43,6 +44,7 @@ export class UserReqVO extends BaseReqVO {
   alertRule: AlertRule = {
     id: "",
     groupsName: "",
+    alertRuleType:"",
     name: "",
     expr: "",
     fortime: "",
@@ -202,6 +204,7 @@ interface Machine {
  *  */
 export class ScrapeClass implements Scrape {
   id:"";
+  scrapeType: "";
   jobName: "";
   scheme: "";
   scrapeInterval: "";
@@ -216,6 +219,7 @@ export class ScrapeClass implements Scrape {
 export class AlertRuleClass implements AlertRule {
   id:"";
   groupsName: "";
+  alertRuleType : "";
   name: "";
   expr: "";
   fortime: "";
@@ -233,6 +237,7 @@ export class AlertRuleClass implements AlertRule {
  * */
 interface Scrape {
   id: string;
+  scrapeType : string;
   jobName: string;
   scheme: string;
   scrapeInterval: string;
@@ -255,6 +260,7 @@ interface Scrape {
 interface AlertRule {
   id: string;
   groupsName: string;
+  alertRuleType:string;
   name: string;
   expr: string;
   fortime: string;

@@ -2,29 +2,29 @@
   <win-fdialog title="修改刮取配置" :visible.sync="dialogFormVisible" @close="close" :close-on-click-modal="false" width="800px" noDrag>
     <win-form :inline="true" v-testName="{'TEST_NAME':'userPage'}">
       <div class="hr">
-        <win-form-item label="抓取指标的job名称" prop="jobName">
-          <win-input placeholder="请填写抓取指标的job名称" v-model="userReqVo.scrape.jobName" maxlength="120"></win-input>
+        <win-form-item label="作业名称" prop="jobName">
+          <win-input placeholder="请填写作业名称" v-model="userReqVo.scrape.jobName" maxlength="120"></win-input>
         </win-form-item>
-        <win-form-item label="请求的协议方案" prop="scheme">
+       <!-- <win-form-item label="请求的协议方案" prop="scheme">
           <win-input placeholder="请填写请求的协议方案" v-model="userReqVo.scrape.scheme" maxlength="120"></win-input>
+        </win-form-item>-->
+        <win-form-item label="频率" prop="scrapeInterval">
+          <win-input placeholder="请填写频率" v-model="userReqVo.scrape.scrapeInterval" maxlength="120"></win-input>
         </win-form-item>
-        <win-form-item label="抓取目标的频率" prop="scrapeInterval">
-          <win-input placeholder="请填写抓取目标的频率" v-model="userReqVo.scrape.scrapeInterval" maxlength="120"></win-input>
+        <win-form-item label="指标URL" prop="metricsPath" v-if="metricsPathVisible">
+          <win-input placeholder="请填写指标URL" v-model="userReqVo.scrape.metricsPath" maxlength="120" ></win-input>
         </win-form-item>
-        <win-form-item label="从目标获取指标的HTTP资源路径" prop="metricsPath">
-          <win-input placeholder="请填写从目标获取指标的HTTP资源路径" v-model="userReqVo.scrape.metricsPath" maxlength="120"></win-input>
+        <win-form-item label="目标地址" prop="staticConfigsTargets" v-if="staticConfigsTargetsVisible">
+          <win-input placeholder="请填写目标地址" v-model="userReqVo.scrape.staticConfigsTargets" maxlength="120" ></win-input>
         </win-form-item>
-        <win-form-item label="静态配置指定的目标" prop="staticConfigsTargets">
-          <win-input placeholder="请填写静态配置指定的目标" v-model="userReqVo.scrape.staticConfigsTargets" maxlength="120"></win-input>
+        <win-form-item label="抓取的所有指标实例标签" prop="staticConfigsLabelsInstance" v-if="staticConfigsLabelsInstanceVisible">
+          <win-input placeholder="抓取的所有指标实例标签" v-model="userReqVo.scrape.staticConfigsLabelsInstance" maxlength="120" ></win-input>
         </win-form-item>
-        <win-form-item label="抓取的所有指标实例标签" prop="staticConfigsLabelsInstance">
-          <win-input placeholder="抓取的所有指标实例标签" v-model="userReqVo.scrape.staticConfigsLabelsInstance" maxlength="120"></win-input>
+        <win-form-item label="注册中心地址" prop="consulSdConfigsServer" v-if="consulSdConfigsServerVisible">
+          <win-input placeholder="注册中心地址" v-model="userReqVo.scrape.consulSdConfigsServer" maxlength="120" ></win-input>
         </win-form-item>
-        <win-form-item label="注册中心地址" prop="consulSdConfigsServer">
-          <win-input placeholder="注册中心地址" v-model="userReqVo.scrape.consulSdConfigsServer" maxlength="120"></win-input>
-        </win-form-item>
-        <win-form-item label="服务名称" prop="consulSdConfigsServername">
-          <win-input placeholder="服务名称" v-model="userReqVo.scrape.consulSdConfigsServername" maxlength="120"></win-input>
+        <win-form-item label="服务名称" prop="consulSdConfigsServername" v-if="consulSdConfigsServernameVisible">
+          <win-input placeholder="服务名称" v-model="userReqVo.scrape.consulSdConfigsServername" maxlength="120" ></win-input>
         </win-form-item>
       </div>
     </win-form>
@@ -47,6 +47,11 @@
     startX;
     startY;
     isDrag: Boolean = false;
+    metricsPathVisible : boolean = false;
+    staticConfigsTargetsVisible : boolean = false;
+    staticConfigsLabelsInstanceVisible : boolean = false;
+    consulSdConfigsServerVisible : boolean = false;
+    consulSdConfigsServernameVisible : boolean = false;
     style = {
       position: "absolute",
       left: "400px",
@@ -104,6 +109,24 @@
       console.log("_editScrape>>>>>end");
 
       this.$emit("editScrape", comParams,this.userReqVo);
+    }
+
+    mounted(){
+      if(this.userReqVo.scrape.metricsPath != null){
+        this.metricsPathVisible = true;
+      }
+      if(this.userReqVo.scrape.staticConfigsTargets != null){
+        this.staticConfigsTargetsVisible = true;
+      }
+      if(this.userReqVo.scrape.staticConfigsLabelsInstance != null){
+        this.staticConfigsLabelsInstanceVisible = true;
+      }
+      if(this.userReqVo.scrape.consulSdConfigsServer != null){
+        this.consulSdConfigsServerVisible = true;
+      }
+      if(this.userReqVo.scrape.consulSdConfigsServername != null){
+        this.consulSdConfigsServernameVisible = true;
+      }
     }
 
     close() {
