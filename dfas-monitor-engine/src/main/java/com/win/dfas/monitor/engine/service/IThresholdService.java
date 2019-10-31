@@ -14,11 +14,19 @@ public interface IThresholdService
 {
 	/**
      * 查询信息
-     * 
+     *
      * @param id ID
      * @return 信息
      */
 	public Threshold selectThresholdById(String id);
+
+	/**
+	 * 查询信息
+	 *
+	 * @param indicatorBody
+	 * @return 信息
+	 */
+	public Threshold selectThresholdByIndicatorBody(String indicatorBody);
 	
 	/**
      * 查询列表

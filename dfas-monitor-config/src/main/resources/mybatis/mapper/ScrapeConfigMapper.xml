@@ -27,7 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectScrapeConfigVo"/>
         <where>  
             <if test="id != null  and id != '' "> and ID = #{iD}</if>
-             <if test="jobName != null  and jobName != '' "> and JOB_NAME = #{jobName}</if>
+             <!--<if test="jobName != null  and jobName != '' "> and JOB_NAME = #{jobName}</if>-->
+            <if test="jobName != null  and jobName != '' ">
+                and JOB_NAME like concat('%', #{jobName},'%')
+            </if>
              <if test="scheme != null  and scheme != '' "> and SCHEME = #{sCHEME}</if>
              <if test="scrapeInterval != null "> and SCRAPE_INTERVAL = #{scrapeInterval}</if>
              <if test="metricsPath != null  and metricsPath != '' "> and METRICS_PATH = #{metricsPath}</if>

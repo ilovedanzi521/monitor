@@ -19,6 +19,7 @@ import { WinResponseData } from "../../common/vo/BaseVO";
 import Machine from "../../../components2/vue/monitor/Machine.vue";
 import MachinePanelController from "../controller/MachinePanelController";
 import AxiosFun from "../../../api/AxiosFun";
+import {MachinePanelVO} from "../vo/MachinePanelVO";
 
 @Component({ components: {Machine} })
 export default class MachinePanel extends MachinePanelController {

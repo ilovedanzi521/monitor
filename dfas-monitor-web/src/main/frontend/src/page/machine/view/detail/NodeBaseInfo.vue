@@ -12,7 +12,9 @@
       <div class="outDivStyle">
         <div class="innerDivStyle">
           <div class="title">负载</div>
-          <div class="name">{{machineInfoVO.balanceInfo}}</div>
+          <div class="name" v-if="parseFloat(machineInfoVO.balanceInfo.replace('%','')) > 80" style="color: #f72a2a">{{machineInfoVO.balanceInfo}}</div>
+          <div class="name" v-else-if="parseFloat(machineInfoVO.balanceInfo.replace('%','')) > 60 && parseFloat(machineInfoVO.balanceInfo.replace('%','')) < 80 " style="color:#e2d34f">{{machineInfoVO.balanceInfo}}</div>
+          <div class="name" v-else-if="parseFloat(machineInfoVO.balanceInfo.replace('%','')) < 60" style="color:#33cc33">{{machineInfoVO.balanceInfo}}</div>
         </div>
       </div>
     </div>

@@ -196,6 +196,20 @@ export default class SysconfigController extends BaseController {
     this.getScrapeDataList(params);
   }
 
+  scrapeQuery(){
+    let jobName = this.userReqVo.scrape.jobName;
+    let params = {jobName:jobName};
+    this.getScrapeDataList(params);
+    console.log(jobName);
+  }
+
+  alertRuleQuery(){
+    let name = this.userReqVo.alertRule.name;
+    let params = {name:name};
+    this.getAlertRuleDataList(params);
+    console.log(name);
+  }
+
   /***加载查询刮取配置表格*/
   async getScrapeDataList(params) {
     console.log(">>>getScrapeDataList>>>>");

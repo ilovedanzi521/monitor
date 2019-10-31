@@ -2,6 +2,7 @@ package com.win.dfas.monitor.web.controller;
 
 import com.win.dfas.monitor.common.entity.ScrapeConfig;
 import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.engine.service.IScrapeConfigService;
 import com.win.dfas.monitor.engine.service.ISysconfigService;
@@ -106,7 +107,11 @@ public class ScrapeController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(name = "data", value = "刮取列表", required = true, paramType = "body", dataType = "String")})
     @PostMapping("/scrapePage")
     public String scrapePage(@RequestBody String data) {
+        Map<String,String> map = JsonUtil.toObject(data, Map.class);
         ScrapeConfig scrapeConfig = new ScrapeConfig();
+        if(StringUtils.isNotEmpty(map.get("jobName"))){
+            scrapeConfig.setJobName(map.get("jobName"));
+        }
         List<ScrapeConfig> dcDevices = scrapeConfigService.selectScrapeConfigList(scrapeConfig);
         Map<String,Object> result = new HashMap<>();
         result.put("total",dcDevices.size());

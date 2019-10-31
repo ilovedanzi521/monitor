@@ -26,7 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="id != null  and id != '' "> and ID = #{id}</if>
              <if test="groupsName != null  and groupsName != '' "> and GROUPS_NAME = #{groupsName}</if>
-             <if test="name != null  and name != '' "> and NAME = #{name}</if>
+             <!--<if test="name != null  and name != '' "> and NAME = #{name}</if>-->
+            <if test="name != null  and name != '' ">
+                and NAME like concat('%', #{name},'%')
+            </if>
              <if test="expr != null  and expr != '' "> and EXPR = #{expr}</if>
              <if test="fortime != null "> and FORTIME = #{fortime}</if>
              <if test="labelsSeverity != null  and labelsSeverity != '' "> and LABELS_SEVERITY = #{labelsSeverity}</if>

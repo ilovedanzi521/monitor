@@ -6,9 +6,9 @@ import AxiosFun from "win-biz";
  * 系统配置页面获取数据
  */
 export default class SysconfigService {
-  
+
   static getScrapeDataList(vo): Promise<WinResponseData> {
-      console.log("getScrapeDataList");
+    console.log("getScrapeDataList");
     return AxiosFun.post(
       AxiosFun.monitorCenterServiceName + "/scrape/scrapePage",
       vo
@@ -86,17 +86,33 @@ export default class SysconfigService {
     );
   }
 
-  static initIpAddressSelect(ipAddressSelect) {
+  static initIpAddressSelect(userReqVo) {
     AxiosFun.post(
-      AxiosFun.monitorCenterServiceName + "/alertRule/getIssueTypeSelect",
+      AxiosFun.monitorCenterServiceName + "/alertRule/getIpAddressSelect",
       null
     ).then((response: WinResponseData) => {
       console.log(response.data);
-      ipAddressSelect = response.data;
+      userReqVo.ipAddressSelect = response.data;
     })
       .catch((ex: any) => {
       });
   }
+
+
+  static initAlertTypeSelect(userReqVo) {
+    AxiosFun.post(
+      AxiosFun.monitorCenterServiceName + "/alertRule/getAlertTypeSelect",
+      null
+    ).then((response: WinResponseData) => {
+      console.log(">>>>>>initAlertTypeSelect>>>>>>>")
+      console.log(response.data);
+      userReqVo.alertTypeSelect = response.data;
+      console.log(userReqVo.alertTypeSelect);
+    })
+      .catch((ex: any) => {
+      });
+  }
+
 
 
 }

@@ -2,6 +2,22 @@
   <win-fdialog title="新增预警规则配置" :visible.sync="dialogFormVisible" @close="close" :close-on-click-modal="false" width="800px" noDrag>
     <win-form :model="alertRule" :rules="rules" ref="scrape" label-width="185px" v-testName="{'TEST_NAME':'userPage'}">
       <div class="hr">
+        <win-form-item label="阈值类型" prop="alertRuleType" class="dialogItem">
+          <win-select v-model="alertRule.alertRuleType" filterable placeholder="请选择" :disabled="editDisabled" @change="changeAlertRuleType" clearable>
+            <win-option v-for="item in userReqVo.alertTypeSelect" :search="item.alertRuleType" :key="item.alertRuleType" :label="item.value" :value="item.alertRuleType">
+              <!--<span style="float: left">{{ item.type }}</span>-->
+              <span>{{ "&nbsp;"+item.value }}</span>
+            </win-option>
+          </win-select>
+        </win-form-item>
+        <win-form-item label="IP地址" prop="ipAddress" class="dialogItem">
+          <win-select v-model="alertRule.ipAddress" filterable placeholder="请选择" :disabled="editDisabled" @change="changeIpaddressType" clearable>
+            <win-option v-for="item2 in userReqVo.ipAddressSelect" :search="item2.code" :key="item2.code" :label="item2.code" :value="item2.value">
+              <!--<span style="float: left">{{ item.type }}</span>-->
+              <span>{{ "&nbsp;"+item2.code }}</span>
+            </win-option>
+          </win-select>
+        </win-form-item>
         <win-form-item label="规则分组名称" prop="groupsName">
           <win-input placeholder="请填写规则分组名称" v-model="alertRule.groupsName" maxlength="120"></win-input>
         </win-form-item>
@@ -14,12 +30,21 @@
         <win-form-item label="评估等待时间" prop="fortime">
           <win-input placeholder="请填写评估等待时间" v-model="alertRule.fortime" maxlength="120"></win-input>
         </win-form-item>
-        <win-form-item label="告警级别" prop="labelsSeverity">
+        <!--<win-form-item label="告警级别" prop="labelsSeverity">
           <win-input placeholder="请填写告警级别" v-model="alertRule.labelsSeverity" maxlength="120"></win-input>
+        </win-form-item>-->
+        <win-form-item label="类型" prop="labelsSeverity" class="dialogItem">
+          <win-select v-model="alertRule.labelsSeverity" filterable placeholder="请选择" :disabled="editDisabled"  clearable>
+            <win-option v-for="item in levels" :search="item.code" :key="item.code" :label="item.name" :value="item.code">
+              <!--<span style="float: left">{{ item.type }}</span>-->
+              <span>{{ "&nbsp;"+item.name }}</span>
+            </win-option>
+          </win-select>
         </win-form-item>
-        <win-form-item label="摘要" prop="annotationsSummary">
+
+        <!--<win-form-item label="摘要" prop="annotationsSummary">
           <win-input placeholder="请填写摘要" v-model="alertRule.annotationsSummary" maxlength="120"></win-input>
-        </win-form-item>
+        </win-form-item>-->
         <win-form-item label="描述" prop="annotationsDescription">
           <win-input placeholder="请填写描述" v-model="alertRule.annotationsDescription" maxlength="120"></win-input>
         </win-form-item>
@@ -43,10 +68,20 @@
   export default class AddAlertRule extends BaseController {
     dialogFormVisible: boolean = true;
     private editDisabled: boolean = false;
-    private ipAddressSelect: any[] = [];
     startX;
     startY;
     isDrag: Boolean = false;
+
+    private levels: any[] = [{
+      code: '0',
+      name: '低',
+    },{
+      code: '1',
+      name: '中',
+    },{
+      code: '2',
+      name: '高',
+    }];
 
     style = {
       position: "absolute",
@@ -91,6 +126,7 @@
       const comParams = {
         groupsName: this.alertRule.groupsName,
         alertRuleType: this.alertRule.alertRuleType,
+        ipAddress: this.alertRule.ipAddress,
         name: this.alertRule.name,
         expr: this.alertRule.expr,
         fortime: this.alertRule.fortime,
@@ -105,8 +141,17 @@
       this.$emit("addAlertRule", comParams,this.userReqVo);
     }
 
+    private changeAlertRuleType(alertRuleType: string) {
+      console.log(alertRuleType);
+    }
+
+    private changeIpaddressType(ipAddressType: string) {
+      console.log(ipAddressType);
+    }
+
     mounted() {
-      SysconfigService.initIpAddressSelect(this.ipAddressSelect);
+      SysconfigService.initAlertTypeSelect(this.userReqVo);
+      SysconfigService.initIpAddressSelect(this.userReqVo);
     }
     close() {
       this.userReqVo.stateController.switchFormType = "";

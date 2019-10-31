@@ -31,7 +31,18 @@ public class ThresholdServiceImpl implements IThresholdService
 	{
 	    return thresholdMapper.selectThresholdById(id);
 	}
-	
+
+	/**
+	 * 查询信息
+	 *
+	 * @param indicatorBody
+	 * @return 信息
+	 */
+	@Override
+	public Threshold selectThresholdByIndicatorBody(String indicatorBody)
+	{
+		return thresholdMapper.selectThresholdByIndicatorBody(indicatorBody);
+	}
 	/**
      * 查询列表
      * 
