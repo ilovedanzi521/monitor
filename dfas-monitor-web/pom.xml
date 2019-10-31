@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.win.dfas</groupId>
+        <groupId>com.win.dfas.monitor</groupId>
         <artifactId>dfas-monitor-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -22,12 +22,12 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.win.dfas</groupId>
+            <groupId>com.win.dfas.monitor</groupId>
             <artifactId>dfas-monitor-engine</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.win.dfas</groupId>
+            <groupId>com.win.dfas.monitor</groupId>
             <artifactId>dfas-monitor-exporter-microservice</artifactId>
             <version>${project.version}</version>
         </dependency>
