@@ -32,3 +32,7 @@ eureka:
 mybatis:
    datasource:
      enable: true
+kafka:
+    server:
+        url: 192.168.0.56:9092
+    topic: monitor

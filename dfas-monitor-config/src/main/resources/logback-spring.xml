@@ -5,7 +5,7 @@
 
     <define name="monitorLogDir" class="com.win.dfas.monitor.config.log.MonitorLogDir"/>
 
-    <springProperty scope="context" name="kafkaTopic" source="kafka.topic"/>
+    <springCloudProperty scope="context" name="kafkaTopic" source="kafka.topic"/>
 
     <springProperty scope="context" name="kafkaServerUrl" source="kafka.server.url"/>
 
@@ -53,7 +53,7 @@
     <!-- 异步发送给Kafka-->
     <appender name="asyncKafkaAppender" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>0</discardingThreshold>
-        <queueSize>500</queueSize>
+        <queueSize>1000</queueSize>
         <appender-ref ref="kafkaAppender"/>
     </appender>
 
@@ -78,7 +78,7 @@
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
-            <appender-ref ref="asyncKafkaAppender"/>
+            <!-- <appender-ref ref="asyncKafkaAppender"/> -->
         </root>
     </springProfile>
 
