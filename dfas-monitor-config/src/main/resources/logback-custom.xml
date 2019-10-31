@@ -73,12 +73,12 @@
         <logger name="com.win" level="DEBUG" additivity="false">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
-            <!-- <appender-ref ref="asyncKafkaAppender"/> -->
+            <appender-ref ref="asyncKafkaAppender"/>
         </logger>
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
-            <!-- <appender-ref ref="asyncKafkaAppender"/> -->
+            <appender-ref ref="asyncKafkaAppender"/>
         </root>
     </springProfile>
 
