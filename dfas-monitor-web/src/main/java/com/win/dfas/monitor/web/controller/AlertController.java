@@ -48,16 +48,16 @@ public class AlertController extends BaseController {
         AlertVO alertVO = alertMsgVO.getAlerts().get(0);
         LabelVO labels = alertVO.getLabels();
         AnnotationVO annotationVO = alertVO.getAnnotations();
-        String warnType = StringUtils.split(labels.getSeverity(),"_")[0];
-        String warnLevel = StringUtils.split(labels.getSeverity(),"_")[1];
-        String description = annotationVO.getDescription();
-        String ipAddress = getIP(description);
-        String issueDesc = getIssueDesc(ipAddress,description);
-        issue.setId(IDUtils.nextId());
-        issue.setIpAddress(ipAddress);
-        issue.setIssueType(warnType);
-        issue.setIssueDesc(issueDesc);
-        issue.setWarnLevel(warnLevel);
+		/*   String warnType = StringUtils.split(labels.getSeverity(),"_")[0];
+		String warnLevel = StringUtils.split(labels.getSeverity(),"_")[1];
+		String description = annotationVO.getDescription();
+		String ipAddress = getIP(description);
+		String issueDesc = getIssueDesc(ipAddress,description);
+		issue.setId(IDUtils.nextId());
+		issue.setIpAddress(ipAddress);
+		issue.setIssueType(warnType);
+		issue.setIssueDesc(issueDesc);
+		issue.setWarnLevel(warnLevel);*/
         return issue;
     }
 

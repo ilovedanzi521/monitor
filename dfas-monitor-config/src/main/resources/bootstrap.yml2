@@ -88,9 +88,15 @@ pagehelper:
 prometheus:
     server:
         url: http://192.168.0.55:9090
+    config:
+        dir: /opt/software/prometheus
 pushgateway:
     server:
         url: 192.168.0.56:9091
 registration:
     center:
         url: http://192.168.0.60:10010
+alertmanager:
+    server:
+        url: 192.168.0.55:9093
+        
