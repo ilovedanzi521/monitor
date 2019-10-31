@@ -80,7 +80,7 @@ export default class ThresholdController extends BaseController {
               indicatorBody: item.indicatorBody,
               indicatorName: item.indicatorName,
               indicatorSymbol: item.indicatorSymbol,
-              threshold: item.threshold
+              threshold: item.threshold + ''
             };
           });
           console.log(">>>>>>>>syncThreshold>>>>>>>>>>")
@@ -136,7 +136,7 @@ export default class ThresholdController extends BaseController {
       indicatorBody: indicatorBody,
       indicatorName: indicatorName,
       indicatorSymbol: indicatorSymbol,
-      threshold: threshold,
+      threshold: threshold + '',
     };
     ThresholdService
       .editThreshold(params)

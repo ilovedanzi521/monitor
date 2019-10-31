@@ -1,6 +1,6 @@
 <template>
   <div class="table-contanier">
-    <dl class="searchList">
+    <!--<dl class="searchList">
       <dt>刮取配置</dt>
       <dd>
             <span class="btngrounp">
@@ -14,13 +14,40 @@
                     </button>
                 </span>
       </dd>
-    </dl>
+    </dl>-->
+    <div class="formInline" style="width:100%;height:50px;margin-top:5px;">
+      <win-form v-model="reqVO" :inline="true" v-testName="{'TEST_NAME':'microServiceInfo'}">
+        <win-row>
+          <win-col :span="5">
+            <win-button-group>
+              <win-button type="info" icon="win win-add" permit-ref="ADD" @click="handAddScrape" round>新增刮取规则</win-button>
+              <win-button type="info" icon="win win-del" @click="delBatchScrape" round>删除刮取规则</win-button>
+            </win-button-group>
+          </win-col>
+
+          <win-col :span="5">
+            <win-form-item label="作业名称">
+              <!--<el-autocomplete v-model="userReqVo.scrape.jobName" :fetch-suggestions="microServiceNameSelect" clearable placeholder="请输入内容">
+              </el-autocomplete>-->
+              <win-input placeholder="请输入内容" v-model="userReqVo.scrape.jobName"></win-input>
+            </win-form-item>
+          </win-col>
+
+          <win-col :span="3">
+            <div style="margin-top: 5px;">
+              <win-button type="primary" icon="el-icon-search" @click="scrapeQuery">查询</win-button>
+              <win-button icon="el-icon-refresh" @click="reset">重置</win-button>
+            </div>
+          </win-col>
+        </win-row>
+      </win-form>
+    </div>
     <win-table ref="multipleTable" style="width: 100%" :data="userReqVo.scrapeArray" :showSelection="true" @select-change="tableScrapSelectionChange" @select-all="tableScrapSelectionChange"  max-height="600">
-      <win-table-column prop="jobName" label="抓取指标的job名称" width="150"></win-table-column>
+      <win-table-column prop="jobName" label="作业名称" width="150"></win-table-column>
       <!--<win-table-column :formatter="formatRoleName" label="状态" width="200"></win-table-column>-->
       <!--<win-table-column prop="scheme" label="请求协议" width="150"></win-table-column>-->
-      <win-table-column prop="scrapeInterval" label="抓取目标的频率" width="150"></win-table-column>
-      <win-table-column prop="metricsPath" label="获取指标的HTTP资源路径" width="150"></win-table-column>
+      <win-table-column prop="scrapeInterval" label="频率" width="150"></win-table-column>
+      <win-table-column prop="metricsPath" label="指标URL" width="150"></win-table-column>
       <win-table-column prop="staticConfigsTargets" label="静态配置指定的目标" width="150"></win-table-column>
       <win-table-column prop="staticConfigsLabelsInstance" label="指标的标签" width="150"></win-table-column>
       <win-table-column prop="consulSdConfigsServer" label="注册中心地址" width="150"></win-table-column>

@@ -48,11 +48,11 @@ public class SysconfigServiceImpl implements ISysconfigService
 
 	@Override
 	public void syncFile() {
-		Map<String,Object> resultMap = generateSystemConfiguration();
+		/*Map<String,Object> resultMap = generateSystemConfiguration();
 		sync2prometheus(resultMap);
 		clearLocalFile(resultMap);
 		String url = prometheusServerUrl + "/-/reload";
-		RestfulTools.post(url, String.class);
+		RestfulTools.post(url, String.class);*/
 	}
 
 	@Override

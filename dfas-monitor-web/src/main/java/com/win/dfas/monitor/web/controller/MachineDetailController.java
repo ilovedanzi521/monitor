@@ -116,8 +116,8 @@ public class MachineDetailController extends BaseController {
         cpuMap2.put("value",100 - Double.parseDouble(getVal(dcDevcie.getMemory())));
         seriesData.add(cpuMap1);
         seriesData.add(cpuMap2);
-        colorData.add(LineColorEnum.values()[0].getColor());
-        colorData.add(LineColorEnum.values()[1].getColor());
+        colorData.add(getColor(Double.parseDouble(getVal(dcDevcie.getMemory()))));
+        colorData.add("lightcyan");
         machineCPUUsageVO.setLegendData(legendData);
         machineCPUUsageVO.setSeriesData(seriesData);
         machineCPUUsageVO.setColorData(colorData);
@@ -139,12 +139,23 @@ public class MachineDetailController extends BaseController {
         cpuMap2.put("value",100 - Double.parseDouble(getVal(dcDevcie.getCpu())));
         seriesData.add(cpuMap1);
         seriesData.add(cpuMap2);
-        colorData.add(LineColorEnum.values()[0].getColor());
-        colorData.add(LineColorEnum.values()[1].getColor());
+        colorData.add(getColor(Double.parseDouble(getVal(dcDevcie.getCpu()))));
+        colorData.add("lightcyan");
         machineCPUUsageVO.setLegendData(legendData);
         machineCPUUsageVO.setSeriesData(seriesData);
         machineCPUUsageVO.setColorData(colorData);
         return machineCPUUsageVO;
+    }
+
+    private String getColor(double v) {
+        if(v > 80){
+            return "#f72a2a" ;
+        }else if(v>60 && v < 80){
+            return "#e2d34f" ;
+        }else if(v < 60){
+            return "#33cc33" ;
+        }
+        return "#f5f7fa" ;
     }
 
     private String getVal(String data) {

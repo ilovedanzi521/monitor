@@ -35,7 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectThresholdVo"/>
         where id = #{id}
     </select>
-        
+
+
+    <select id="selectThresholdByIndicatorBody" parameterType="String" resultMap="ThresholdResult">
+        <include refid="selectThresholdVo"/>
+        where indicator_body = #{indicatorBody}
+    </select>
+
     <insert id="insertThreshold" parameterType="com.win.dfas.monitor.common.entity.Threshold">
         insert into t_threshold
 		<trim prefix="(" suffix=")" suffixOverrides=",">

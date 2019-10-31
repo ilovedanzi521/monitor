@@ -24,6 +24,8 @@ interface UserQuery {
 export class UserReqVO extends BaseReqVO {
   public userSerachParam: string;
   machinePanelDataList: any[];
+  ipAddressSelect: any[] = [];
+  alertTypeSelect: any[] = [];
 
   //dataRow : Object ;
 
@@ -45,6 +47,7 @@ export class UserReqVO extends BaseReqVO {
     id: "",
     groupsName: "",
     alertRuleType:"",
+    ipAddress:"",
     name: "",
     expr: "",
     fortime: "",
@@ -220,6 +223,7 @@ export class AlertRuleClass implements AlertRule {
   id:"";
   groupsName: "";
   alertRuleType : "";
+  ipAddress:"";
   name: "";
   expr: "";
   fortime: "";
@@ -261,6 +265,7 @@ interface AlertRule {
   id: string;
   groupsName: string;
   alertRuleType:string;
+  ipAddress:string;
   name: string;
   expr: string;
   fortime: string;
