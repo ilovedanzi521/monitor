@@ -22,10 +22,10 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>com.win.dfas</groupId>
-			<artifactId>dfas-monitor-common</artifactId>
-		</dependency>
+	<dependency>
+		<groupId>com.win.dfas</groupId>
+		<artifactId>dfas-monitor-common</artifactId>
+	</dependency>
 
 	</dependencies>
 

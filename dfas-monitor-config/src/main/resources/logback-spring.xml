@@ -3,13 +3,11 @@
 
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
-    <springProperty scope="context" name="springElasticsearchIndex" source="spring.elasticsearch.index"/>
+    <define name="monitorLogDir" class="com.win.dfas.monitor.config.log.MonitorLogDir"/>
 
-    <springProperty scope="context" name="kafka.topic" source="kafka.topic"/>
+    <springProperty scope="context" name="kafkaTopic" source="kafka.topic"/>
 
     <springProperty scope="context" name="kafkaServerUrl" source="kafka.server.url"/>
-
-    <define name="monitorLogDir" class="com.win.dfas.monitor.config.log.MonitorLogDir"/>
 
     <define name="logCustomField" class="com.win.dfas.monitor.exporter.microservice.log.LogCustomField"/>
 
@@ -23,7 +21,7 @@
             </layout>
             <charset>UTF-8</charset>
         </encoder>
-        <topic>${springElasticsearchIndex}</topic>
+        <topic>${kafkaTopic}</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy"/>
         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
         <producerConfig>bootstrap.servers=${kafkaServerUrl}</producerConfig>
@@ -93,6 +91,7 @@
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </root>
     </springProfile>
 
@@ -104,6 +103,7 @@
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </root>
     </springProfile>
 
@@ -115,6 +115,7 @@
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </root>
     </springProfile>
     <!-- 生产环境 -->
@@ -125,6 +126,7 @@
 
         <root level="INFO">
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </root>
     </springProfile>
 </configuration>
