@@ -1,0 +1,96 @@
+server:
+    port: 8080 #本地开发环境时用，生产部署时，应该设置为0，系统随机创建端口
+    servlet:
+        # 项目contextPath
+        context-path: /
+spring:
+    profiles:
+        active: dev
+    application:
+        name: dfas-monitor #服务名
+    main:
+      allow-bean-definition-overriding: true
+    cloud:
+      config:
+         name: common,${spring.application.name}
+         label: ${spring.profiles.active:dev} #对应前配置文件的git分支 #/{label}/{application}-{profile}.yml
+         profile: ${spring.profiles.active:dev} #对应前配置文件中的{profile}部分
+         discovery:
+           enabled: true #开启配置中心服务发现
+           serviceId: dfas-config-center #配置中心的servieId，即服务名
+    data:
+        elasticsearch:
+            repositories:
+                enabled: true
+    datasource:
+        driverClassName: org.h2.Driver
+        password: sa
+        platform: h2
+        schema: classpath:script/schema.sql
+        url: jdbc:h2:file:monitor
+        username: sa
+    elasticsearch:
+        index: monitor
+        rest:
+            uris: 192.168.0.56:9200
+    h2:
+        console:
+            enabled: true
+            path: /h2
+            settings:
+                web-allow-others: true
+    redis:
+        database: 0
+        host: 192.168.0.107
+        password: ''
+        port: 6380
+eureka:
+    instance:
+        lease-renewal-interval-in-seconds: 10 # 续约更新时间间隔（默认是30秒）
+        lease-expiration-duration-in-seconds: 30 #服务失效时间。默认是90秒，也就是如果Eureka Server在90秒内没有接收到来自ServiceProvider的Renew操作，就会把Service Provider剔除
+        instance-id: ${spring.cloud.client.hostname}:${spring.cloud.client.ipAddress}:${random.int} #设置实例名
+        prefer-ip-address: true #使用IP地址来做注册中心地址
+    client:
+        InitialInstanceInfoReplicationIntervalSeconds: 1 #最初复制实例信息到eureka服务器所需的时间（s），默认为40秒
+        InstanceInfoReplicationIntervalSeconds: 10 #复制实例变化信息到eureka服务器所需要的时间间隔（s），默认为30秒
+        RegistryFetchIntervalSeconds: 10 #从eureka服务器注册表中获取注册信息的时间间隔（s），默认为30秒
+        service-url:
+            defaultZone: http://192.168.0.60:10010/eureka/ #配置服务注册中心 多个用逗号分隔
+deployment:
+    server:
+        url: http://192.168.6.41:8888
+kafka:
+    server:
+        url: 192.168.0.56:9092
+    topic: monitor
+management:
+    endpoint:
+        metrics:
+            enabled: true
+        prometheus:
+            enabled: true
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+    metrics:
+        export:
+            prometheus:
+                enabled: true
+        tags:
+            application: ${spring.application.name}
+mybatis:
+    configLocation: classpath:mybatis/mybatis-config.xml
+    mapperLocations: classpath:mybatis/**/*Mapper.xml
+    typeAliasesPackage: com.win.dfas.monitor.common.entity
+pagehelper:
+    reasonable: true
+prometheus:
+    server:
+        url: http://192.168.0.55:9090
+pushgateway:
+    server:
+        url: 192.168.0.56:9091
+registration:
+    center:
+        url: http://192.168.0.60:10010

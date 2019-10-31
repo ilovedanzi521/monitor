@@ -1,14 +1,11 @@
 
 package com.win.dfas.monitor.config.datasource;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -22,52 +19,58 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0.0 2018-11-26
  * @since 1.0.0 2018-11-26
  */
-@EnableTransactionManagement
-@Configuration
+//@EnableTransactionManagement
+//@Configuration
 public class DruidConfig {
 
     /**
      * 存放主从数据源，用法见类com.yss.bi.iae.framework.MultiplyDataSourceServiceImpl的selectGraphReportFromSlave2方法
      */
     public static Map<String, DataSource> dsMap = new ConcurrentHashMap<String, DataSource>();
+    /*
 
-    /**
-     * 首选数据源
-     * @return
      */
+/**
+ * 首选数据源
+ * @return
+ */    /*
+
     @Bean(name = "masterDataSource")
     @Qualifier("masterDataSource")
     public DataSource masterDataSource() {
         return buildMasterDataSource(DataSourceType.MASTER);
     }
 
-    /**
-     * 次选数据源
-     * @return
-     */
+        */
+/**
+ * 次选数据源
+ * @return
+ */    /*
+
     @Bean(name = "slaveDataSource")
     @Qualifier("slaveDataSource")
     public DataSource newSlaveDataSource() {
         return buildSlaveDataSource(DataSourceType.SLAVE);
     }
+    */
 
-    /**
+    /*  *//**
      * 实例化首选数据源
      * @param dataSourceType
      * @return
-     */
+     *//*
     private DataSource buildMasterDataSource(DataSourceType dataSourceType) {
         return DruidDataSourceBuilder.create().build();
     }
 
-    /**
+    *//**
      * 实例化次选数据源
      * @param dataSourceType
      * @return
-     */
+     *//*
     private DataSource buildSlaveDataSource(DataSourceType dataSourceType) {
         return DruidDataSourceBuilder.create().build();
-    }
+    }*/
 
     /**
      * 首选数据源Jdbc模板

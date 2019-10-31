@@ -5,6 +5,8 @@
 
     <springProperty scope="context" name="springElasticsearchIndex" source="spring.elasticsearch.index"/>
 
+    <springProperty scope="context" name="kafka.topic" source="kafka.topic"/>
+
     <springProperty scope="context" name="kafkaServerUrl" source="kafka.server.url"/>
 
     <define name="monitorLogDir" class="com.win.dfas.monitor.config.log.MonitorLogDir"/>
@@ -16,12 +18,11 @@
             <layout class="net.logstash.logback.layout.LogstashLayout">
                 <includeContext>true</includeContext>
                 <includeCallerData>true</includeCallerData>
-                <customFields>${logCustomField}</customFields>
+               <customFields>${logCustomField}</customFields>
                 <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>
             </layout>
             <charset>UTF-8</charset>
         </encoder>
-        <!--kafka topic 需要与配置文件里面的topic一致 否则kafka会沉默并鄙视你-->
         <topic>${springElasticsearchIndex}</topic>
         <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy"/>
         <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
@@ -71,11 +72,11 @@
 
     <!-- 开发环境 -->
     <springProfile name="dev">
-        <logger name="com.win" level="DEBUG">
+<!--         <logger name="com.win" level="DEBUG">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
             <appender-ref ref="asyncKafkaAppender"/>
-        </logger>
+        </logger> -->
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>

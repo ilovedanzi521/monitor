@@ -1,14 +1,12 @@
-spring.application.name=dfas-monitor-center
-#server.address=192.168.6.69
+spring.application.name=dfas-monitor
 server.port=8080
-server.servlet.context-path=/dfas-monitor-center
 eureka.instance.lease-renewal-interval-in-seconds=10
 eureka.instance.health-check-url-path=/actuator/health
 spring.profiles.active=dev
 #spring.cloud.config.label=dev
 #spring.cloud.config.profile=dev
 #eureka.client.serviceUrl.defaultZone=http://192.168.0.61:10010/eureka/
-eureka.client.serviceUrl.defaultZone=http://192.168.6.69:10010/eureka/
+eureka.client.serviceUrl.defaultZone=http://192.168.0.60:10010/eureka/
 #Metrics related configurations
 management.endpoint.metrics.enabled=true
 management.endpoints.web.exposure.include=*
@@ -19,9 +17,10 @@ management.metrics.tags.application=${spring.application.name}
 #spring.cloud.config.discovery.serviceId=dfas-config-center
 #spring.cloud.config.name=common,${spring.application.name}
 prometheus.server.url=http://192.168.0.55:9090
-registration.center.url=http://192.168.6.69:10010
+registration.center.url=http://192.168.0.60:10010
 deployment.server.url=http://192.168.6.41:8888
 kafka.server.url=192.168.0.56:9092
+kafka.topic=monitor
 pushgateway.server.url=192.168.0.56:9091
 # MyBatis
 pagehelper.reasonable=true
@@ -33,7 +32,7 @@ spring.datasource.url=jdbc:h2:file:monitor
 spring.datasource.schema=classpath:script/schema.sql
 spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
-spring.datasource.password=
+spring.datasource.password=sa
 ##h2 web console
 spring.datasource.platform=h2
 spring.h2.console.settings.web-allow-others=true
@@ -44,3 +43,14 @@ spring.data.elasticsearch.repositories.enabled = true
 #spring.data.cluster-nodes=192.168.0.56:9300
 spring.elasticsearch.rest.uris=192.168.0.56:9200
 spring.elasticsearch.index=monitor
+
+spring.cloud.config.name=monitor,${spring.application.name}
+spring.cloud.config.label=${spring.profiles.active:dev}
+spring.cloud.config.profile=${spring.profiles.active:dev}
+spring.cloud.config.discovery.enabled=true
+spring.cloud.config.discovery.serviceId=dfas-config-center
+
+spring.redis.database=0
+spring.redis.host=192.168.0.107
+spring.redis.password=
+spring.redis.port=6380

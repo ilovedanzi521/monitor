@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
  * @version 1.0.0 2018-11-13
  * @since 1.0.0 2018-11-13
  */
-@Aspect
-@Order(-1)
-@Component
+//@Aspect
+//@Order(-1)
+//@Component
 public class DataSourceAspect {
 
     static Logger log= LoggerFactory.getLogger(DataSourceAspect.class);

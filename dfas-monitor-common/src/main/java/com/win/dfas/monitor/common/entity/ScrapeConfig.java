@@ -3,8 +3,7 @@ package com.win.dfas.monitor.common.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 /**
  * 表 t_scrape_config

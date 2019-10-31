@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * 创建人：@author wangyaoheng
  * 创建时间：2019年8月7日/下午1:31:49
  */
-public class StringUtils extends org.apache.commons.lang3.StringUtils {
+public class StringUtils {
     /** 空字符串 */
     private static final String NULLSTR = "";
 
@@ -322,7 +322,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
     }
 
-    public static String defaultValueIfEmpty(Object str,String defaultValue) {
+    public static String defaultValueIfEmpty(Object str, String defaultValue) {
         if (isEmpty(str)) {
             return defaultValue;
         } else {

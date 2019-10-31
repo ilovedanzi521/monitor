@@ -13,7 +13,7 @@ export default class AxiosFun extends Vue {
 
   public static basicParameterServiceName = "/dfbp-common-basicparameter";
 
-  public static monitorCenterServiceName = "/dfas-monitor-center";
+  public static monitorCenterServiceName = "/dfas-monitor";
 
   public static monitorCenterWebsocketBaseUrl = AxiosFun.websocketProtocol + AxiosFun.monitorCenterHostAddress + AxiosFun.monitorCenterServiceName;
 

@@ -1,11 +1,9 @@
 package com.win.dfas.monitor.common.entity;
 
-import com.win.dfas.monitor.common.vo.MicroServiceReqVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Setter

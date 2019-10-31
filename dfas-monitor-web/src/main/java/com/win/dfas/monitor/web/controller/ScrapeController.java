@@ -1,26 +1,27 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.win.dfas.monitor.common.entity.DcDevcie;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.win.dfas.monitor.common.entity.ScrapeConfig;
 import com.win.dfas.monitor.common.util.JsonUtil;
-import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.util.id.IDUtils;
-import com.win.dfas.monitor.common.vo.MachineStatusVO;
-import com.win.dfas.monitor.common.vo.MachineVO;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.service.IScrapeConfigService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 包名称：com.win.dfas.monitor.web.controller

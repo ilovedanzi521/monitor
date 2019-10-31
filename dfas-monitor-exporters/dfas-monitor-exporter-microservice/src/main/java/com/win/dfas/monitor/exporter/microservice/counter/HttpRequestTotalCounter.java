@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
 import com.win.dfas.monitor.common.util.DateUtils;
@@ -18,11 +19,13 @@ import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
 import com.win.dfas.monitor.common.vo.MetricsResultVO;
 import com.win.dfas.monitor.common.vo.MetricsReturnMsgVO;
+import com.win.dfas.monitor.exporter.microservice.pushgateway.MonitorPushGateway;
 
 import io.prometheus.client.Counter;
 import io.prometheus.client.exporter.PushGateway;
 
 @Component
+@Import({ MonitorPushGateway.class })
 public class HttpRequestTotalCounter {
 	
 	@Value("${prometheus.server.url}")
@@ -65,9 +68,20 @@ public class HttpRequestTotalCounter {
 		} else {
 			execute();
 		}
-
 	}
 
+	public void inc(String requestUrl) {
+		if(requestUrl != null) {
+			if(requestUrl.contains("dfas-")|| requestUrl.contains("dfbp-")) {
+				if (!hasInit) {
+					init();
+				} else {
+					execute();
+				}
+			}
+		}	
+	}
+	
     public Long getHttpRequestTotal() {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("queryParam", "http_requests_total_" + DateUtils.getCurrentDateByStringFormat());

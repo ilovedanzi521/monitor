@@ -1,9 +1,25 @@
 package com.win.dfas.monitor.engine.task;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.constant.ResultTypeEnum;
 import com.win.dfas.monitor.common.entity.DcDevcie;
-import com.win.dfas.monitor.common.util.*;
+import com.win.dfas.monitor.common.util.BigDecimalUtils;
+import com.win.dfas.monitor.common.util.DateUtils;
+import com.win.dfas.monitor.common.util.JsonUtil;
+import com.win.dfas.monitor.common.util.RestfulTools;
+import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
 import com.win.dfas.monitor.common.vo.MetricsResultVO;
@@ -11,15 +27,8 @@ import com.win.dfas.monitor.common.vo.MetricsReturnMsgVO;
 import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
-import java.text.DecimalFormat;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArraySet;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>
@@ -30,7 +39,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
  */
 @Slf4j
-@Component
+//@Component
 public class MachineTask {
 
     @Value("${prometheus.server.url}")

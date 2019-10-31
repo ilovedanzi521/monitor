@@ -13,15 +13,6 @@
 package com.win.dfas.monitor.engine;
 
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.SmartLifecycle;
-
-import com.win.dfas.monitor.config.elasticsearch.ESClient;
-
 /**
  * 交易类接口应用初始化
  * 包名称：com.win.dfas.monitor.engine
@@ -30,7 +21,7 @@ import com.win.dfas.monitor.config.elasticsearch.ESClient;
  * 创建人：@author wangyaoheng
  * 创建时间：2019-08-07/16:19
  */
-public class MonitorEngineInitializer implements SmartLifecycle {
+public class MonitorEngineInitializer{} /*implements SmartLifecycle {
 
     static Logger logger = LoggerFactory.getLogger(MonitorEngineInitializer.class);
 
@@ -39,7 +30,7 @@ public class MonitorEngineInitializer implements SmartLifecycle {
     public static final String userDir = System.getProperty("user.dir");
 
     @Autowired
-    private ESClient esClient;
+    private RestHighLevelClient restHighLevelClient;
     
     @Override
     public void start() {
@@ -51,7 +42,6 @@ public class MonitorEngineInitializer implements SmartLifecycle {
             if (!isRunning) {
 
                 isRunning = true;
-                logger.debug("ibt初始化");
 
                 //-----------------------------------------
                // ScheduledThreadPool.init();
@@ -72,8 +62,8 @@ public class MonitorEngineInitializer implements SmartLifecycle {
         if (isRunning) {
             isRunning = false;
             try {
-            	if(esClient != null) {
-            		esClient.getRestHighLevelClient().close();
+            	if(restHighLevelClient != null) {
+            		restHighLevelClient.close();
             	}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -86,6 +76,6 @@ public class MonitorEngineInitializer implements SmartLifecycle {
     public boolean isRunning() {
         return isRunning;
     }
+*/
 
 
-}

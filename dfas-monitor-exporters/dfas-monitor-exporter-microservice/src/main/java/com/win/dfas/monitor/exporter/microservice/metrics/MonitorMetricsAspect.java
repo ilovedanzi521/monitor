@@ -15,18 +15,17 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.exporter.microservice.counter.HttpRequestTotalCounter;
-import com.win.dfas.monitor.exporter.microservice.pushgateway.MonitorPushGateway;
 
 @Aspect
 @Component
-@Import({HttpRequestTotalCounter.class, MonitorPushGateway.class})
+@Import({HttpRequestTotalCounter.class})
 public class MonitorMetricsAspect {
 
     @Autowired
     private HttpRequestTotalCounter httpRequestTotalCounter;
 
     // 自定义Prometheus注解的全路径
-    @Pointcut("@annotation(com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics)")
+   @Pointcut("@annotation(com.win.dfas.monitor.exporter.microservice.metrics.MonitorMetrics)")
     public void monitorMetricsMethod() {
     }
 
