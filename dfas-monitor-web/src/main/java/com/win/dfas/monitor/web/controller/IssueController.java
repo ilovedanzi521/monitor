@@ -1,12 +1,7 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.win.dfas.monitor.common.entity.DcDevcie;
 import com.win.dfas.monitor.common.entity.Issue;
 import com.win.dfas.monitor.common.util.JsonUtil;
-import com.win.dfas.monitor.common.util.id.IDUtils;
-import com.win.dfas.monitor.common.vo.MachineStatusVO;
-import com.win.dfas.monitor.common.vo.MachineVO;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
 import com.win.dfas.monitor.engine.service.IIssueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

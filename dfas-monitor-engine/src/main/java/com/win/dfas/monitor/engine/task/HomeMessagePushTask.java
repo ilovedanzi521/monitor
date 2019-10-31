@@ -11,18 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import com.win.dfas.common.util.ObjectUtils;
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.constant.StatusEnum;
-import com.win.dfas.monitor.common.dto.BucketDTO;
 import com.win.dfas.monitor.common.dto.microservice.ApplicationInstance;
 import com.win.dfas.monitor.common.entity.MicroServiceEntity;
 import com.win.dfas.monitor.common.entity.MicroServiceInstanceEntity;
 import com.win.dfas.monitor.common.util.JsonUtil;
-import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.vo.ExceptionVO;
 import com.win.dfas.monitor.common.vo.MicroServiceRepVO;
 import com.win.dfas.monitor.common.vo.PlatformOverviewVO;
@@ -30,12 +27,10 @@ import com.win.dfas.monitor.config.mapper.MicroServiceInstanceMapper;
 import com.win.dfas.monitor.config.mapper.MicroServiceMapper;
 import com.win.dfas.monitor.engine.service.ElasticsearchService;
 import com.win.dfas.monitor.engine.service.EurekaService;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.IMachineService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 发送通知消息线程
@@ -55,7 +50,7 @@ public class HomeMessagePushTask extends AbstractMessageBuilder {
     private EurekaService eurekaService;
 
     @Autowired
-    private IDcDevcieService dcDevcieService;
+    private IMachineService dcDevcieService;
 
     @Autowired
     private MicroServiceMapper microServiceMapper;

@@ -2,10 +2,10 @@ package com.win.dfas.monitor.web.controller;
 
 import com.win.dfas.common.vo.WinResponseData;
 import com.win.dfas.monitor.common.constant.LineColorEnum;
-import com.win.dfas.monitor.common.entity.DcDevcie;
+import com.win.dfas.monitor.common.entity.Machine;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.vo.*;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.IMachineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class MachineDetailController extends BaseController {
 
     @Autowired
-    private IDcDevcieService devcieService;
+    private IMachineService devcieService;
 
     /**
      * 查询cpu使用率
@@ -37,7 +37,7 @@ public class MachineDetailController extends BaseController {
     @PostMapping("/cpuUsage")
     public WinResponseData cpuUsage(@RequestBody String data) {
         Map<String,String> map = JsonUtil.toObject(data, Map.class);
-        DcDevcie dcDevcie = devcieService.selectDcDevcieByIp(map.get("ipAddress"));
+        Machine dcDevcie = devcieService.selectDcDevcieByIp(map.get("ipAddress"));
         MachineCPUUsageVO machineCPUUsageVO = getCpuUsageData(dcDevcie);
         return WinResponseData.handleSuccess(machineCPUUsageVO);
     }
@@ -49,7 +49,7 @@ public class MachineDetailController extends BaseController {
     @PostMapping("/memoryUsage")
     public WinResponseData memoryUsage(@RequestBody String data) {
         Map<String,String> map = JsonUtil.toObject(data, Map.class);
-        DcDevcie dcDevcie = devcieService.selectDcDevcieByIp(map.get("ipAddress"));
+        Machine dcDevcie = devcieService.selectDcDevcieByIp(map.get("ipAddress"));
         MachineCPUUsageVO machineCPUUsageVO = getMemoryUsageData(dcDevcie);
         return WinResponseData.handleSuccess(machineCPUUsageVO);
     }
@@ -61,7 +61,7 @@ public class MachineDetailController extends BaseController {
     @PostMapping("/nodeBaseInfo")
     public WinResponseData nodeBaseInfo(@RequestBody String data) {
         Map<String,String> map = JsonUtil.toObject(data, Map.class);
-        DcDevcie dcDevcie = devcieService.selectDcDevcieByIp(map.get("ipAddress"));
+        Machine dcDevcie = devcieService.selectDcDevcieByIp(map.get("ipAddress"));
         Map<String,String> m = getNodeBaseInfoData(dcDevcie);
         return WinResponseData.handleSuccess(m);
     }
@@ -91,7 +91,7 @@ public class MachineDetailController extends BaseController {
     }
 
 
-    private Map<String,String> getNodeBaseInfoData(DcDevcie dcDevcie) {
+    private Map<String,String> getNodeBaseInfoData(Machine dcDevcie) {
         Map<String,String> nodeBaseInfo = new HashMap<>();
         nodeBaseInfo.put("balance",dcDevcie.getBalance());
         nodeBaseInfo.put("cpuInfo",dcDevcie.getCpu());
@@ -101,7 +101,7 @@ public class MachineDetailController extends BaseController {
     }
 
 
-    private MachineCPUUsageVO getMemoryUsageData(DcDevcie dcDevcie){
+    private MachineCPUUsageVO getMemoryUsageData(Machine dcDevcie){
         MachineCPUUsageVO machineCPUUsageVO = new MachineCPUUsageVO();
         List<String> legendData=new ArrayList<>();
         List<String> colorData=new ArrayList<>();
@@ -124,7 +124,7 @@ public class MachineDetailController extends BaseController {
         return machineCPUUsageVO;
     }
 
-    private MachineCPUUsageVO getCpuUsageData(DcDevcie dcDevcie){
+    private MachineCPUUsageVO getCpuUsageData(Machine dcDevcie){
         MachineCPUUsageVO machineCPUUsageVO = new MachineCPUUsageVO();
         List<String> legendData=new ArrayList<>();
         List<String> colorData=new ArrayList<>();

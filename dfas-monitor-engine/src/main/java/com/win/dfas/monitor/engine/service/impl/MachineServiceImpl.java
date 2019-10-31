@@ -1,13 +1,12 @@
 package com.win.dfas.monitor.engine.service.impl;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.win.dfas.monitor.common.constant.MonitorConstants;
-import com.win.dfas.monitor.common.entity.DcDevcie;
+import com.win.dfas.monitor.common.entity.Machine;
 import com.win.dfas.monitor.common.util.Convert;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.RestfulTools;
@@ -20,8 +19,8 @@ import com.win.dfas.monitor.common.vo.cpu.CPUSeriesDataVO;
 import com.win.dfas.monitor.common.vo.disk.DiskBarChartMetricsResultVO;
 import com.win.dfas.monitor.common.vo.disk.DiskMetricVO;
 import com.win.dfas.monitor.common.vo.disk.DiskSeriesDataVO;
-import com.win.dfas.monitor.config.mapper.DcDevcieMapper;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.config.mapper.MachineMapper;
+import com.win.dfas.monitor.engine.service.IMachineService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,10 +33,10 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-10
  */
 @Service
-public class DcDevcieServiceImpl implements IDcDevcieService
+public class MachineServiceImpl implements IMachineService
 {
 	@Autowired
-	private DcDevcieMapper dcDevcieMapper;
+	private MachineMapper dcDevcieMapper;
 
 	@Autowired
 	private PrometheusService prometheusService;
@@ -55,7 +54,7 @@ public class DcDevcieServiceImpl implements IDcDevcieService
      * @return 机器信息
      */
     @Override
-	public DcDevcie selectDcDevcieById(String id)
+	public Machine selectDcDevcieById(String id)
 	{
 	    return dcDevcieMapper.selectDcDevcieById(id);
 	}
@@ -67,7 +66,7 @@ public class DcDevcieServiceImpl implements IDcDevcieService
      * @return 机器集合
      */
 	@Override
-	public List<DcDevcie> selectDcDevcieList(DcDevcie dcDevcie)
+	public List<Machine> selectDcDevcieList(Machine dcDevcie)
 	{
 	    return dcDevcieMapper.selectDcDevcieList(dcDevcie);
 	}
@@ -79,7 +78,7 @@ public class DcDevcieServiceImpl implements IDcDevcieService
      * @return 结果
      */
 	@Override
-	public int insertDcDevcie(DcDevcie dcDevcie)
+	public int insertDcDevcie(Machine dcDevcie)
 	{
 	    return dcDevcieMapper.insertDcDevcie(dcDevcie);
 	}
@@ -91,7 +90,7 @@ public class DcDevcieServiceImpl implements IDcDevcieService
      * @return 结果
      */
 	@Override
-	public int updateDcDevcie(DcDevcie dcDevcie)
+	public int updateDcDevcie(Machine dcDevcie)
 	{
 	    return dcDevcieMapper.updateDcDevcie(dcDevcie);
 	}
@@ -103,7 +102,7 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 	 * @return 结果
 	 */
 	@Override
-	public void updateBatch(List<DcDevcie> list){
+	public void updateBatch(List<Machine> list){
 		if(list != null && list.size() > 0){
 			dcDevcieMapper.updateBatch(list);
 		}
@@ -148,7 +147,7 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 	 * @return 机器信息
 	 */
 	@Override
-	public DcDevcie selectDcDevcieByIp(String ipAddress){
+	public Machine selectDcDevcieByIp(String ipAddress){
         return dcDevcieMapper.selectDcDevcieByIp(ipAddress);
 	}
 
@@ -167,7 +166,7 @@ public class DcDevcieServiceImpl implements IDcDevcieService
 			String ipAddress = (String)dc.get("ipAddress");
 			String name = (String)dc.get("name");
 			if(!checkIpAddressExist(ipAddress)){
-				DcDevcie dcDevcie = new DcDevcie();
+				Machine dcDevcie = new Machine();
 				dcDevcie.setId(IDUtils.nextId());
 				dcDevcie.setIpAddress(ipAddress);
 				dcDevcie.setName(name);

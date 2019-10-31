@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.win.dfas.monitor.config.mapper.DcDevcieMapper">
-    <resultMap type="com.win.dfas.monitor.common.entity.DcDevcie" id="DcDevcieResult">
+<mapper namespace="com.win.dfas.monitor.config.mapper.MachineMapper">
+    <resultMap type="com.win.dfas.monitor.common.entity.Machine" id="MachineResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="alias"    column="alias"    />
@@ -26,14 +26,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectDcDevcieVo">
-        select id, name, alias, ip_address, user_name, port, os_type, status, description, create_time, update_time,cpu,memory,disk,cpuNum,diskSize,memorySize,balance,cpuCore from dc_devcie
+        select id, name, alias, ip_address, user_name, port, os_type, status, description, create_time, update_time,cpu,memory,disk,cpuNum,diskSize,memorySize,balance,cpuCore from t_machine
     </sql>
 
     <select id="checkIpAddressExist" parameterType="java.lang.String" resultType="java.lang.Boolean">
-       <![CDATA[select count(ip_address) from dc_devcie where ip_address = #{ip_address}]]>
+       <![CDATA[select count(ip_address) from t_machine where ip_address = #{ip_address}]]>
     </select>
 
-    <select id="selectDcDevcieList" parameterType="com.win.dfas.monitor.common.entity.DcDevcie" resultMap="DcDevcieResult">
+    <select id="selectDcDevcieList" parameterType="com.win.dfas.monitor.common.entity.Machine" resultMap="MachineResult">
         <include refid="selectDcDevcieVo"/>
         <where>  
             <if test="id != null and id != ''  "> and id = #{id}</if>
@@ -58,23 +58,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </where>
     </select>
     
-    <select id="selectDcDevcieById" parameterType="Long" resultMap="DcDevcieResult">
+    <select id="selectDcDevcieById" parameterType="Long" resultMap="MachineResult">
         <include refid="selectDcDevcieVo"/>
         where id = #{id}
     </select>
 
-    <select id="selectDcDevcieByIp" parameterType="java.lang.String" resultMap="DcDevcieResult">
+    <select id="selectDcDevcieByIp" parameterType="java.lang.String" resultMap="MachineResult">
         <include refid="selectDcDevcieVo"/>
         where ip_address = #{ipAddress}
     </select>
 
 
     <select id="getTotalNode"  resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM dc_devcie
+        SELECT COUNT(*) FROM t_machine
     </select>
         
-    <insert id="insertDcDevcie" parameterType="com.win.dfas.monitor.common.entity.DcDevcie">
-        insert into dc_devcie
+    <insert id="insertDcDevcie" parameterType="com.win.dfas.monitor.common.entity.Machine">
+        insert into t_machine
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null  and id != ''  ">id,</if>
 			<if test="name != null  and name != ''  ">name,</if>
@@ -121,8 +121,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 	 
-    <update id="updateDcDevcie" parameterType="com.win.dfas.monitor.common.entity.DcDevcie">
-        update dc_devcie
+    <update id="updateDcDevcie" parameterType="com.win.dfas.monitor.common.entity.Machine">
+        update t_machine
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null  and name != ''  ">name = #{name},</if>
             <if test="alias != null  and alias != ''  ">alias = #{alias},</if>
@@ -148,7 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <update id="updateBatch" parameterType="java.util.List">
-        update dc_devcie
+        update t_machine
         <trim prefix="SET" suffixOverrides=",">
             <trim prefix="status =case" suffix="end,">
                 <foreach collection="list" item="item" index="index">
@@ -224,11 +224,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<delete id="deleteDcDevcieById" parameterType="Long">
-        delete from dc_devcie where id = #{id}
+        delete from t_machine where id = #{id}
     </delete>
 	
     <delete id="deleteDcDevcieByIds" parameterType="String">
-        delete from dc_devcie where id in 
+        delete from t_machine where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

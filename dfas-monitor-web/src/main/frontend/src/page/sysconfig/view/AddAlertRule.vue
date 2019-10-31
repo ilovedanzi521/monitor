@@ -8,9 +8,9 @@
         <win-form-item label="告警规则的名称" prop="name">
           <win-input placeholder="请填写告警规则的名称" v-model="alertRule.name" maxlength="120"></win-input>
         </win-form-item>
-        <win-form-item label="告警PromQL表达式" prop="expr">
+        <!--<win-form-item label="告警PromQL表达式" prop="expr">
           <win-input placeholder="请填写告警PromQL表达式" v-model="alertRule.expr" maxlength="120"></win-input>
-        </win-form-item>
+        </win-form-item>-->
         <win-form-item label="评估等待时间" prop="fortime">
           <win-input placeholder="请填写评估等待时间" v-model="alertRule.fortime" maxlength="120"></win-input>
         </win-form-item>
@@ -37,13 +37,17 @@
   import { Component, Prop, Emit } from "vue-property-decorator";
   import BaseController from "../../common/controller/BaseController";
   import {  MachineClass,UserReqVO,AlertRuleClass } from "../vo/SysconfigVO";
+  import SysconfigService from "../service/SysconfigService";
 
   @Component({})
   export default class AddAlertRule extends BaseController {
     dialogFormVisible: boolean = true;
+    private editDisabled: boolean = false;
+    private ipAddressSelect: any[] = [];
     startX;
     startY;
     isDrag: Boolean = false;
+
     style = {
       position: "absolute",
       left: "400px",
@@ -86,6 +90,7 @@
     _addAlertRule(formName) {
       const comParams = {
         groupsName: this.alertRule.groupsName,
+        alertRuleType: this.alertRule.alertRuleType,
         name: this.alertRule.name,
         expr: this.alertRule.expr,
         fortime: this.alertRule.fortime,
@@ -100,6 +105,9 @@
       this.$emit("addAlertRule", comParams,this.userReqVo);
     }
 
+    mounted() {
+      SysconfigService.initIpAddressSelect(this.ipAddressSelect);
+    }
     close() {
       this.userReqVo.stateController.switchFormType = "";
     }

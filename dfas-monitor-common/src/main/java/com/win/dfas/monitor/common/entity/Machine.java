@@ -6,7 +6,7 @@ import lombok.ToString;
 
 
 /**
- * 机器表 dc_devcie
+ * 机器表 t_machine
  * 
  * @author lj
  * @date 2019-10-10
@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DcDevcie
+public class Machine
 {
 	/** 主键ID */
 	private String id;
