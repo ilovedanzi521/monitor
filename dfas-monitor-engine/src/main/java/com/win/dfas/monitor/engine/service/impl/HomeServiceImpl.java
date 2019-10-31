@@ -33,7 +33,7 @@ public class HomeServiceImpl implements HomeService {
     private EurekaService eurekaService;
 
     @Autowired
-    private IDcDevcieService dcDevcieService;
+    private IMachineService dcDevcieService;
 
     @Autowired
     private MicroServiceMapper microServiceMapper;

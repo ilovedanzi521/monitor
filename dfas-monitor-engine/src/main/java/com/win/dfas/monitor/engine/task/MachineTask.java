@@ -2,13 +2,13 @@ package com.win.dfas.monitor.engine.task;
 
 import com.win.dfas.monitor.common.constant.HomeModuleEnum;
 import com.win.dfas.monitor.common.constant.ResultTypeEnum;
-import com.win.dfas.monitor.common.entity.DcDevcie;
+import com.win.dfas.monitor.common.entity.Machine;
 import com.win.dfas.monitor.common.util.*;
 import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
 import com.win.dfas.monitor.common.vo.MetricsResultVO;
 import com.win.dfas.monitor.common.vo.MetricsReturnMsgVO;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.IMachineService;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class MachineTask {
     private String prometheusServerUrl;
 
     @Autowired
-    private IDcDevcieService dcDevcieService;
+    private IMachineService dcDevcieService;
 
     /**
      * 按照标准时间来算，每隔 10s 执行一次
@@ -83,18 +83,18 @@ public class MachineTask {
     @Scheduled(cron = "0/10 * * * * ?")
     public void syncMachineStatusData() throws Exception {
         log.info("【同步机器数据】开始执行：{}", DateUtils.getCurrentDateTime());
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        Machine dcDevcie = new Machine();
+        List<Machine> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         syncMachineData(dcDevices);
         dcDevcieService.updateBatch(dcDevices);
         log.info("【同步机器数据】执行结束：{}", DateUtils.getCurrentDateTime());
     }
 
     private String getMachineStatusData() {
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        Machine dcDevcie = new Machine();
+        List<Machine> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         List<MachineStatusVO> machineStatusList = new ArrayList<>();
-        for (DcDevcie dc : dcDevices) {
+        for (Machine dc : dcDevices) {
             MachineStatusVO machineStatus = new MachineStatusVO();
             machineStatus.setId(dc.getId());
             machineStatus.setIpAddress(dc.getIpAddress());
@@ -116,11 +116,11 @@ public class MachineTask {
      */
     private String getMachineListData() {
         Random random = new Random(System.currentTimeMillis());
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        Machine dcDevcie = new Machine();
+        List<Machine> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         List<MachineStatusVO> machineStatusList = new ArrayList<>();
         List<MachineVO> machineList = new ArrayList<>();
-        for (DcDevcie dc : dcDevices) {
+        for (Machine dc : dcDevices) {
             MachineVO machine = new MachineVO();
             machine.setIp(dc.getIpAddress());
             machine.setState(getStatus(dc));
@@ -143,8 +143,8 @@ public class MachineTask {
      * 同步机器状态、cpu使用率、内存使用率、磁盘使用率、CPU核数、磁盘大小、内存大小、机器负载
      *
      */
-    private void syncMachineData(List<DcDevcie> dcDevices) {
-        for (DcDevcie dc : dcDevices) {
+    private void syncMachineData(List<Machine> dcDevices) {
+        for (Machine dc : dcDevices) {
             String ip = dc.getIpAddress();
             Map<String, Object> parameters = new HashMap<>();
             //机器状态
@@ -307,7 +307,7 @@ public class MachineTask {
         return metricsReturnMsgVO;
     }
 
-    private String getStatus(DcDevcie dc) {
+    private String getStatus(Machine dc) {
         String status;
         if(null == dc.getStatus()){
             status = "0";

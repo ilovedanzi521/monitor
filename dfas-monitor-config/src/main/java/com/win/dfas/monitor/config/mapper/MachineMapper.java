@@ -1,6 +1,6 @@
 package com.win.dfas.monitor.config.mapper;
 
-import com.win.dfas.monitor.common.entity.DcDevcie;
+import com.win.dfas.monitor.common.entity.Machine;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2019-10-10
  */
 @Repository
-public interface DcDevcieMapper 
+public interface MachineMapper
 {
 	/**
      * 查询机器信息
@@ -20,7 +20,7 @@ public interface DcDevcieMapper
      * @param id 机器ID
      * @return 机器信息
      */
-	public DcDevcie selectDcDevcieById(String id);
+	public Machine selectDcDevcieById(String id);
 
 	/**
 	 * 查询机器信息
@@ -28,7 +28,7 @@ public interface DcDevcieMapper
 	 * @param ipAddress 机器IP
 	 * @return 机器信息
 	 */
-	public DcDevcie selectDcDevcieByIp(String ipAddress);
+	public Machine selectDcDevcieByIp(String ipAddress);
 
 	/**
 	 * 判断机器IP地址是否存在
@@ -45,7 +45,7 @@ public interface DcDevcieMapper
      * @param dcDevcie 机器信息
      * @return 机器集合
      */
-	public List<DcDevcie> selectDcDevcieList(DcDevcie dcDevcie);
+	public List<Machine> selectDcDevcieList(Machine dcDevcie);
 	
 	/**
      * 新增机器
@@ -53,7 +53,7 @@ public interface DcDevcieMapper
      * @param dcDevcie 机器信息
      * @return 结果
      */
-	public int insertDcDevcie(DcDevcie dcDevcie);
+	public int insertDcDevcie(Machine dcDevcie);
 
 	/**
 	 * 获取总结点数
@@ -67,7 +67,7 @@ public interface DcDevcieMapper
      * @param dcDevcie 机器信息
      * @return 结果
      */
-	public int updateDcDevcie(DcDevcie dcDevcie);
+	public int updateDcDevcie(Machine dcDevcie);
 
 
 
@@ -77,7 +77,7 @@ public interface DcDevcieMapper
 	 * @param list 机器信息
 	 * @return 结果
 	 */
-	public void updateBatch(List<DcDevcie> list);
+	public void updateBatch(List<Machine> list);
 	
 	/**
      * 删除机器

@@ -1,12 +1,12 @@
 package com.win.dfas.monitor.web.controller;
 
-import com.win.dfas.monitor.common.entity.DcDevcie;
+import com.win.dfas.monitor.common.entity.Machine;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.StringUtils;
 import com.win.dfas.monitor.common.util.id.IDUtils;
 import com.win.dfas.monitor.common.vo.MachineStatusVO;
 import com.win.dfas.monitor.common.vo.MachineVO;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.IMachineService;
 import com.win.dfas.monitor.engine.service.PrometheusService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class MachineController extends BaseController {
 
     @Autowired
-    private IDcDevcieService dcDevcieService;
+    private IMachineService dcDevcieService;
     @Autowired
     private PrometheusService prometheusService;
 
@@ -43,7 +43,7 @@ public class MachineController extends BaseController {
     @PostMapping("/add")
     public String add(@RequestBody String data) {
         Map<String,String> map = JsonUtil.toObject(data, Map.class);
-        DcDevcie dcDevcie = new DcDevcie();
+        Machine dcDevcie = new Machine();
         dcDevcie.setId(IDUtils.nextId());
         dcDevcie.setIpAddress(map.get("ipAddress"));
         dcDevcie.setName(map.get("name"));
@@ -57,7 +57,7 @@ public class MachineController extends BaseController {
     @PostMapping("/modify")
     public String modify(@RequestBody String data) {
         Map<String,String> map = JsonUtil.toObject(data, Map.class);
-        DcDevcie dcDevcie = new DcDevcie();
+        Machine dcDevcie = new Machine();
         dcDevcie.setId(map.get("id"));
         dcDevcie.setIpAddress(map.get("ipAddress"));
         dcDevcie.setName(map.get("name"));
@@ -100,8 +100,8 @@ public class MachineController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(name = "data", value = "机器列表", required = true, paramType = "body", dataType = "String")})
     @PostMapping("/machinePage")
     public String machinePage(@RequestBody String data) {
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        Machine dcDevcie = new Machine();
+        List<Machine> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         setDefaultSetting(dcDevices);
         setMachineDetailNodeBaseInfo(dcDevices);
         Map<String,Object> result = new HashMap<>();
@@ -124,9 +124,9 @@ public class MachineController extends BaseController {
     @PostMapping("/homePageMachineTop5")
     public String HomePageMachineTop5(@RequestBody String data) {
         List<MachineVO> machineList = new ArrayList<>();
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
-        for (DcDevcie dc : dcDevices){
+        Machine dcDevcie = new Machine();
+        List<Machine> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        for (Machine dc : dcDevices){
             MachineVO machine = new MachineVO();
             machine.setIp(dc.getIpAddress());
             machine.setState(getStatus(dc));
@@ -147,10 +147,10 @@ public class MachineController extends BaseController {
     }
 
     private List<MachineStatusVO> machinePanelData() {
-        DcDevcie dcDevcie = new DcDevcie();
-        List<DcDevcie> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
+        Machine dcDevcie = new Machine();
+        List<Machine> dcDevices = dcDevcieService.selectDcDevcieList(dcDevcie);
         List<MachineStatusVO> machineStatusList=new ArrayList<>();
-        for (DcDevcie dc : dcDevices) {
+        for (Machine dc : dcDevices) {
             MachineStatusVO machineStatus =new MachineStatusVO();
             machineStatus.setId(dc.getId());
             machineStatus.setIpAddress(dc.getIpAddress());
@@ -167,8 +167,8 @@ public class MachineController extends BaseController {
     }
 
 
-    private void setMachineDetailNodeBaseInfo(List<DcDevcie> dcDevices) {
-        for (DcDevcie dc : dcDevices){
+    private void setMachineDetailNodeBaseInfo(List<Machine> dcDevices) {
+        for (Machine dc : dcDevices){
             String cpuInfo = "核数：" + dc.getCpuCore() + " 使用率：" + dc.getCpu() + "%" ;
             dc.setCpuInfo(cpuInfo);
             dc.setDiskInfo(dc.getDisk()+ "%");
@@ -178,7 +178,7 @@ public class MachineController extends BaseController {
     }
 
 
-    private String getStatus(DcDevcie dc) {
+    private String getStatus(Machine dc) {
         String status;
         if(null == dc.getStatus()){
             status = "0";
@@ -196,8 +196,8 @@ public class MachineController extends BaseController {
     }
 
 
-    private void setDefaultSetting(List<DcDevcie> dcDevices) {
-        for (DcDevcie dc : dcDevices){
+    private void setDefaultSetting(List<Machine> dcDevices) {
+        for (Machine dc : dcDevices){
             if(null ==dc.getStatus()){
                 dc.setStatus(0);
             }

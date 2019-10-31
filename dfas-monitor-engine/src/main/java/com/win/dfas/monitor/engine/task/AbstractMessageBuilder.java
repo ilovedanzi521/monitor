@@ -5,7 +5,7 @@ import com.win.dfas.monitor.common.util.DateUtils;
 import com.win.dfas.monitor.common.util.JsonUtil;
 import com.win.dfas.monitor.common.util.SpringContextUtils;
 import com.win.dfas.monitor.common.vo.*;
-import com.win.dfas.monitor.engine.service.IDcDevcieService;
+import com.win.dfas.monitor.engine.service.IMachineService;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocket;
 import com.win.dfas.monitor.engine.websocket.AbstractWebSocketManager;
 
@@ -39,7 +39,7 @@ public abstract class AbstractMessageBuilder {
      * @return
      */
     protected String getPlatformOverviewData() {
-        IDcDevcieService dcDevcieService = SpringContextUtils.getBean(IDcDevcieService.class);
+        IMachineService dcDevcieService = SpringContextUtils.getBean(IMachineService.class);
         Random random = new Random(System.currentTimeMillis());
         PlatformOverviewVO platformOverview = new PlatformOverviewVO();
         platformOverview.setQps(String.valueOf(thousandBitNumberFormat.format(random.nextInt(100) + 1)));
