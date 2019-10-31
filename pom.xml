@@ -16,6 +16,7 @@
 
 	<groupId>com.win.dfas</groupId>
 	<artifactId>dfas-monitor-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>dfas-monitor-parent</name>
 	<packaging>pom</packaging>
 	<description>自动化运维监控平台</description>
