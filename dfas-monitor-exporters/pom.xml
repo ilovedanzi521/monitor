@@ -14,7 +14,6 @@
     <groupId>com.win.dfas</groupId>
     <artifactId>dfas-monitor-exporters</artifactId>
     <name>dfas-monitor-exporters</name>
-    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>采集</description>
 
