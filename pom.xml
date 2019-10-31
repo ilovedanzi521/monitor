@@ -14,7 +14,7 @@
 	<!-- <relativePath /> <parent> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-parent</artifactId> 
 		<version>2.1.6.RELEASE</version> <relativePath /> </parent> -->
 
-	<groupId>com.win.dfas</groupId>
+	<groupId>com.win.dfas.monitor</groupId>
 	<artifactId>dfas-monitor-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dfas-monitor-parent</name>
@@ -45,22 +45,22 @@
 		<dependencies>
 
 			<dependency>
-				<groupId>com.win.dfas</groupId>
+				<groupId>com.win.dfas.monitor</groupId>
 				<artifactId>dfas-monitor-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.win.dfas</groupId>
+				<groupId>com.win.dfas.monitor</groupId>
 				<artifactId>dfas-monitor-config</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.win.dfas</groupId>
+				<groupId>com.win.dfas.monitor</groupId>
 				<artifactId>dfas-monitor-engine</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.win.dfas</groupId>
+				<groupId>com.win.dfas.monitor</groupId>
 				<artifactId>dfas-monitor-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
