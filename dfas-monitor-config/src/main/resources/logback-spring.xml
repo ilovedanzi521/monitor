@@ -70,23 +70,24 @@
 
     <!-- 开发环境 -->
     <springProfile name="dev">
-        <logger name="com.win" level="DEBUG">
+        <logger name="com.win" level="DEBUG" additivity="false">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
-            <!-- <appender-ref ref="asyncKafkaAppender"/> -->
+            <appender-ref ref="asyncKafkaAppender"/>
         </logger>
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
-            <!-- <appender-ref ref="asyncKafkaAppender"/> -->
+            <appender-ref ref="asyncKafkaAppender"/>
         </root>
     </springProfile>
 
     <!-- 开发测试环境 -->
     <springProfile name="test">
-        <logger name="com.win" level="DEBUG">
+        <logger name="com.win" level="DEBUG" additivity="false">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </logger>
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
@@ -96,9 +97,10 @@
     </springProfile>
 
     <springProfile name="sit">
-        <logger name="com.win" level="DEBUG">
+        <logger name="com.win" level="DEBUG" additivity="false">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </logger>
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
@@ -108,9 +110,10 @@
     </springProfile>
 
     <springProfile name="uat">
-        <logger name="com.win" level="DEBUG">
+        <logger name="com.win" level="DEBUG" additivity="false">
             <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </logger>
         <root level="INFO">
             <appender-ref ref="LOGCONSOLE"/>
@@ -120,11 +123,13 @@
     </springProfile>
     <!-- 生产环境 -->
     <springProfile name="prod">
-        <logger name="com.win" level="INFO">
+        <logger name="com.win" level="DEBUG" additivity="false">
+            <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
+            <appender-ref ref="asyncKafkaAppender"/>
         </logger>
-
         <root level="INFO">
+            <appender-ref ref="LOGCONSOLE"/>
             <appender-ref ref="asyncFileAppender"/>
             <appender-ref ref="asyncKafkaAppender"/>
         </root>
