@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.win.dfas</groupId>
+    <groupId>com.win.dfas.monitor</groupId>
     <artifactId>dfas-monitor-exporters</artifactId>
     <name>dfas-monitor-exporters</name>
     <packaging>pom</packaging>
