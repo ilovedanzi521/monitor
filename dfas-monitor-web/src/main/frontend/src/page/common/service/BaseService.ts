@@ -12,7 +12,7 @@
 
 import { WinResponseData } from "../vo/BaseVO";
 import { WinRspType } from "./BaseServiceVO";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 
 /**
  * post 请求

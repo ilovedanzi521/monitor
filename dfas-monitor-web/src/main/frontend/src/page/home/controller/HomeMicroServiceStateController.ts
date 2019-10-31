@@ -1,9 +1,8 @@
-import Vue from "vue";
 import Component from "vue-class-component";
 import Service from "../../../components2/vue/monitor/Service.vue";
 import { MicroServiceStateVO } from "../vo/MicroServiceStateVO";
 import HomeMicroServiceStateService from "../service/HomeMicroServiceStateService";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import { MicroServiceInfoRepVO } from "../../microService/vo/MicroServiceInfoVO";
 import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
 import MicroServiceInfoDicDataVO from "../../microService/vo/MicroServiceInfoDicDataVO";

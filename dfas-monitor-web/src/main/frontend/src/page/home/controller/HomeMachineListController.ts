@@ -2,7 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import HomeMachineListService from "../service/HomeMachineListService";
 import {MachineVO} from "../vo/MachineVO";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import {WinResponseData} from "../../common/vo/BaseVO";
 import MachineDetailDialog from "../../machine/view/MachineDetailDialog.vue";
 import {OperationTypeEnum} from "../../common/enum/OperationTypeEnum";

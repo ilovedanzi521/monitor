@@ -13,7 +13,7 @@ import PageVO from "../../common/vo/PageVO";
 import Tool from "../../../mixin/mm";
 import { BaseConst } from "../../common/const/BaseConst";
 import { OperationTypeEnum } from "../../common/enum/OperationTypeEnum";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import MachineDetailDialog from "../view/MachineDetailDialog.vue";
 import { MachineInfoVO } from "../vo/MachineInfoVO";
 import {MachineVO} from "../../home/vo/MachineVO";

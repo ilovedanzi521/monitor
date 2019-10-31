@@ -1,4 +1,4 @@
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import {MachineStateVO} from "../vo/MachineStateVO";
 import {WinResponseData} from "../../common/vo/BaseVO";
 import {MachineVO} from "../vo/MachineVO";

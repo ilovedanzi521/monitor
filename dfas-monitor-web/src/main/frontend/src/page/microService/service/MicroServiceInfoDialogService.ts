@@ -9,7 +9,7 @@
  * @Copyright:2016-2019
  *
  ********************************************************/
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import { MicroServiceInfoRepVO } from "../vo/MicroServiceInfoVO";
 
 export default class MicroServiceInfoDialogService {

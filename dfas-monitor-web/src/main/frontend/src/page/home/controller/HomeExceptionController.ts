@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import PlatformOverviewService from "../service/HomePlatformOverviewService";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import BaseController from "../../common/controller/BaseController";
 import HomeExceptionService from "../service/HomeExceptionService";
 import { WinResponseData } from "../../common/vo/BaseVO";

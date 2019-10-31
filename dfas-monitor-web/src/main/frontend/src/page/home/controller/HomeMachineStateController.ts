@@ -4,7 +4,7 @@ import Machine from "../../../components2/vue/monitor/Machine.vue";
 import Service from "../../../components2/vue/monitor/Service.vue";
 import { MachineStateVO } from "../vo/MachineStateVO";
 import HomeMachineStateService from "../service/HomeMachineStateService";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import { WinResponseData } from "../../common/vo/BaseVO";
 import MachineDetailDialog from "../../machine/view/MachineDetailDialog.vue";
 import {OperationTypeEnum} from "../../common/enum/OperationTypeEnum";

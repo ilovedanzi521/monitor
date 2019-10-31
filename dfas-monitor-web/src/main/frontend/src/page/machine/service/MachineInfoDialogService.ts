@@ -1,4 +1,4 @@
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import { MicroServiceInfoRepVO } from "../vo/MachineInfoVO";
 
 export default class MachineInfoDialogService {

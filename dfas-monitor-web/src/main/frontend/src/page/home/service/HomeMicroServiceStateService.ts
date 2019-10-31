@@ -1,4 +1,4 @@
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import { MicroServiceStateVO } from "../vo/MicroServiceStateVO";
 import { WinResponseData } from "../../common/vo/BaseVO";
 

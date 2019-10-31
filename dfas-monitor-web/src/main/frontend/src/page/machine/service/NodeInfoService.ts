@@ -10,7 +10,7 @@
  *
  ********************************************************/
 
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import { WinResponseData } from "../../common/vo/BaseVO";
 import { MachineInfoVO } from "../vo/MachineInfoVO";
 

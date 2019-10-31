@@ -2,7 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import echarts from "echarts";
 import HomeLeftQpsService from "../service/HomeLeftQpsService";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import BaseController from "../../common/controller/BaseController";
 import { WinResponseData } from "../../common/vo/BaseVO";
 

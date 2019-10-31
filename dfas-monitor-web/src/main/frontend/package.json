@@ -13,7 +13,6 @@
   "dependencies": {
     "@types/echarts": "^4.1.15",
     "@types/node": "^12.7.8",
-    "@win-frond-frameworks/trade-biz": "^1.0.20",
     "awe-dnd": "^0.3.4",
     "axios": "^0.18.0",
     "big-integer": "^1.6.44",
@@ -36,7 +35,9 @@
     "vuex": "^3.1.1",
     "vxe-table": "^2.5.22",
     "vxe-utils": "^1.7.2",
-    "xe-utils": "^2.2.2"
+    "xe-utils": "^2.2.2",
+    "win-biz": "^2.0.8",
+    "win-plus": "^2.1.6"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -92,9 +93,7 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0",
-    "win-biz": "^2.0.3",
-    "win-plus": "^2.1.1"
+    "webpack-merge": "^4.1.0"
   },
   "engines": {
     "node": ">= 6.0.0",

@@ -1,6 +1,6 @@
 import { WinResponseData } from "../../common/vo/BaseVO";
 import { SysconfigVO } from "../vo/SysconfigVO";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 
 /**
  * 系统配置页面获取数据

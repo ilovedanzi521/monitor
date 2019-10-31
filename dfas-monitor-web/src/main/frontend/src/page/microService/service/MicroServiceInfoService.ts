@@ -9,8 +9,7 @@
  * @Copyright:2016-2019
  *
  ********************************************************/
-
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 import { WinResponseData } from "../../common/vo/BaseVO";
 import { MicroServiceInfoReqVO } from "../vo/MicroServiceInfoVO";
 

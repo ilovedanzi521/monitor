@@ -1,6 +1,6 @@
 import { WinResponseData } from "../../common/vo/BaseVO";
 import { UserReqVO } from "../vo/ThresholdVO";
-import AxiosFun from "../../../api/AxiosFun";
+import AxiosFun from "win-biz";
 
 /**
  * 机器页面获取数据
