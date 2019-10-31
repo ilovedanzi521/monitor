@@ -22,6 +22,7 @@ import {MachinePanelVO} from "../vo/MachinePanelVO";
 
 @Component({
     components: {
+      MachineDetailDialog
     }
 })
 export default class MachinePanelController extends BaseController {
@@ -29,6 +30,47 @@ export default class MachinePanelController extends BaseController {
   private machinePanelDataList : Array<MachinePanelVO> = [
 
   ];
+
+  private machineDetailDialogVisible: boolean = false;
+
+  /** 子组件显示的信息 */
+  private cardNumber: {
+    type: OperationTypeEnum;
+    data: MachineInfoVO;
+  };
+
+  /**
+   * 子组件回调函数
+   * @param msg
+   */
+  private toFatherMsg(msg: string) {
+    this.machineDetailDialogVisible = false;
+  }
+
+  onclickRow(row){
+    console.log(">>>>>>>>>>>>333333333333>>>>>>>>>>>>");
+    this.cardNumber = {
+      type: OperationTypeEnum.VIEW,
+      data: this.copy(row.item),
+    };
+    this.machineDetailDialogVisible = true;
+  }
+
+  /**对象复制 */
+  copy(row) {
+    let machineInfoVo = {
+      ipAddress : row.ipAddress ,
+      balance : row.balance ,
+      cpuInfo : row.cpuPer ,
+      diskInfo : row.diskPer ,
+      memoryInfo : row.memoryPer ,
+      balanceInfo : row.balanceInfo
+    } ;
+    return JSON.parse(JSON.stringify(machineInfoVo));
+  }
+
+
+
   async mounted() {
     this.machinePanelData();
   }

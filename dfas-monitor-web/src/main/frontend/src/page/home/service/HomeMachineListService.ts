@@ -15,9 +15,8 @@ export default class HomeMachineStateService {
     ).then((response: WinResponseData) => {
       console.log(response.data);
       //let object = JSON.parse(response.data);
-
+      machineList.length = 0 ;
       //this.machineList = response.data;
-
       let object = response.data;
       if (object != null) {
         console.log("length" + object.length);

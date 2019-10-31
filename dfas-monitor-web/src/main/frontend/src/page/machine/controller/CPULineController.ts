@@ -165,7 +165,7 @@ export default class CPULineController extends BaseController {
         }
       ]
     };*/
-    let option = {
+   /* let option = {
       title: {
         text: 'CPU使用变化率'
       },
@@ -193,6 +193,59 @@ export default class CPULineController extends BaseController {
       },
       yAxis: {
         type: 'value'
+      },
+      series: seriesData
+    };*/
+
+    let option = {
+      tooltip: {
+        //设置tip提示
+        trigger: "axis"
+      },
+      legend: {
+        //设置区分（哪条线属于什么）
+        data: legendData
+      },
+      color: colorData, //设置区分（每条线是什么颜色，和 legend 一一对应）
+      xAxis: {
+        //设置x轴
+        type: "category",
+        boundaryGap: false, //坐标轴两边不留白
+        data: xAxisData,
+        name: "时间", //X轴 name
+        nameTextStyle: {
+          //坐标轴名称的文字样式
+          color: "#818DA3",
+          fontSize: 16,
+          padding: [0, 0, 0, 20]
+        },
+        axisLine: {
+          //坐标轴轴线相关设置。
+          lineStyle: {
+            color: "#818DA3"
+          }
+        }
+      },
+      yAxis: {
+        name: "使用率",
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(29, 50, 81, 1)",
+            width: 1
+          }
+        },
+        nameTextStyle: {
+          color: "#818DA3",
+          fontSize: 16,
+          padding: [0, 0, 10, 0]
+        },
+        axisLine: {
+          lineStyle: {
+            color: "#818DA3"
+          }
+        },
+        type: "value"
       },
       series: seriesData
     };

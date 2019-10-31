@@ -19,7 +19,18 @@ export default class HomeMachineListController extends Vue {
 
   private homeMachineListService: HomeMachineListService = new HomeMachineListService();
 
-  private ws: WebSocket;
+  intervalId: NodeJS.Timer | null;
+
+  constructor() {
+    super();
+    this.intervalId = null;
+  }
+
+  setCountDown() {
+    this.intervalId = setInterval(() => {
+      this.homeMachineListService.initMachineList(this.machineList);
+    }, 5000);
+  }
 
   private machineList: Array<MachineVO> = [];
 
@@ -33,8 +44,7 @@ export default class HomeMachineListController extends Vue {
 
   mounted() {
     this.homeMachineListService.initMachineList(this.machineList);
-    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/machineList";
-    this.establishConnection(requestUrl);
+    this.setCountDown();
   }
 
   /**
@@ -79,51 +89,6 @@ export default class HomeMachineListController extends Vue {
     } ;
     return JSON.parse(JSON.stringify(machineInfoVo));
   }
-
-
-  establishConnection(requestUrl) {
-    this.handleClose();
-    this.ws = new WebSocket(requestUrl);
-    let _ = this;
-    this.ws.onopen = function (e) {
-      _.ws.send(JSON.stringify({flag: requestUrl, data: "i am a machineList WebSocket!"}));
-    };
-    this.ws.onmessage = e => this.handleWebSocketData(e);
-    this.ws.onclose = () => this.handleClose();
-  }
-
-  handleWebSocketData(e) {
-    let object = JSON.parse(e.data);
-    if (object != null) {
-      if (object.length <= 5) {
-        this.machineList = object;
-        let length = object.length;
-        for (let i = 0; i <= 5 - length; i++) {
-          this.machine = {
-            ip: "",
-            state: "",
-            balance: "",
-            cpu: "",
-            memory: "",
-            disk: ""
-          };
-          this.machineList.push(this.machine);
-        }
-      } else if (object.length > 5) {
-        this.machineList = [];
-        for (let i = 0; i < 5; i++) {
-          this.machineList.push(object[i]);
-        }
-      }
-    }
-  }
-
-  handleClose() {
-    if (this.ws != null) {
-      this.ws.close();
-    }
-  }
-
 
 
 }
