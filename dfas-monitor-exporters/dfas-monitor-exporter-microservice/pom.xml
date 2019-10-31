@@ -12,7 +12,6 @@
 
 	<artifactId>dfas-monitor-exporter-microservice</artifactId>
 	<name>dfas-monitor-exporter-microservice</name>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>monitor project for Spring Boot</description>
 
@@ -25,6 +24,7 @@
 	<dependency>
 		<groupId>com.win.dfas</groupId>
 		<artifactId>dfas-monitor-common</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
 
 	</dependencies>
