@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.win.dfas.monitor.common.constant.LineColorEnum;
 import com.win.dfas.monitor.common.constant.MonitorConstants;
 import com.win.dfas.monitor.common.entity.Machine;
 import com.win.dfas.monitor.common.util.Convert;
@@ -183,10 +184,14 @@ public class MachineServiceImpl implements IMachineService
 	@Override
 	public CpuLineChartVO getCpuLineChartData(String ipAddress){
 		CpuLineChartVO cpuLineChartVO = new CpuLineChartVO();
+		cpuLineChartVO.getColorData().add("#33CC33");
+		/*cpuLineChartVO.getColorData().add("#FF4D4D");
+		cpuLineChartVO.getColorData().add("#00BAF3");
+		cpuLineChartVO.getColorData().add("#2f4cbd");*/
 		setCpuLineChartData(ipAddress,cpuLineChartVO,"system","System");
-		setCpuLineChartData(ipAddress,cpuLineChartVO,"user","User");
+		/*setCpuLineChartData(ipAddress,cpuLineChartVO,"user","User");
 		setCpuLineChartData(ipAddress,cpuLineChartVO,"idle","Idel");
-		setCpuLineChartData(ipAddress,cpuLineChartVO,"iowait","Iowait");
+		setCpuLineChartData(ipAddress,cpuLineChartVO,"iowait","Iowait");*/
 		return cpuLineChartVO;
 	}
 

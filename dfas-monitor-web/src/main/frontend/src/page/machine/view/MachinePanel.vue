@@ -1,9 +1,14 @@
 <template>
+  <div>
     <div class="table-contanier">
 
-        <Machine :dataList="machinePanelDataList" :animations="['0','1','2','3']" :isTool="true" width="60px" :isShowTitle="true"></Machine>
+      <Machine :dataList="machinePanelDataList" :animations="['0','1','2','3']" :isTool="true"  @clickItem="onclickRow" width="60px" :isShowTitle="true"></Machine>
 
     </div>
+    <MachineDetailDialog :fromFatherMsg="cardNumber" @bindSend="toFatherMsg" v-if="machineDetailDialogVisible">
+    </MachineDetailDialog>
+  </div>
+
 </template>
 
 <script lang="ts">

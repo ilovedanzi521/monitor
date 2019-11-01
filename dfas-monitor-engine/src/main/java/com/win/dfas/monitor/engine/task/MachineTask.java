@@ -43,44 +43,6 @@ public class MachineTask {
      * 按照标准时间来算，每隔 10s 执行一次
      */
     @Scheduled(cron = "0/10 * * * * ?")
-    public void pushMachineStatusData() throws Exception {
-        log.info("【推送机器数据】开始执行：{}", DateUtils.getCurrentDateTime());
-        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.machineState);
-        if(webSocketSet != null){
-            for (AbstractWebSocket webSocket : webSocketSet) {
-                try {
-                    webSocket.sendMessage(getMachineStatusData());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            log.info("【推送机器数据】执行结束：{}", DateUtils.getCurrentDateTime());
-        }
-    }
-
-    /**
-     * 按照标准时间来算，每隔 10s 执行一次
-     */
-    @Scheduled(cron = "0/10 * * * * ?")
-    public void pushMachineListData() throws Exception {
-        log.info("【推送机器数据】开始执行：{}", DateUtils.getCurrentDateTime());
-        CopyOnWriteArraySet<AbstractWebSocket> webSocketSet = AbstractWebSocketManager.instance().get(HomeModuleEnum.machineList);
-        if(webSocketSet != null){
-            for (AbstractWebSocket webSocket : webSocketSet) {
-                try {
-                    webSocket.sendMessage(getMachineListData());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            log.info("【推送机器数据】执行结束：{}", DateUtils.getCurrentDateTime());
-        }
-    }
-
-    /**
-     * 按照标准时间来算，每隔 10s 执行一次
-     */
-    @Scheduled(cron = "0/10 * * * * ?")
     public void syncMachineStatusData() throws Exception {
         log.info("【同步机器数据】开始执行：{}", DateUtils.getCurrentDateTime());
         Machine dcDevcie = new Machine();

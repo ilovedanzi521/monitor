@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.win.dfas</groupId>
+		<groupId>com.win.dfas.monitor</groupId>
 		<artifactId>dfas-monitor-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -43,6 +43,7 @@
 		<dependency>
 			<groupId>com.win.dfas</groupId>
 			<artifactId>dfas-common-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>mysql</groupId>

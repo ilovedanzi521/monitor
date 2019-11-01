@@ -12,11 +12,21 @@ import {MachineInfoVO} from "../../machine/vo/MachineInfoVO";
 
 @Component({ components: { Machine, Service,MachineDetailDialog } })
 export default class HomeMachineStateController extends Vue {
-  ws: WebSocket;
+
+  intervalId: NodeJS.Timer | null;
+
+  constructor() {
+    super();
+    this.intervalId = null;
+  }
+
+  setCountDown() {
+    this.intervalId = setInterval(() => {
+      this.machinePanelData();
+    }, 5000);
+  }
 
   private homeMachineStateService: HomeMachineStateService = new HomeMachineStateService();
-
-  //private machineStateList: Array<MachineStateVO> = this.homeMachineStateService.initMachineStateList();
 
   private machineStateList: Array<MachineStateVO> = [];
 
@@ -67,36 +77,8 @@ export default class HomeMachineStateController extends Vue {
 
   mounted() {
     this.machinePanelData();
-    let requestUrl =
-      AxiosFun.monitorCenterWebsocketBaseUrl + "/home/machineState";
-    this.establishConnection(requestUrl);
-  }
+    this.setCountDown();
 
-  establishConnection(requestUrl) {
-    this.handleClose();
-    this.ws = new WebSocket(requestUrl);
-    let _ = this;
-    this.ws.onopen = function(e) {
-      _.ws.send(
-        JSON.stringify({
-          flag: requestUrl,
-          data: "i am a machineState WebSocket!"
-        })
-      );
-    };
-    this.ws.onmessage = e => this.handleWebSocketData(e);
-    this.ws.onclose = () => this.handleClose();
-  }
-
-  handleWebSocketData(e) {
-    let object = JSON.parse(e.data);
-    this.machineStateList = object;
-  }
-
-  handleClose() {
-    if (this.ws != null) {
-      this.ws.close();
-    }
   }
 
   machinePanelData() {

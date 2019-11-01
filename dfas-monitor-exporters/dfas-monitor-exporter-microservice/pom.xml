@@ -5,14 +5,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.win.dfas</groupId>
+		<groupId>com.win.dfas.monitor</groupId>
 		<artifactId>dfas-monitor-exporters</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dfas-monitor-exporter-microservice</artifactId>
 	<name>dfas-monitor-exporter-microservice</name>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>monitor project for Spring Boot</description>
 
@@ -23,8 +22,9 @@
 	<dependencies>
 
 	<dependency>
-		<groupId>com.win.dfas</groupId>
+		<groupId>com.win.dfas.monitor</groupId>
 		<artifactId>dfas-monitor-common</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
 
 	</dependencies>
