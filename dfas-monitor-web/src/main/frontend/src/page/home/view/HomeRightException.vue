@@ -19,9 +19,9 @@
             <li>机器磁盘告警数</li>
           </ul>
           <ul class="machineNumber">
-            <li><a href="/#/issueList?type=machineCpu" target="_blank">{{homeExceptionVO.machineCpu}}</a></li>
-            <li><a href="/#/issueList?type=machineMemory" target="_blank">{{homeExceptionVO.machineMemory}}</a></li>
-            <li><a href="/#/issueList?type=machineDisk" target="_blank">{{homeExceptionVO.machineDisk}}</a></li>
+            <li><a href="/#/issueList?type=machineCpu" target="_blank" class="a">{{homeExceptionVO.machineCpu}}</a></li>
+            <li><a href="/#/issueList?type=machineMemory" target="_blank" class="a">{{homeExceptionVO.machineMemory}}</a></li>
+            <li><a href="/#/issueList?type=machineDisk" target="_blank" class="a">{{homeExceptionVO.machineDisk}}</a></li>
           </ul>
         </div>
         <div class="microServiceException">
@@ -31,9 +31,9 @@
             <li>微服务日志错误数</li>
           </ul>
           <ul class="microServiceNumber">
-            <li><a href="/#/issueList?type=microServiceMemory" target="_blank">{{homeExceptionVO.microServiceMemory}}</a></li>
-            <li><a href="/#/issueList?type=microServiceWarnLog" target="_blank">{{homeExceptionVO.microServiceWarnLog}}</a></li>
-            <li><a href="/#/issueList?type=microServiceErrorLog" target="_blank">{{homeExceptionVO.microServiceErrorLog}}</a></li>
+            <li><a href="/#/issueList?type=microServiceMemory" target="_blank" class="a">{{homeExceptionVO.microServiceMemory}}</a></li>
+            <li><a href="/#/issueList?type=microServiceWarnLog" target="_blank" class="a">{{homeExceptionVO.microServiceWarnLog}}</a></li>
+            <li><a href="/#/issueList?type=microServiceErrorLog" target="_blank" class="a">{{homeExceptionVO.microServiceErrorLog}}</a></li>
           </ul>
         </div>
       </div>
@@ -54,6 +54,9 @@
 <style lang="scss" scoped>
   @import "../style/home.scss";
 
+  .a{
+    text-decoration: none;
+  }
   .table-tr-title {
     display: table-row;
     vertical-align: middle;
