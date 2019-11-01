@@ -51,8 +51,8 @@ export default class HomeExceptionController extends BaseController {
   }
 
   webSocketOpen() {
-    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/exception";
-    this.establishConnection(requestUrl);
+    //let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/exception";
+    //this.establishConnection(requestUrl);
   }
 
   establishConnection(requestUrl) {

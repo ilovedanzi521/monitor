@@ -4,14 +4,14 @@ import Machine from "../../../components2/vue/monitor/Machine.vue";
 import Service from "../../../components2/vue/monitor/Service.vue";
 import { MachineStateVO } from "../vo/MachineStateVO";
 import HomeMachineStateService from "../service/HomeMachineStateService";
-import AxiosFun from "win-biz";
+import { AxiosFun, BaseController } from "win-biz";
 import { WinResponseData } from "../../common/vo/BaseVO";
 import MachineDetailDialog from "../../machine/view/MachineDetailDialog.vue";
 import {OperationTypeEnum} from "../../common/enum/OperationTypeEnum";
 import {MachineInfoVO} from "../../machine/vo/MachineInfoVO";
 
 @Component({ components: { Machine, Service,MachineDetailDialog } })
-export default class HomeMachineStateController extends Vue {
+export default class HomeMachineStateController extends BaseController {
 
   intervalId: NodeJS.Timer | null;
 
@@ -23,7 +23,7 @@ export default class HomeMachineStateController extends Vue {
   setCountDown() {
     this.intervalId = setInterval(() => {
       this.machinePanelData();
-    }, 5000);
+    }, 10 * 1000);
   }
 
   private homeMachineStateService: HomeMachineStateService = new HomeMachineStateService();
@@ -44,13 +44,7 @@ export default class HomeMachineStateController extends Vue {
       data: this.copy(row.item),
     };
     this.machineDetailDialogVisible = true;
-    console.log("homemachinestatecontroller mclick >>>>row-start>>>>>");
-    console.log(row.item);
-    console.log("homemachinestatecontroller mclick >>>>row-end>>>>>");
-
-    console.log("homemachinestatecontroller mclick >>>>start>>>>>");
     console.log(this.cardNumber.data);
-    console.log("homemachinestatecontroller mclick >>>>end>>>>>");
   }
 
   /**对象复制 */
@@ -84,12 +78,13 @@ export default class HomeMachineStateController extends Vue {
   machinePanelData() {
     AxiosFun.post(
       AxiosFun.monitorCenterServiceName + "/machine/machinePanelData",
-      null
+      {}
     )
       .then((response: WinResponseData) => {
         console.log(response.data);
         //let object = JSON.parse(response.data);
         this.machineStateList = response.data;
+        alert(JSON.stringify(this.machineStateList));
       })
       .catch((ex: any) => {});
   }

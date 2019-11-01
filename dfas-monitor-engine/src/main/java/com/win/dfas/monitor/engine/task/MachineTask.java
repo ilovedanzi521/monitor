@@ -30,7 +30,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
  */
 @Slf4j
-@Component
+//@Component
 public class MachineTask {
 
     @Value("${prometheus.server.url}")

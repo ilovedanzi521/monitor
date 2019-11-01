@@ -159,7 +159,7 @@ public class MachineController extends BaseController {
             machineStatus.setDiskPer(formatValue(dc.getCpu(),"%"));
             machineStatus.setDiskSize(formatValue(dc.getDiskSize(),""));
             machineStatus.setMemoryPer(formatValue(dc.getMemory(),""));
-            machineStatus.setState(formatValue(String.valueOf(dc.getStatus()),""));
+            machineStatus.setState(StringUtils.defaultZeroIfEmpty(dc.getStatus()));
             machineStatus.setMemorySize(formatValue(dc.getMemorySize(),""));
             machineStatusList.add(machineStatus);
         }

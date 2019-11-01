@@ -2,7 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import HomeMachineListService from "../service/HomeMachineListService";
 import {MachineVO} from "../vo/MachineVO";
-import AxiosFun from "win-biz";
+import AxiosFun, { BaseController } from "win-biz";
 import {WinResponseData} from "../../common/vo/BaseVO";
 import MachineDetailDialog from "../../machine/view/MachineDetailDialog.vue";
 import {OperationTypeEnum} from "../../common/enum/OperationTypeEnum";
@@ -15,7 +15,7 @@ import {MachineInfoVO} from "../../machine/vo/MachineInfoVO";
     }
   }
   )
-export default class HomeMachineListController extends Vue {
+export default class HomeMachineListController extends BaseController {
 
   private homeMachineListService: HomeMachineListService = new HomeMachineListService();
 

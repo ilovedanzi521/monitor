@@ -67,8 +67,8 @@ export default class HomeLeftQpsController extends BaseController {
   }
 
   webSocketOpen() {
-    let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/qps";
-    this.establishConnection(requestUrl);
+    //let requestUrl = AxiosFun.monitorCenterWebsocketBaseUrl + "/home/qps";
+    //this.establishConnection(requestUrl);
   }
 
 
