@@ -84,7 +84,7 @@ export default class HomeMachineStateController extends BaseController {
         console.log(response.data);
         //let object = JSON.parse(response.data);
         this.machineStateList = response.data;
-        alert(JSON.stringify(this.machineStateList));
+        //alert(JSON.stringify(this.machineStateList));
       })
       .catch((ex: any) => {});
   }
