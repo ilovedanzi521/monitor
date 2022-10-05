@@ -24,7 +24,7 @@
 	<properties>
 		<simpleclient.version>0.4.0</simpleclient.version>
 		<kafka.version>2.3.0</kafka.version>
-		<elasticSearch.version>7.4.0</elasticSearch.version>
+		<elasticSearch.version>7.14.0</elasticSearch.version>
 	</properties>
 
 
